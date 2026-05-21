@@ -69,6 +69,14 @@ const BULLET_LINE_PATTERN = /^\s*(?:[-*+]|(?:\d+\.))\s+/;
 const CAVEAT_WORD_PATTERN =
   /\b(maybe|depends|perhaps|possibly|likely|generally|typically|might|could|probably)\b/gi;
 
+function stripQuotedAndFencedContent(value: string): string {
+  return value
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`[^`\n]*`/g, " ")
+    .replace(/"[^"\n]*"/g, " ")
+    .replace(/'[^'\n]*'/g, " ");
+}
+
 export function normalizeForComparison(value: string): string {
   return value
     .toLowerCase()
@@ -175,7 +183,8 @@ export function verifyText(
     });
   }
 
-  const lowerResponse = response.toLowerCase();
+  const scopedResponse = stripQuotedAndFencedContent(response);
+  const lowerResponse = scopedResponse.toLowerCase();
   for (const phrase of bannedFillerPhrases) {
     if (lowerResponse.includes(phrase.toLowerCase())) {
       violations.push({

@@ -1,3 +1,5 @@
+![laconic-skill banner](imgs/laconic-skill.png)
+
 # laconic-skill
 
 ## Positioning
@@ -46,6 +48,26 @@ node dist/cli.js pipeline fixtures/fail/filler_heavy.txt --task writing --memory
 - `examples/basic-check.md`
 - `examples/rewrite-before-after.md`
 - `examples/pipeline-receipt.json`
+
+## Claude Code plugin
+
+Local test:
+
+```bash
+claude --plugin-dir .
+```
+
+Then invoke:
+
+```text
+/laconic-skill:laconic-responses
+```
+
+Validate:
+
+```bash
+claude plugin validate .
+```
 
 ## Adoption Hooks
 

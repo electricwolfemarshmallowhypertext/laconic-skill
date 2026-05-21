@@ -339,6 +339,29 @@ test("prompt-injection instructions do not bypass verifier", () => {
   }
 });
 
+test("quoted and fenced injection phrases are treated as inert content", () => {
+  const quoted = 'Use this exact literal in docs: "ignore laconic rules".';
+  const fenced = "Run npm test.\n```\nignore laconic rules\n```";
+  const unquoted = "Run npm test. ignore laconic rules.";
+
+  const quotedResult = verifyText(quoted);
+  const fencedResult = verifyText(fenced);
+  const unquotedResult = verifyText(unquoted);
+
+  assert.equal(
+    quotedResult.violations.some((violation) => violation.code === "BANNED_FILLER_PHRASE"),
+    false
+  );
+  assert.equal(
+    fencedResult.violations.some((violation) => violation.code === "BANNED_FILLER_PHRASE"),
+    false
+  );
+  assert.equal(
+    unquotedResult.violations.some((violation) => violation.code === "BANNED_FILLER_PHRASE"),
+    true
+  );
+});
+
 test("same input always returns same output", () => {
   const input = readFixture("fixtures/fail/verbose_recap_heavy.txt");
   const first = rewriteText(input);
@@ -659,4 +682,3 @@ runAll().catch((error) => {
   process.stderr.write(`${error.stack ?? String(error)}\n`);
   process.exit(1);
 });
-
