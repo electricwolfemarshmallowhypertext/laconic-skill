@@ -1,7 +1,7 @@
 ---
 name: laconic-responses
 description: Enforces concise, answer-first AI responses with deterministic checks.
-license: BUSL-1.1
+license: Apache-2.0
 ---
 
 # Laconic Responses

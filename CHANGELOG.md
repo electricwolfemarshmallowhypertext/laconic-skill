@@ -6,7 +6,7 @@ All notable changes to this project are documented here.
 
 ### Changed
 
-- standardized license metadata to `BUSL-1.1` and source-available wording
+- switched project licensing to `Apache-2.0` and added `NOTICE`
 - constrained publish boundary with explicit npm `files` allowlist
 - updated CI to Node LTS matrix (`20.x`, `22.x`)
 - clarified README verification scope and reserved correctness-substrate interface wording

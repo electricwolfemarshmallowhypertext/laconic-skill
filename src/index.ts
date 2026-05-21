@@ -1,6 +1,7 @@
 export { rewriteText } from "./rewrite";
 export { verifyText } from "./verifier";
 export { createReceipt, computeReceiptHash, sha256Hex } from "./receipt";
+export { compareCodepointStable } from "./deterministic";
 export {
   CORRECTNESS_VERIFIER_VERSION,
   listCorrectnessContracts,
@@ -11,6 +12,15 @@ export {
   PIPELINE_VERIFIER_VERSION,
   runPipeline
 } from "./pipeline";
+export {
+  HASH_EMBEDDING_DIMENSIONS,
+  LanceDbStyleMemoryAdapter,
+  cosineSimilarity,
+  createDefaultStyleMemoryAdapter,
+  hashEmbedText,
+  normalizeMemoryText,
+  textHashHex
+} from "./memory";
 export type {
   Metrics,
   VerificationResult,
@@ -43,3 +53,11 @@ export type {
   PipelineIteration,
   PipelineResult
 } from "./pipeline";
+export type {
+  StyleMemoryAdapter,
+  StyleMemoryAddInput,
+  StyleMemoryOutcome,
+  StyleMemoryRecord,
+  StyleMemorySearchOptions,
+  StyleMemorySearchResult
+} from "./memory";

@@ -2,7 +2,7 @@
 
 ## Positioning
 
-Brevity, enforced.
+Brevity, verified - with local style memory.
 
 Skills tell the model what to do. laconic-skill deterministically checks whether output conforms to laconic rules.
 
@@ -11,6 +11,8 @@ A deterministic skill runtime that makes laconic AI responses enforceable.
 The model can draft; the runtime enforces laconic output.
 
 No model calls inside verification.
+
+Style memory is optional and local-only. Core verifier pass/fail stays deterministic and memory-free.
 
 ## Model
 
@@ -34,6 +36,9 @@ npm run build
 node dist/cli.js check fixtures/pass/compliant.txt --receipt
 node dist/cli.js rewrite fixtures/fail/verbose_recap_heavy.txt --receipt
 node dist/cli.js pipeline fixtures/fail/filler_heavy.txt --task writing --receipt
+node dist/cli.js memory add fixtures/pass/compliant.txt --outcome accepted --task writing
+node dist/cli.js memory search "npm run build" --limit 5
+node dist/cli.js pipeline fixtures/fail/filler_heavy.txt --task writing --memory --receipt
 ```
 
 ## Examples
@@ -73,17 +78,17 @@ cat output.txt | laconic check - --receipt
 
 ## License
 
-This project is source-available software, not open source.
+laconic-skill is open source under the Apache License 2.0.
 
-License: Business Source License 1.1 (`BUSL-1.1`).
+Attribution is preserved through the project NOTICE file:
 
-Production, SaaS, hosted, embedded, commercial, or competitive use requires a separate commercial license.
+Electric Wolfe Marshmallow Hypertext | Tionne Smith, 2026.
 
-See [LICENSE](LICENSE) for full terms and the 2030-05-21 change date to Apache License, Version 2.0.
+The software is Apache-2.0 licensed. Project names, marks, and branding are reserved separately.
 
 ## Release Checklist
 
-- source-available, not open source
+- Apache-2.0 license and NOTICE included
 - build passes
 - tests pass
 - CLI fixture checks pass

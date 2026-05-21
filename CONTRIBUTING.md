@@ -15,8 +15,8 @@
 
 - describe intent, behavior changes, and risk
 - include before/after examples for CLI-facing output changes
-- keep docs/license metadata aligned with `BUSL-1.1`
+- keep docs/license metadata aligned with `Apache-2.0`
 
 ## Licensing
 
-By contributing, you agree your contributions are licensed under `BUSL-1.1` with the repository terms in [LICENSE](LICENSE).
+By contributing, you agree your contributions are licensed under `Apache-2.0` with the repository terms in [LICENSE](LICENSE).

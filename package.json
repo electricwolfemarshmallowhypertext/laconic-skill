@@ -1,14 +1,16 @@
 {
   "name": "laconic-skill",
   "version": "0.1.0",
-  "description": "Source-available deterministic concise-response skill and runtime",
-  "license": "BUSL-1.1",
+  "description": "Open source deterministic concise-response skill and runtime",
+  "license": "Apache-2.0",
   "files": [
     "dist/",
     "skills/",
     "examples/",
     "README.md",
+    "NOTICE",
     "LICENSE",
+    "INTENTION.md",
     "package.json"
   ],
   "type": "commonjs",
@@ -30,5 +32,8 @@
   "devDependencies": {
     "@types/node": "^22.15.19",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@lancedb/lancedb": "^0.29.0"
   }
 }

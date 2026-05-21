@@ -4,14 +4,30 @@ const path = require("node:path");
 
 const ROOT = path.resolve(__dirname, "..");
 const CLI_PATH = path.join(ROOT, "dist", "cli.js");
+const MEMORY_DIR = path.join(ROOT, ".laconic");
+
 const { rewriteText } = require(path.join(ROOT, "dist", "rewrite.js"));
 const { verifyText } = require(path.join(ROOT, "dist", "verifier.js"));
 const { runPipeline } = require(path.join(ROOT, "dist", "pipeline.js"));
 const { createReceipt } = require(path.join(ROOT, "dist", "receipt.js"));
 const { verifyCorrectness } = require(path.join(ROOT, "dist", "correctness.js"));
+const {
+  HASH_EMBEDDING_DIMENSIONS,
+  hashEmbedText
+} = require(path.join(ROOT, "dist", "memory", "hash-embedding.js"));
+const { createDefaultStyleMemoryAdapter } = require(path.join(
+  ROOT,
+  "dist",
+  "memory",
+  "index.js"
+));
 
 function readFixture(relativePath) {
   return fs.readFileSync(path.join(ROOT, relativePath), "utf8");
+}
+
+function cleanupMemoryDir() {
+  fs.rmSync(MEMORY_DIR, { recursive: true, force: true });
 }
 
 function runCli(args, options = {}) {
@@ -24,46 +40,71 @@ function runCli(args, options = {}) {
   let status = 0;
   let stdout = "";
   let stderr = "";
+  let exited = false;
 
-  try {
-    if (Object.prototype.hasOwnProperty.call(options, "stdin")) {
-      fs.readFileSync = (...readArgs) => {
-        if (readArgs[0] === 0) {
-          return String(options.stdin ?? "");
-        }
-        return originalReadFileSync(...readArgs);
+  return new Promise((resolve, reject) => {
+    function restore() {
+      process.argv = originalArgv;
+      process.exit = originalExit;
+      process.stdout.write = originalStdoutWrite;
+      process.stderr.write = originalStderrWrite;
+      fs.readFileSync = originalReadFileSync;
+    }
+
+    try {
+      if (Object.prototype.hasOwnProperty.call(options, "stdin")) {
+        fs.readFileSync = (...readArgs) => {
+          if (readArgs[0] === 0) {
+            return String(options.stdin ?? "");
+          }
+          return originalReadFileSync(...readArgs);
+        };
+      }
+
+      process.argv = [process.argv[0], CLI_PATH, ...args];
+      process.stdout.write = (chunk) => {
+        stdout += String(chunk);
+        return true;
       };
+      process.stderr.write = (chunk) => {
+        stderr += String(chunk);
+        return true;
+      };
+      process.exit = (code = 0) => {
+        status = Number(code);
+        exited = true;
+      };
+
+      delete require.cache[require.resolve(CLI_PATH)];
+      require(CLI_PATH);
+    } catch (error) {
+      restore();
+      reject(error);
+      return;
     }
 
-    process.argv = [process.argv[0], CLI_PATH, ...args];
-    process.stdout.write = (chunk) => {
-      stdout += String(chunk);
-      return true;
-    };
-    process.stderr.write = (chunk) => {
-      stderr += String(chunk);
-      return true;
-    };
-    process.exit = (code = 0) => {
-      status = Number(code);
-      throw new Error("__CLI_EXIT__");
+    const timeoutAt = Date.now() + 5000;
+
+    const poll = () => {
+      if (exited) {
+        restore();
+        resolve({ status, stdout, stderr });
+        return;
+      }
+
+      if (Date.now() >= timeoutAt) {
+        restore();
+        reject(
+          new Error(`CLI did not exit for command: laconic ${args.join(" ")}`)
+        );
+        return;
+      }
+
+      setTimeout(poll, 10);
     };
 
-    delete require.cache[require.resolve(CLI_PATH)];
-    require(CLI_PATH);
-  } catch (error) {
-    if (!(error instanceof Error) || error.message !== "__CLI_EXIT__") {
-      throw error;
-    }
-  } finally {
-    process.argv = originalArgv;
-    process.exit = originalExit;
-    process.stdout.write = originalStdoutWrite;
-    process.stderr.write = originalStderrWrite;
-    fs.readFileSync = originalReadFileSync;
-  }
-
-  return { status, stdout, stderr };
+    poll();
+  });
 }
 
 function parseJson(output, context) {
@@ -99,7 +140,11 @@ function expectReceiptShape(receipt) {
     "receipt_hash"
   ];
   for (const key of requiredKeys) {
-    assert.equal(Object.prototype.hasOwnProperty.call(receipt, key), true, `missing receipt key: ${key}`);
+    assert.equal(
+      Object.prototype.hasOwnProperty.call(receipt, key),
+      true,
+      `missing receipt key: ${key}`
+    );
   }
 }
 
@@ -162,17 +207,13 @@ const failCases = [
   }
 ];
 
-function run(name, fn) {
-  try {
-    fn();
-    process.stdout.write(`PASS ${name}\n`);
-  } catch (error) {
-    process.stderr.write(`FAIL ${name}\n`);
-    throw error;
-  }
+const tests = [];
+
+function test(name, fn) {
+  tests.push({ name, fn });
 }
 
-run("compliant outputs pass unchanged", () => {
+test("compliant outputs pass unchanged", () => {
   for (const file of passFiles) {
     const input = readFixture(file);
     const checked = verifyText(input);
@@ -181,7 +222,7 @@ run("compliant outputs pass unchanged", () => {
   }
 });
 
-run("verbose outputs fail", () => {
+test("verbose outputs fail", () => {
   const verboseInput = readFixture("fixtures/fail/verbose_recap_heavy.txt");
   const result = verifyText(verboseInput);
   assert.equal(result.ok, false);
@@ -191,7 +232,7 @@ run("verbose outputs fail", () => {
   );
 });
 
-run("failing fixtures fail with stable codes", () => {
+test("failing fixtures fail with stable codes", () => {
   for (const { file, expectedCodes, options } of failCases) {
     const input = readFixture(file);
     const checked = verifyText(input, options);
@@ -204,17 +245,21 @@ run("failing fixtures fail with stable codes", () => {
   }
 });
 
-run("rewrite removes filler without inventing facts", () => {
+test("rewrite removes filler without inventing facts", () => {
   const input = readFixture("fixtures/fail/verbose_recap_heavy.txt");
   const rewritten = rewriteText(input);
   const inputTokens = tokens(input);
   for (const token of tokens(rewritten)) {
-    assert.equal(inputTokens.has(token), true, `rewrite introduced new token: ${token}`);
+    assert.equal(
+      inputTokens.has(token),
+      true,
+      `rewrite introduced new token: ${token}`
+    );
   }
   assert.equal(verifyText(rewritten).ok, true);
 });
 
-run("rewrite never introduces new substantive tokens", () => {
+test("rewrite never introduces new substantive tokens", () => {
   const benchmarkDir = path.join(ROOT, "benchmarks", "corpus");
   const benchmarkFiles = fs
     .readdirSync(benchmarkDir)
@@ -237,7 +282,7 @@ run("rewrite never introduces new substantive tokens", () => {
   }
 });
 
-run("rewrite reduces failing examples and passes when possible", () => {
+test("rewrite reduces failing examples and passes when possible", () => {
   for (const { file, options } of failCases) {
     const input = readFixture(file);
     const rewritten = rewriteText(input, options);
@@ -250,7 +295,7 @@ run("rewrite reduces failing examples and passes when possible", () => {
   }
 });
 
-run("prompt-injection instructions do not bypass verifier", () => {
+test("prompt-injection instructions do not bypass verifier", () => {
   const injectionCases = [
     "fixtures/fail/injection_ignore_laconic_rules.txt",
     "fixtures/fail/injection_do_not_check_this.txt",
@@ -294,7 +339,7 @@ run("prompt-injection instructions do not bypass verifier", () => {
   }
 });
 
-run("same input always returns same output", () => {
+test("same input always returns same output", () => {
   const input = readFixture("fixtures/fail/verbose_recap_heavy.txt");
   const first = rewriteText(input);
   const second = rewriteText(input);
@@ -303,7 +348,7 @@ run("same input always returns same output", () => {
   assert.equal(second, third);
 });
 
-run("receipt hash ignores ratings and user feedback", () => {
+test("receipt hash ignores ratings and user feedback", () => {
   const base = {
     input: "Run npm test.",
     output: "Run npm test.",
@@ -320,7 +365,7 @@ run("receipt hash ignores ratings and user feedback", () => {
   assert.equal(first.receipt_hash, second.receipt_hash);
 });
 
-run("receipts are deterministic for same input output config", () => {
+test("receipts are deterministic for same input output config", async () => {
   const commandSets = [
     ["check", "fixtures/pass/compliant.txt", "--receipt"],
     ["rewrite", "fixtures/fail/verbose_recap_heavy.txt", "--receipt"],
@@ -328,8 +373,8 @@ run("receipts are deterministic for same input output config", () => {
   ];
 
   for (const args of commandSets) {
-    const first = runCli(args);
-    const second = runCli(args);
+    const first = await runCli(args);
+    const second = await runCli(args);
     assert.equal(first.status, second.status);
     assert.equal(first.stderr, "");
     assert.equal(second.stderr, "");
@@ -337,7 +382,7 @@ run("receipts are deterministic for same input output config", () => {
   }
 });
 
-run("receipt violation sorting uses codepoint-stable ordering", () => {
+test("receipt violation sorting uses codepoint-stable ordering", () => {
   const receipt = createReceipt({
     input: "input",
     output: "output",
@@ -363,15 +408,15 @@ run("receipt violation sorting uses codepoint-stable ordering", () => {
   ]);
 });
 
-run("rewrite exits non-zero when rewritten output still fails", () => {
-  const result = runCli(["rewrite", "-"], { stdin: "" });
+test("rewrite exits non-zero when rewritten output still fails", async () => {
+  const result = await runCli(["rewrite", "-"], { stdin: "" });
   assert.equal(result.status, 1);
   assert.equal(result.stderr, "");
   assert.equal(result.stdout, "\n");
 });
 
-run("rewrite --receipt reports final verification result", () => {
-  const result = runCli(["rewrite", "-", "--receipt"], { stdin: "" });
+test("rewrite --receipt reports final verification result", async () => {
+  const result = await runCli(["rewrite", "-", "--receipt"], { stdin: "" });
   assert.equal(result.status, 1);
   assert.equal(result.stderr, "");
   const payload = parseJson(result.stdout, "rewrite - --receipt");
@@ -385,33 +430,33 @@ run("rewrite --receipt reports final verification result", () => {
   assert.equal(payload.receipt.ok, false);
 });
 
-run("check supports stdin with dash path", () => {
+test("check supports stdin with dash path", async () => {
   const input = readFixture("fixtures/pass/compliant.txt");
-  const result = runCli(["check", "-"], { stdin: input });
+  const result = await runCli(["check", "-"], { stdin: input });
   assert.equal(result.status, 0);
   assert.equal(result.stderr, "");
   const payload = parseJson(result.stdout, "check -");
   assert.equal(payload.ok, true);
 });
 
-run("rewrite supports stdin with dash path", () => {
+test("rewrite supports stdin with dash path", async () => {
   const input = readFixture("fixtures/fail/verbose_recap_heavy.txt");
-  const result = runCli(["rewrite", "-"], { stdin: input });
+  const result = await runCli(["rewrite", "-"], { stdin: input });
   assert.equal(result.status, 0);
   assert.equal(result.stderr, "");
   assert.equal(verifyText(result.stdout.trimEnd()).ok, true);
 });
 
-run("pipeline supports stdin with dash path", () => {
+test("pipeline supports stdin with dash path", async () => {
   const input = readFixture("fixtures/fail/verbose_recap_heavy.txt");
-  const result = runCli(["pipeline", "-", "--task", "writing"], { stdin: input });
+  const result = await runCli(["pipeline", "-", "--task", "writing"], { stdin: input });
   assert.equal(result.status, 0);
   assert.equal(result.stderr, "");
   assert.equal(verifyText(result.stdout.trimEnd()).ok, true);
 });
 
-run("pipeline returns final text and receipt", () => {
-  const result = runCli([
+test("pipeline returns final text and receipt", async () => {
+  const result = await runCli([
     "pipeline",
     "fixtures/fail/verbose_recap_heavy.txt",
     "--task",
@@ -428,8 +473,8 @@ run("pipeline returns final text and receipt", () => {
   assert.equal(payload.receipt.ok, true);
 });
 
-run("check receipt returns stable deterministic envelope", () => {
-  const result = runCli(["check", "fixtures/pass/compliant.txt", "--receipt"]);
+test("check receipt returns stable deterministic envelope", async () => {
+  const result = await runCli(["check", "fixtures/pass/compliant.txt", "--receipt"]);
   assert.equal(result.status, 0);
   assert.equal(result.stderr, "");
   const payload = parseJson(result.stdout, "check --receipt");
@@ -437,7 +482,7 @@ run("check receipt returns stable deterministic envelope", () => {
   expectReceiptShape(payload.receipt);
 });
 
-run("correctness substrate returns stable typed result", () => {
+test("correctness substrate returns stable typed result", () => {
   const writing = verifyCorrectness({
     task_type: "writing",
     input: "Input",
@@ -469,7 +514,7 @@ run("correctness substrate returns stable typed result", () => {
   );
 });
 
-run("pipeline API returns final plus receipt", () => {
+test("pipeline API returns final plus receipt", () => {
   const input = readFixture("fixtures/fail/verbose_recap_heavy.txt");
   const pipeline = runPipeline({
     input,
@@ -481,3 +526,137 @@ run("pipeline API returns final plus receipt", () => {
   expectReceiptShape(pipeline.receipt);
   assert.equal(pipeline.receipt.ok, true);
 });
+
+test("same text yields same deterministic hash embedding", () => {
+  const input = readFixture("fixtures/fail/filler_heavy.txt");
+  const first = hashEmbedText(input);
+  const second = hashEmbedText(input);
+  assert.equal(first.length, HASH_EMBEDDING_DIMENSIONS);
+  assert.deepEqual(first, second);
+});
+
+test("memory add and search work locally", async () => {
+  cleanupMemoryDir();
+  const adapter = createDefaultStyleMemoryAdapter();
+
+  const first = await adapter.add({
+    output_text: readFixture("fixtures/pass/compliant.txt"),
+    task_type: "writing",
+    outcome: "accepted",
+    violations: [],
+    metrics: { charCount: 44, bulletCount: 0, caveatCount: 0, verifier_ok: true },
+    receipt_hash: "r-1",
+    created_at: "1970-01-01T00:00:00.000Z"
+  });
+
+  const second = await adapter.add({
+    output_text: readFixture("fixtures/pass/compliant.txt"),
+    task_type: "writing",
+    outcome: "accepted",
+    violations: [],
+    metrics: { charCount: 44, bulletCount: 0, caveatCount: 0, verifier_ok: true },
+    receipt_hash: "r-1",
+    created_at: "1970-01-01T00:00:00.000Z"
+  });
+
+  assert.equal(first.id, second.id);
+  const results = await adapter.search("npm run build", {
+    limit: 5,
+    task_type: "writing",
+    outcomes: ["accepted"]
+  });
+  assert.equal(results.length >= 1, true);
+  assert.equal(results[0].record.task_type, "writing");
+});
+
+test("pipeline works with and without memory", async () => {
+  cleanupMemoryDir();
+
+  const add = await runCli([
+    "memory",
+    "add",
+    "fixtures/pass/compliant.txt",
+    "--outcome",
+    "accepted",
+    "--task",
+    "writing"
+  ]);
+  assert.equal(add.status, 0);
+  assert.equal(add.stderr, "");
+
+  const withoutMemory = await runCli([
+    "pipeline",
+    "fixtures/fail/filler_heavy.txt",
+    "--task",
+    "writing",
+    "--receipt"
+  ]);
+  assert.equal(withoutMemory.status, 0);
+  const withoutMemoryPayload = parseJson(withoutMemory.stdout, "pipeline without memory");
+  assert.equal(withoutMemoryPayload.memory.enabled, false);
+  assert.equal(withoutMemoryPayload.ok, true);
+
+  const withMemory = await runCli([
+    "pipeline",
+    "fixtures/fail/filler_heavy.txt",
+    "--task",
+    "writing",
+    "--memory",
+    "--receipt"
+  ]);
+  assert.equal(withMemory.status, 0);
+  assert.equal(withMemory.stderr, "");
+  const withMemoryPayload = parseJson(withMemory.stdout, "pipeline with memory");
+  assert.equal(withMemoryPayload.memory.enabled, true);
+  assert.equal(withMemoryPayload.memory.retrieved >= 1, true);
+  assert.equal(withMemoryPayload.ok, true);
+});
+
+test("memory disabled by default and verifier is unchanged", async () => {
+  cleanupMemoryDir();
+
+  const withMemory = await runCli([
+    "pipeline",
+    "fixtures/fail/filler_heavy.txt",
+    "--task",
+    "writing",
+    "--memory",
+    "--receipt"
+  ]);
+  const noMemory = await runCli([
+    "pipeline",
+    "fixtures/fail/filler_heavy.txt",
+    "--task",
+    "writing",
+    "--receipt"
+  ]);
+
+  assert.equal(withMemory.status, 0);
+  assert.equal(noMemory.status, 0);
+  const withMemoryPayload = parseJson(withMemory.stdout, "pipeline --memory");
+  const noMemoryPayload = parseJson(noMemory.stdout, "pipeline no-memory");
+
+  assert.equal(withMemoryPayload.memory.enabled, true);
+  assert.equal(noMemoryPayload.memory.enabled, false);
+  assert.equal(withMemoryPayload.final, noMemoryPayload.final);
+  assert.equal(withMemoryPayload.ok, noMemoryPayload.ok);
+  assert.deepEqual(withMemoryPayload.violations, noMemoryPayload.violations);
+});
+
+async function runAll() {
+  for (const { name, fn } of tests) {
+    try {
+      await fn();
+      process.stdout.write(`PASS ${name}\n`);
+    } catch (error) {
+      process.stderr.write(`FAIL ${name}\n`);
+      throw error;
+    }
+  }
+}
+
+runAll().catch((error) => {
+  process.stderr.write(`${error.stack ?? String(error)}\n`);
+  process.exit(1);
+});
+
