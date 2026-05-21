@@ -1,0 +1,2 @@
+Of course, just to clarify.
+Run npm install before npm test.

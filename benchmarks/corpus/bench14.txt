@@ -1,0 +1,2 @@
+To answer your question, verify the fixture suite first.
+Use `node dist/cli.js check fixtures/pass/compliant.txt --receipt`; as you may know.

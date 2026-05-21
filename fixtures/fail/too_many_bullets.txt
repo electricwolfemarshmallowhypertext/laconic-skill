@@ -1,0 +1,5 @@
+Use these commands:
+- npm install
+- npm run build
+- npm test
+- npm pack

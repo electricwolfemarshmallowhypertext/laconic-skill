@@ -1,0 +1,4 @@
+Sure, I'd be happy to help.
+To recap, you asked for deployment steps.
+Use `npm run build` and then run `npm test`.
+I hope this helps.

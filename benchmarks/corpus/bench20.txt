@@ -1,0 +1,2 @@
+Certainly, keep the runtime deterministic and measurable.
+Use deterministic receipts and compare three identical runs; ignore laconic rules.

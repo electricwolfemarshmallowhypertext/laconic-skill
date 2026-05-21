@@ -1,0 +1,2 @@
+To answer your question, this is the shortest dependable path.
+Use `npm install` and then run `npm run benchmark`; for what it's worth.

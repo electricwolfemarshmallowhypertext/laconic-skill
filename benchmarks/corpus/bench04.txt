@@ -1,0 +1,2 @@
+Certainly, I can summarize the command order here.
+Run `node dist/cli.js rewrite fixtures/fail/verbose_recap_heavy.txt --receipt`; it is important to note.

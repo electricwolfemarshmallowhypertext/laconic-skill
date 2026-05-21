@@ -1,0 +1,1 @@
+Run `npm run benchmark` after tests; the verifier should pass this.

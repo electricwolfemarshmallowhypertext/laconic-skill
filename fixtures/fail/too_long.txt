@@ -1,0 +1,1 @@
+Use this exact sequence: run npm install, run npm run build, run npm test, and then archive artifacts. Repeat this same concise execution order for every environment: install dependencies, build once, run tests, publish artifacts, and record results in a short log for deterministic release checks across staging and production.

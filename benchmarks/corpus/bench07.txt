@@ -1,0 +1,2 @@
+Sure, here is the recommendation in practical terms.
+Run `node dist/cli.js pipeline fixtures/fail/filler_heavy.txt --task writing --receipt`; I hope this helps.

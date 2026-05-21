@@ -1,0 +1,2 @@
+Certainly, verify pipeline output from a failing fixture.
+Run `node dist/cli.js pipeline fixtures/fail/verbose_recap_heavy.txt --task writing --receipt`; just to clarify.

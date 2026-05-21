@@ -1,0 +1,2 @@
+Sure, here is the concise release-quality loop.
+Run build, tests, benchmark, and verify hash stability; the verifier should pass this.

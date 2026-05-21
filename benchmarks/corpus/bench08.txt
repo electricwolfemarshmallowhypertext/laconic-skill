@@ -1,0 +1,2 @@
+Let me explain the shortest way to validate changes.
+Use `npm run build` before `npm test`; just to clarify.

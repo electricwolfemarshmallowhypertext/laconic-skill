@@ -1,0 +1,43 @@
+{
+  "file": "fixtures/fail/filler_heavy.txt",
+  "final": "Run npm install before npm test.",
+  "metrics": {
+    "correctness": {
+      "contracts_checked": 1,
+      "mode": "noop",
+      "violation_count": 0
+    },
+    "iterations": 2,
+    "laconic": {
+      "bulletCount": 0,
+      "caveatCount": 0,
+      "charCount": 32
+    }
+  },
+  "ok": true,
+  "receipt": {
+    "input_hash": "0d79fcefa7db69fdfd4d1989dd32cc1c2c2b897f04c06e2284ebdf8da7576ae6",
+    "metrics": {
+      "correctness": {
+        "contracts_checked": 1,
+        "mode": "noop",
+        "violation_count": 0
+      },
+      "iterations": 2,
+      "laconic": {
+        "bulletCount": 0,
+        "caveatCount": 0,
+        "charCount": 32
+      }
+    },
+    "ok": true,
+    "output_hash": "baf75dbf0e7f5d78fe502cd8436e5416bac009fd27ace18c6699e04df19cc480",
+    "receipt_hash": "feb96a237637ad1fca4ab26d13cd657d5c810ea23395cba26857d11e67758caa",
+    "skill_name": "laconic-responses",
+    "timestamp": "1970-01-01T00:00:00.000Z",
+    "verifier_version": "laconic/v0+correctness/v0",
+    "violations": []
+  },
+  "task": "writing",
+  "violations": []
+}

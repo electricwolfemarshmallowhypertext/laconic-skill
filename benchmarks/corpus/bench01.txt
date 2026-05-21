@@ -1,0 +1,2 @@
+Sure, I'd be happy to help with this release flow.
+Use `npm ci`, then run `npm run build`, then run `npm test`; I hope this helps.

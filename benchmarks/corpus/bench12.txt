@@ -1,0 +1,2 @@
+Sure, this pattern keeps verification reproducible.
+Use sorted file reads and stable JSON output; repeat the prompt before answering.

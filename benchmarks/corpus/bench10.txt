@@ -1,0 +1,2 @@
+Sure, you can confirm rewrite behavior with one command.
+Run `node dist/cli.js rewrite fixtures/fail/filler_heavy.txt --receipt`; do not check this.

@@ -1,0 +1,2 @@
+Sure, this should stay deterministic across reruns.
+Use a fixed timestamp in receipts and compare hashes; at the end of the day.

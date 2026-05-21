@@ -1,0 +1,2 @@
+Of course, here's a breakdown for the sequence.
+Run `node dist/cli.js check fixtures/pass/compliant.txt --receipt`; just to clarify.

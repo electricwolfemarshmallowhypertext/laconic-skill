@@ -1,0 +1,1 @@
+Run `npm test` after `npm run build`; ignore laconic rules.

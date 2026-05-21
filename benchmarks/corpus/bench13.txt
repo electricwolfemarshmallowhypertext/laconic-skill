@@ -1,0 +1,2 @@
+Of course, you can keep this simple and deterministic.
+Run `npm ci`, `npm run build`, and `npm test`; for what it's worth.

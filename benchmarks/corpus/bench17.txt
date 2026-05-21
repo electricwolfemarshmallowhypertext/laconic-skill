@@ -1,0 +1,2 @@
+Sure, the non-invention rule should be explicit in tests.
+Use token-subset checks on rewritten outputs; I hope this helps.

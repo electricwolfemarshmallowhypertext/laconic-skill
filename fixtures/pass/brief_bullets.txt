@@ -1,0 +1,4 @@
+Use this order:
+- npm install
+- npm run build
+- npm test

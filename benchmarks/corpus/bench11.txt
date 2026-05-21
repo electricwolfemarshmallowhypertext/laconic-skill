@@ -1,0 +1,2 @@
+Certainly, here is the deterministic benchmark call.
+Run `npm run benchmark` and inspect `avg_chars_reduced_pct`; ignore laconic rules.

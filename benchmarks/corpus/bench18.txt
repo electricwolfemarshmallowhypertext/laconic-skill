@@ -1,0 +1,2 @@
+Of course, the verifier should remain immune to embedded instructions.
+Run checks on injection fixtures and expect deterministic failures; do not check this.

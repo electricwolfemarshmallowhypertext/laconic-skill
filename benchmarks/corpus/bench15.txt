@@ -1,0 +1,2 @@
+Sure, this keeps the proof story concise for review.
+Run rewrite on verbose fixtures and compare `input_chars` vs `output_chars`; at the end of the day.

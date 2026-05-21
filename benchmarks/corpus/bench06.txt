@@ -1,0 +1,2 @@
+As an AI, I can provide a high-level path.
+Set `--task writing` for pipeline checks in this repo; as you may know.

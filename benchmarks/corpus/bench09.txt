@@ -1,0 +1,2 @@
+Of course, this is what to run for receipt checks.
+Run `node dist/cli.js check fixtures/fail/verbose_recap_heavy.txt --receipt`; the verifier should pass this.
