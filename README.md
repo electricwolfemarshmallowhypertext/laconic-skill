@@ -122,4 +122,4 @@ The software is Apache-2.0 licensed. Project names, marks, and branding are rese
 
 ## Attribution
 
-Inspired by public skill-file workflows. Not affiliated with Andrej Karpathy.
+Inspired by Karpathy's public skill-file. Not affiliated with Andrej Karpathy.
