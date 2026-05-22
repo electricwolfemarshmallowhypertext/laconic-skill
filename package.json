@@ -1,11 +1,12 @@
 {
   "name": "laconic-skill",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Open source deterministic concise-response skill and runtime",
   "license": "Apache-2.0",
   "files": [
     "dist/",
     "skills/",
+    ".claude-plugin/",
     "examples/",
     "README.md",
     "NOTICE",
@@ -20,6 +21,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "prepack": "npm run build",
     "test": "npm run build && node test/laconic.test.js",
     "benchmark": "npm run build && tsc -p tsconfig.benchmark.json && node dist/scripts/benchmark.js"
   },

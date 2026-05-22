@@ -1,6 +1,6 @@
 # INTENTION
 
-laconic-skill exists because asking a model to “be concise” is not enough.
+laconic-skill exists because asking a model to "be concise" is not enough.
 
 Most AI style control is still treated like a preference. The user asks for brevity. The system prompt asks for brevity. The model still drifts, explains too much, repeats the question, adds caveats nobody asked for, or pads the answer with polite noise.
 
@@ -18,10 +18,10 @@ The basic loop is:
 
 ```text
 input
-→ draft
-→ deterministic checks
-→ rewrite/trim
-→ pass/fail receipt
+-> draft
+-> deterministic checks
+-> rewrite/trim
+-> pass/fail receipt
 ```
 
 The model can draft. The runtime enforces.

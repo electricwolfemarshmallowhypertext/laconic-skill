@@ -81,6 +81,21 @@ function compareScoresDesc(left: number, right: number): number {
   return left > right ? -1 : 1;
 }
 
+function dedupeSearchResultsById(
+  results: StyleMemorySearchResult[]
+): StyleMemorySearchResult[] {
+  const seen = new Set<string>();
+  const deduped: StyleMemorySearchResult[] = [];
+  for (const result of results) {
+    if (seen.has(result.record.id)) {
+      continue;
+    }
+    seen.add(result.record.id);
+    deduped.push(result);
+  }
+  return deduped;
+}
+
 function toLanceRow(record: StyleMemoryRecord): Record<string, unknown> {
   return {
     id: record.id,
@@ -178,7 +193,7 @@ export class LanceDbStyleMemoryAdapter implements StyleMemoryAdapter {
         }
         return compareCodepointStable(left.record.id, right.record.id);
       });
-      return filtered.slice(0, limit);
+      return dedupeSearchResultsById(filtered).slice(0, limit);
     } catch {
       this.markLanceDbDisabled();
       return this.searchFallback(queryVector, options);
@@ -230,6 +245,15 @@ export class LanceDbStyleMemoryAdapter implements StyleMemoryAdapter {
       });
       return;
     }
+    const escapedId = record.id.replace(/'/g, "''");
+    const existingRows = (await existingTable
+      .query()
+      .where(`id = '${escapedId}'`)
+      .limit(1)
+      .toArray()) as Array<Record<string, unknown>>;
+    if (existingRows.length > 0) {
+      return;
+    }
     await existingTable.add([toLanceRow(record)]);
   }
 
@@ -257,6 +281,9 @@ export class LanceDbStyleMemoryAdapter implements StyleMemoryAdapter {
 
   private addToFallback(record: StyleMemoryRecord): void {
     const data = this.loadFallback();
+    if (data.records.some((row) => row.id === record.id)) {
+      return;
+    }
     data.records.push(record);
     writeFileSync(this.fallbackPath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
   }
@@ -305,7 +332,7 @@ export class LanceDbStyleMemoryAdapter implements StyleMemoryAdapter {
       return compareCodepointStable(left.record.id, right.record.id);
     });
 
-    return ranked.slice(0, limit);
+    return dedupeSearchResultsById(ranked).slice(0, limit);
   }
 }
 

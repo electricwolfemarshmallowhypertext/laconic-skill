@@ -1,4 +1,9 @@
-import { verifyText, type VerificationResult, type VerifierOptions } from "./verifier";
+import {
+  DEFAULT_MAX_CHARS,
+  verifyText,
+  type VerificationResult,
+  type VerifierOptions
+} from "./verifier";
 import { rewriteText } from "./rewrite";
 import {
   CORRECTNESS_VERIFIER_VERSION,
@@ -23,6 +28,10 @@ export interface PipelineInput {
   task_type?: CorrectnessTaskType;
   correctness_config?: CorrectnessConfig;
   verifier_options?: VerifierOptions;
+  style_memory?: {
+    hits_used: number;
+    style_target_max_chars?: number | null;
+  };
   max_fix_loops?: number;
   skill_name?: string;
   timestamp?: string;
@@ -82,7 +91,8 @@ function toReceiptViolations(
 function toReceiptMetrics(
   iterations: PipelineIteration[],
   laconic: VerificationResult,
-  correctness: CorrectnessResult
+  correctness: CorrectnessResult,
+  styleMemory: PipelineInput["style_memory"]
 ): JsonValue {
   const laconicMetrics = {
     charCount: laconic.metrics.charCount,
@@ -96,11 +106,23 @@ function toReceiptMetrics(
     violation_count: correctness.metrics.violation_count
   };
 
-  return {
+  const baseMetrics: Record<string, JsonValue> = {
     iterations: iterations.length,
     laconic: laconicMetrics,
     correctness: correctnessMetrics
   };
+
+  if (styleMemory) {
+    baseMetrics.memory = {
+      hits_used: styleMemory.hits_used,
+      style_target_max_chars:
+        styleMemory.style_target_max_chars === undefined
+          ? null
+          : styleMemory.style_target_max_chars
+    };
+  }
+
+  return baseMetrics;
 }
 
 export function runPipeline(input: PipelineInput): PipelineResult {
@@ -108,9 +130,27 @@ export function runPipeline(input: PipelineInput): PipelineResult {
   const taskType = input.task_type ?? "writing";
   const skillName = input.skill_name ?? "laconic-skill";
   const verifierOptions: VerifierOptions = {
-    ...input.verifier_options,
-    userPrompt: input.verifier_options?.userPrompt ?? input.input
+    ...input.verifier_options
   };
+  const verifierMaxChars = verifierOptions.maxChars ?? DEFAULT_MAX_CHARS;
+  const rawStyleTargetMaxChars = input.style_memory?.style_target_max_chars ?? null;
+  const styleTargetMaxChars =
+    rawStyleTargetMaxChars !== null &&
+    Number.isFinite(rawStyleTargetMaxChars) &&
+    rawStyleTargetMaxChars > 0
+      ? rawStyleTargetMaxChars
+      : null;
+  const rewriteMaxChars =
+    styleTargetMaxChars === null
+      ? verifierOptions.maxChars
+      : Math.min(verifierMaxChars, styleTargetMaxChars);
+  const rewriteOptions: VerifierOptions =
+    rewriteMaxChars === verifierOptions.maxChars
+      ? verifierOptions
+      : {
+          ...verifierOptions,
+          maxChars: rewriteMaxChars
+        };
 
   let working = input.draft;
   let laconic = verifyText(working, verifierOptions);
@@ -135,7 +175,7 @@ export function runPipeline(input: PipelineInput): PipelineResult {
       break;
     }
 
-    working = rewriteText(working, verifierOptions);
+    working = rewriteText(working, rewriteOptions);
     laconic = verifyText(working, verifierOptions);
     correctness = verifyCorrectness({
       task_type: taskType,
@@ -160,7 +200,7 @@ export function runPipeline(input: PipelineInput): PipelineResult {
     verifier_version: PIPELINE_VERIFIER_VERSION,
     ok,
     violations: toReceiptViolations(laconic, correctness),
-    metrics: toReceiptMetrics(iterations, laconic, correctness),
+    metrics: toReceiptMetrics(iterations, laconic, correctness, input.style_memory),
     timestamp: input.timestamp
   });
 

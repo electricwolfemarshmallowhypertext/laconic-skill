@@ -122,7 +122,7 @@ The software is Apache-2.0 licensed. Project names, marks, and branding are rese
 - CLI fixture checks pass
 - receipt hash determinism confirmed
 - no Laco dependency
-- no database
+- no hosted/external database; optional local LanceDB style memory only.
 - no web app
 - no model calls in verifier
 

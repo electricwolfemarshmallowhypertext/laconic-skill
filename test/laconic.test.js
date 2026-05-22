@@ -478,6 +478,72 @@ test("pipeline supports stdin with dash path", async () => {
   assert.equal(verifyText(result.stdout.trimEnd()).ok, true);
 });
 
+test("pipeline keeps compliant outputs stable with and without memory", async () => {
+  cleanupMemoryDir();
+  const input = readFixture("fixtures/pass/compliant.txt");
+
+  const add = await runCli([
+    "memory",
+    "add",
+    "fixtures/pass/compliant.txt",
+    "--outcome",
+    "accepted",
+    "--task",
+    "writing"
+  ]);
+  assert.equal(add.status, 0);
+
+  const withoutReceipt = await runCli([
+    "pipeline",
+    "fixtures/pass/compliant.txt",
+    "--task",
+    "writing"
+  ]);
+  assert.equal(withoutReceipt.status, 0);
+  assert.equal(withoutReceipt.stderr, "");
+  assert.equal(withoutReceipt.stdout.trimEnd(), input.trimEnd());
+
+  const withoutMemoryReceipt = await runCli([
+    "pipeline",
+    "fixtures/pass/compliant.txt",
+    "--task",
+    "writing",
+    "--receipt"
+  ]);
+  assert.equal(withoutMemoryReceipt.status, 0);
+  assert.equal(withoutMemoryReceipt.stderr, "");
+  const withoutMemoryPayload = parseJson(
+    withoutMemoryReceipt.stdout,
+    "pipeline compliant --receipt"
+  );
+  assert.equal(withoutMemoryPayload.final.trimEnd(), input.trimEnd());
+  assert.equal(withoutMemoryPayload.ok, true);
+  assert.equal(
+    withoutMemoryPayload.violations.some((violation) => violation.code === "MISSING_DIRECT_ANSWER"),
+    false
+  );
+
+  const withMemoryReceipt = await runCli([
+    "pipeline",
+    "fixtures/pass/compliant.txt",
+    "--task",
+    "writing",
+    "--memory",
+    "--receipt"
+  ]);
+  assert.equal(withMemoryReceipt.status, 0);
+  assert.equal(withMemoryReceipt.stderr, "");
+  const withMemoryPayload = parseJson(withMemoryReceipt.stdout, "pipeline compliant --memory");
+  assert.equal(withMemoryPayload.final.trimEnd(), input.trimEnd());
+  assert.equal(withMemoryPayload.ok, true);
+  assert.equal(withMemoryPayload.memory.enabled, true);
+  assert.equal(withMemoryPayload.memory.hits_used >= 1, true);
+  assert.equal(
+    withMemoryPayload.violations.some((violation) => violation.code === "MISSING_DIRECT_ANSWER"),
+    false
+  );
+});
+
 test("pipeline returns final text and receipt", async () => {
   const result = await runCli([
     "pipeline",
@@ -588,7 +654,7 @@ test("memory add and search work locally", async () => {
     task_type: "writing",
     outcomes: ["accepted"]
   });
-  assert.equal(results.length >= 1, true);
+  assert.equal(results.length, 1);
   assert.equal(results[0].record.task_type, "writing");
 });
 
@@ -632,6 +698,8 @@ test("pipeline works with and without memory", async () => {
   const withMemoryPayload = parseJson(withMemory.stdout, "pipeline with memory");
   assert.equal(withMemoryPayload.memory.enabled, true);
   assert.equal(withMemoryPayload.memory.retrieved >= 1, true);
+  assert.equal(withMemoryPayload.memory.hits_used >= 1, true);
+  assert.equal(withMemoryPayload.metrics.memory.hits_used >= 1, true);
   assert.equal(withMemoryPayload.ok, true);
 });
 
@@ -664,6 +732,31 @@ test("memory disabled by default and verifier is unchanged", async () => {
   assert.equal(withMemoryPayload.final, noMemoryPayload.final);
   assert.equal(withMemoryPayload.ok, noMemoryPayload.ok);
   assert.deepEqual(withMemoryPayload.violations, noMemoryPayload.violations);
+});
+
+test("check missing file returns clean error without path leakage", async () => {
+  const result = await runCli(["check", "does-not-exist.txt"]);
+  assert.equal(result.status, 1);
+  assert.equal(result.stderr.includes("Failed to read input file: does-not-exist.txt"), true);
+  assert.equal(result.stderr.includes("E:\\"), false);
+  assert.equal(result.stderr.includes("node:fs"), false);
+  assert.equal(/\bat\s/.test(result.stderr), false);
+});
+
+test("check without file reports missing argument", async () => {
+  const result = await runCli(["check"]);
+  assert.equal(result.status, 1);
+  assert.equal(result.stderr.includes("Missing file argument."), true);
+  assert.equal(result.stderr.includes("Unknown command: check"), false);
+});
+
+test("memory search --limit requires positive integer", async () => {
+  const valid = await runCli(["memory", "search", "test", "--limit", "1"]);
+  assert.equal(valid.status, 0);
+
+  const fractional = await runCli(["memory", "search", "test", "--limit", "1.5"]);
+  assert.equal(fractional.status, 1);
+  assert.equal(fractional.stderr.includes("Invalid --limit value."), true);
 });
 
 async function runAll() {

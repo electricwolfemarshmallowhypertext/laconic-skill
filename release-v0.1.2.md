@@ -2,10 +2,10 @@
 
 **Brevity, verified. With local style memory.**
 
-laconic-skill turns “be concise” from a prompt preference into a deterministic contract:
+laconic-skill turns "be concise" from a prompt preference into a deterministic contract:
 
 ```text
-verify → rewrite → receipt
+verify -> rewrite -> receipt
 ```
 
 ## What is included

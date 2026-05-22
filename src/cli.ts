@@ -51,10 +51,14 @@ function usage(message?: string): never {
 }
 
 function readInputFile(filePath: string): string {
-  if (filePath === "-") {
-    return readFileSync(0, "utf8");
+  try {
+    if (filePath === "-") {
+      return readFileSync(0, "utf8");
+    }
+    return readFileSync(resolve(process.cwd(), filePath), "utf8");
+  } catch {
+    throw new Error(`Failed to read input file: ${filePath}`);
   }
-  return readFileSync(resolve(process.cwd(), filePath), "utf8");
 }
 
 function isCoreCommand(value: string): value is CoreCommand {
@@ -132,10 +136,10 @@ function parseMemorySearchOptions(tokens: string[]): MemorySearchOptions {
         usage("Missing value for --limit.");
       }
       const parsed = Number(rawLimit);
-      if (!Number.isFinite(parsed) || parsed <= 0) {
+      if (!Number.isInteger(parsed) || parsed <= 0) {
         usage("Invalid --limit value.");
       }
-      limit = Math.floor(parsed);
+      limit = parsed;
       index += 1;
       continue;
     }
@@ -316,6 +320,10 @@ async function emitPipelineWithMemory(
     input,
     draft: input,
     task_type: task,
+    style_memory: {
+      hits_used: memoryResults.length,
+      style_target_max_chars: styleProfile.max_chars_hint
+    },
     skill_name: SKILL_NAME,
     timestamp: DETERMINISTIC_TIMESTAMP
   });
@@ -327,25 +335,26 @@ async function emitPipelineWithMemory(
 
   writeStableJson({
     file: filePath,
-      task,
-      final: result.final,
-      ok: result.ok,
-      violations: result.receipt.violations,
-      metrics: result.receipt.metrics,
-      memory: {
-        enabled: true,
-        retrieved: memoryResults.length,
-        style_profile: styleProfile,
-        examples: memoryResults.map((item) => ({
-          id: item.record.id,
-          task_type: item.record.task_type,
-          outcome: item.record.outcome,
-          output_text: item.record.output_text,
-          receipt_hash: item.record.receipt_hash,
-          score: Number(item.score.toFixed(8))
-        }))
-      },
-      receipt: result.receipt
+    task,
+    final: result.final,
+    ok: result.ok,
+    violations: result.receipt.violations,
+    metrics: result.receipt.metrics,
+    memory: {
+      enabled: true,
+      hits_used: memoryResults.length,
+      retrieved: memoryResults.length,
+      style_profile: styleProfile,
+      examples: memoryResults.map((item) => ({
+        id: item.record.id,
+        task_type: item.record.task_type,
+        outcome: item.record.outcome,
+        output_text: item.record.output_text,
+        receipt_hash: item.record.receipt_hash,
+        score: Number(item.score.toFixed(8))
+      }))
+    },
+    receipt: result.receipt
   });
   return result.ok ? 0 : 1;
 }
@@ -440,61 +449,70 @@ function runAsync(task: Promise<number>): void {
 }
 
 function main(): void {
-  const args = process.argv.slice(2);
-  if (args.length < 1) {
-    usage();
-  }
-
-  const [commandArg, ...rest] = args;
-
-  if (commandArg === "memory") {
-    const [memorySubcommand, memoryTarget, ...optionTokens] = rest;
-    if (!memorySubcommand || !memoryTarget) {
-      usage("memory requires subcommand and target.");
+  try {
+    const args = process.argv.slice(2);
+    if (args.length < 1) {
+      usage();
     }
-    if (memorySubcommand === "add") {
-      const options = parseMemoryAddOptions(optionTokens);
-      runAsync(emitMemoryAdd(memoryTarget, options));
+
+    const [commandArg, ...rest] = args;
+
+    if (commandArg === "memory") {
+      const [memorySubcommand, memoryTarget, ...optionTokens] = rest;
+      if (!memorySubcommand || !memoryTarget) {
+        usage("memory requires subcommand and target.");
+      }
+      if (memorySubcommand === "add") {
+        const options = parseMemoryAddOptions(optionTokens);
+        runAsync(emitMemoryAdd(memoryTarget, options));
+        return;
+      }
+      if (memorySubcommand === "search") {
+        const options = parseMemorySearchOptions(optionTokens);
+        runAsync(emitMemorySearch(memoryTarget, options));
+        return;
+      }
+      usage(`Unknown memory subcommand: ${memorySubcommand}`);
+    }
+
+    if (!isCoreCommand(commandArg)) {
+      usage(`Unknown command: ${commandArg}`);
+    }
+    if (rest.length < 1) {
+      usage("Missing file argument.");
+    }
+
+    const [filePath, ...optionTokens] = rest;
+    const options = parseCoreOptions(optionTokens);
+    if (commandArg === "pipeline" && !options.task) {
+      usage("pipeline requires --task writing|code|data|regulated.");
+    }
+    if (commandArg !== "pipeline" && options.task) {
+      usage("--task is only supported for pipeline.");
+    }
+    if (options.memory && commandArg !== "pipeline") {
+      usage("--memory is only supported for pipeline.");
+    }
+
+    const input = readInputFile(filePath);
+    let exitCode = 1;
+    if (commandArg === "check") {
+      exitCode = emitCheck(input, filePath, options.receipt);
+    } else if (commandArg === "rewrite") {
+      exitCode = emitRewrite(input, filePath, options.receipt);
+    } else if (options.memory) {
+      runAsync(emitPipelineWithMemory(input, filePath, options.task!, options.receipt));
       return;
+    } else {
+      exitCode = emitPipelineWithoutMemory(input, filePath, options.task!, options.receipt);
     }
-    if (memorySubcommand === "search") {
-      const options = parseMemorySearchOptions(optionTokens);
-      runAsync(emitMemorySearch(memoryTarget, options));
-      return;
-    }
-    usage(`Unknown memory subcommand: ${memorySubcommand}`);
-  }
 
-  if (rest.length < 1 || !isCoreCommand(commandArg)) {
-    usage(`Unknown command: ${commandArg}`);
+    process.exit(exitCode);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    process.stderr.write(`${message}\n`);
+    process.exit(1);
   }
-
-  const [filePath, ...optionTokens] = rest;
-  const options = parseCoreOptions(optionTokens);
-  if (commandArg === "pipeline" && !options.task) {
-    usage("pipeline requires --task writing|code|data|regulated.");
-  }
-  if (commandArg !== "pipeline" && options.task) {
-    usage("--task is only supported for pipeline.");
-  }
-  if (options.memory && commandArg !== "pipeline") {
-    usage("--memory is only supported for pipeline.");
-  }
-
-  const input = readInputFile(filePath);
-  let exitCode = 1;
-  if (commandArg === "check") {
-    exitCode = emitCheck(input, filePath, options.receipt);
-  } else if (commandArg === "rewrite") {
-    exitCode = emitRewrite(input, filePath, options.receipt);
-  } else if (options.memory) {
-    runAsync(emitPipelineWithMemory(input, filePath, options.task!, options.receipt));
-    return;
-  } else {
-    exitCode = emitPipelineWithoutMemory(input, filePath, options.task!, options.receipt);
-  }
-
-  process.exit(exitCode);
 }
 
 main();

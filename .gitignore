@@ -2,3 +2,5 @@ node_modules/
 dist/
 .tmp-npm-cache/
 .laconic/
+.tmp_stdout.json
+.tmp_stderr.log
