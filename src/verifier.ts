@@ -35,6 +35,15 @@ export interface VerificationResult {
   metrics: Metrics;
 }
 
+export interface NormalizedVerifierOptions {
+  maxChars: number;
+  maxBullets: number;
+  bannedFillerPhrases: string[];
+  bannedPreambles: string[];
+  requireDirectAnswerOpening: boolean;
+  caveatLimit: number | null;
+}
+
 export const DEFAULT_MAX_CHARS = 320;
 export const DEFAULT_MAX_BULLETS = 3;
 export const DEFAULT_CAVEAT_LIMIT = 2;
@@ -148,18 +157,67 @@ function hasRepeatedPrompt(
   return prefix.length >= 16 && responseNorm.startsWith(prefix);
 }
 
+function normalizePositiveInteger(value: number | undefined, fallback: number): number {
+  if (!Number.isFinite(value) || value === undefined) {
+    return fallback;
+  }
+  const normalized = Math.floor(value);
+  if (normalized < 1) {
+    return fallback;
+  }
+  return normalized;
+}
+
+function normalizeNonNegativeInteger(value: number | undefined, fallback: number): number {
+  if (!Number.isFinite(value) || value === undefined) {
+    return fallback;
+  }
+  const normalized = Math.floor(value);
+  if (normalized < 0) {
+    return fallback;
+  }
+  return normalized;
+}
+
+function normalizeCaveatLimit(value: number | null | undefined): number | null {
+  if (value === null) {
+    return null;
+  }
+  if (!Number.isFinite(value) || value === undefined) {
+    return DEFAULT_CAVEAT_LIMIT;
+  }
+  const normalized = Math.floor(value);
+  if (normalized < 0) {
+    return DEFAULT_CAVEAT_LIMIT;
+  }
+  return normalized;
+}
+
+export function normalizeVerifierOptions(
+  options: VerifierOptions = {}
+): NormalizedVerifierOptions {
+  return {
+    maxChars: normalizePositiveInteger(options.maxChars, DEFAULT_MAX_CHARS),
+    maxBullets: normalizeNonNegativeInteger(options.maxBullets, DEFAULT_MAX_BULLETS),
+    bannedFillerPhrases:
+      options.bannedFillerPhrases ?? DEFAULT_BANNED_FILLER_PHRASES,
+    bannedPreambles: options.bannedPreambles ?? DEFAULT_BANNED_PREAMBLES,
+    requireDirectAnswerOpening: options.requireDirectAnswerOpening ?? true,
+    caveatLimit: normalizeCaveatLimit(options.caveatLimit)
+  };
+}
+
 export function verifyText(
   response: string,
   options: VerifierOptions = {}
 ): VerificationResult {
-  const maxChars = options.maxChars ?? DEFAULT_MAX_CHARS;
-  const maxBullets = options.maxBullets ?? DEFAULT_MAX_BULLETS;
-  const bannedFillerPhrases =
-    options.bannedFillerPhrases ?? DEFAULT_BANNED_FILLER_PHRASES;
-  const bannedPreambles = options.bannedPreambles ?? DEFAULT_BANNED_PREAMBLES;
-  const requireDirectAnswerOpening =
-    options.requireDirectAnswerOpening ?? true;
-  const caveatLimit = options.caveatLimit ?? DEFAULT_CAVEAT_LIMIT;
+  const normalized = normalizeVerifierOptions(options);
+  const maxChars = normalized.maxChars;
+  const maxBullets = normalized.maxBullets;
+  const bannedFillerPhrases = normalized.bannedFillerPhrases;
+  const bannedPreambles = normalized.bannedPreambles;
+  const requireDirectAnswerOpening = normalized.requireDirectAnswerOpening;
+  const caveatLimit = normalized.caveatLimit;
 
   const metrics: Metrics = {
     charCount: response.length,

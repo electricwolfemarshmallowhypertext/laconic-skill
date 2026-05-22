@@ -1,12 +1,8 @@
 import {
-  DEFAULT_BANNED_FILLER_PHRASES,
-  DEFAULT_BANNED_PREAMBLES,
-  DEFAULT_CAVEAT_LIMIT,
-  DEFAULT_MAX_BULLETS,
-  DEFAULT_MAX_CHARS,
   VerifierOptions,
   countCaveatWords,
   isBannedPreamble,
+  normalizeVerifierOptions,
   normalizeForComparison,
   verifyText
 } from "./verifier";
@@ -218,12 +214,12 @@ export function rewriteText(
     return response;
   }
 
-  const maxChars = options.maxChars ?? DEFAULT_MAX_CHARS;
-  const maxBullets = options.maxBullets ?? DEFAULT_MAX_BULLETS;
-  const caveatLimit = options.caveatLimit ?? DEFAULT_CAVEAT_LIMIT;
-  const bannedFillerPhrases =
-    options.bannedFillerPhrases ?? DEFAULT_BANNED_FILLER_PHRASES;
-  const bannedPreambles = options.bannedPreambles ?? DEFAULT_BANNED_PREAMBLES;
+  const normalizedOptions = normalizeVerifierOptions(options);
+  const maxChars = normalizedOptions.maxChars;
+  const maxBullets = normalizedOptions.maxBullets;
+  const caveatLimit = normalizedOptions.caveatLimit;
+  const bannedFillerPhrases = normalizedOptions.bannedFillerPhrases;
+  const bannedPreambles = normalizedOptions.bannedPreambles;
 
   let working = response.replace(/\r\n/g, "\n").trim();
   if (!working) {

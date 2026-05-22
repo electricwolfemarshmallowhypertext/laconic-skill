@@ -12,6 +12,7 @@ export {
 export type {
   StyleMemoryAdapter,
   StyleMemoryAddInput,
+  StyleMemoryStatus,
   StyleMemoryOutcome,
   StyleMemoryRecord,
   StyleMemorySearchOptions,

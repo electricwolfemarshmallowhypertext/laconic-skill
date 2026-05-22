@@ -13,6 +13,7 @@ import type {
   StyleMemoryAddInput,
   StyleMemoryAdapter,
   StyleMemoryRecord,
+  StyleMemoryStatus,
   StyleMemorySearchOptions,
   StyleMemorySearchResult
 } from "./types";
@@ -21,6 +22,8 @@ const DEFAULT_MEMORY_DIR = ".laconic/memory";
 const DEFAULT_TABLE_NAME = "style_memory";
 const DISABLED_MEMORY_DIRS = new Set<string>();
 const DISABLED_SENTINEL_FILE = ".lancedb-disabled";
+const MAX_SEARCH_FANOUT = 500;
+const ENABLE_LANCEDB_ENV = "LACONIC_ENABLE_LANCEDB";
 
 interface LanceDbStyleMemoryAdapterOptions {
   memoryDir?: string;
@@ -120,16 +123,31 @@ export class LanceDbStyleMemoryAdapter implements StyleMemoryAdapter {
   private readonly disabledSentinelPath: string;
   private connection: Connection | null = null;
   private lancedbDisabled = false;
+  private lastStatus: StyleMemoryStatus = { backend: "lancedb", degraded: false };
 
   constructor(options: LanceDbStyleMemoryAdapterOptions = {}) {
+    if (!process.env.LANCEDB_LOG) {
+      process.env.LANCEDB_LOG = "error";
+    }
     this.memoryDir = resolve(options.memoryDir ?? DEFAULT_MEMORY_DIR);
     this.tableName = options.tableName ?? DEFAULT_TABLE_NAME;
     this.dimensions = options.dimensions ?? HASH_EMBEDDING_DIMENSIONS;
     this.fallbackPath = join(this.memoryDir, "fallback-memory.json");
     this.disabledSentinelPath = join(this.memoryDir, DISABLED_SENTINEL_FILE);
+    const windowsFallbackDefault =
+      process.platform === "win32" && process.env[ENABLE_LANCEDB_ENV] !== "1";
     this.lancedbDisabled =
-      DISABLED_MEMORY_DIRS.has(this.memoryDir) || existsSync(this.disabledSentinelPath);
+      windowsFallbackDefault ||
+      DISABLED_MEMORY_DIRS.has(this.memoryDir) ||
+      existsSync(this.disabledSentinelPath);
     mkdirSync(this.memoryDir, { recursive: true });
+    if (this.lancedbDisabled) {
+      this.setStatus(
+        "fallback",
+        !windowsFallbackDefault,
+        windowsFallbackDefault ? "platform_default" : "sentinel"
+      );
+    }
   }
 
   async add(input: StyleMemoryAddInput): Promise<StyleMemoryRecord> {
@@ -159,7 +177,7 @@ export class LanceDbStyleMemoryAdapter implements StyleMemoryAdapter {
       await this.addWithLanceDb(record);
       return record;
     } catch {
-      this.markLanceDbDisabled();
+      this.markLanceDbDisabled(false, "runtime_error");
       this.addToFallback(record);
       return record;
     }
@@ -175,16 +193,19 @@ export class LanceDbStyleMemoryAdapter implements StyleMemoryAdapter {
     const queryVector = hashEmbedText(query, this.dimensions);
 
     if (this.lancedbDisabled) {
-      return this.searchFallback(queryVector, options);
+      return this.searchFallback(queryVector, options, "disabled");
     }
 
     try {
-      const rows = await this.searchWithLanceDb(queryVector, Math.max(limit * 5, limit));
+      const rows = await this.searchWithLanceDb(
+        queryVector,
+        Math.min(Math.max(limit * 5, limit), MAX_SEARCH_FANOUT)
+      );
       const filtered = rows
         .filter((row) => isCompatibleTask(row.record.task_type, taskType))
         .filter((row) => isCompatibleOutcome(row.record.outcome, outcomes));
       if (filtered.length === 0) {
-        return this.searchFallback(queryVector, options);
+        return this.searchFallback(queryVector, options, "no_match");
       }
       filtered.sort((left, right) => {
         const scoreOrder = compareScoresDesc(left.score, right.score);
@@ -193,20 +214,36 @@ export class LanceDbStyleMemoryAdapter implements StyleMemoryAdapter {
         }
         return compareCodepointStable(left.record.id, right.record.id);
       });
+      this.setStatus("lancedb", false);
       return dedupeSearchResultsById(filtered).slice(0, limit);
     } catch {
-      this.markLanceDbDisabled();
-      return this.searchFallback(queryVector, options);
+      this.markLanceDbDisabled(false, "runtime_error");
+      return this.searchFallback(queryVector, options, "runtime_error");
     }
   }
 
-  private markLanceDbDisabled(): void {
+  getStatus(): StyleMemoryStatus {
+    return { ...this.lastStatus };
+  }
+
+  private setStatus(
+    backend: StyleMemoryStatus["backend"],
+    degraded: boolean,
+    reason?: string
+  ): void {
+    this.lastStatus = { backend, degraded, reason };
+  }
+
+  private markLanceDbDisabled(persist: boolean, reason: string): void {
     this.lancedbDisabled = true;
     DISABLED_MEMORY_DIRS.add(this.memoryDir);
-    try {
-      writeFileSync(this.disabledSentinelPath, "disabled\n", "utf8");
-    } catch {
-      // Ignore sentinel write failures; in-process fallback still works.
+    this.setStatus("fallback", true, reason);
+    if (persist) {
+      try {
+        writeFileSync(this.disabledSentinelPath, "disabled\n", "utf8");
+      } catch {
+        // Ignore sentinel write failures; in-process fallback still works.
+      }
     }
   }
 
@@ -243,6 +280,7 @@ export class LanceDbStyleMemoryAdapter implements StyleMemoryAdapter {
         mode: "create",
         existOk: true
       });
+      this.setStatus("lancedb", false);
       return;
     }
     const escapedId = record.id.replace(/'/g, "''");
@@ -252,9 +290,11 @@ export class LanceDbStyleMemoryAdapter implements StyleMemoryAdapter {
       .limit(1)
       .toArray()) as Array<Record<string, unknown>>;
     if (existingRows.length > 0) {
+      this.setStatus("lancedb", false);
       return;
     }
     await existingTable.add([toLanceRow(record)]);
+    this.setStatus("lancedb", false);
   }
 
   private async searchWithLanceDb(
@@ -309,7 +349,8 @@ export class LanceDbStyleMemoryAdapter implements StyleMemoryAdapter {
 
   private searchFallback(
     queryVector: number[],
-    options: StyleMemorySearchOptions
+    options: StyleMemorySearchOptions,
+    reason: "disabled" | "runtime_error" | "no_match"
   ): StyleMemorySearchResult[] {
     const limit = options.limit ?? 5;
     const taskType = options.task_type;
@@ -332,6 +373,11 @@ export class LanceDbStyleMemoryAdapter implements StyleMemoryAdapter {
       return compareCodepointStable(left.record.id, right.record.id);
     });
 
+    this.setStatus(
+      "fallback",
+      reason !== "no_match" || this.lancedbDisabled,
+      reason
+    );
     return dedupeSearchResultsById(ranked).slice(0, limit);
   }
 }

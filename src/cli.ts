@@ -21,6 +21,7 @@ type CoreCommand = "check" | "rewrite" | "pipeline";
 const SKILL_NAME = "laconic-responses";
 const DETERMINISTIC_TIMESTAMP = "1970-01-01T00:00:00.000Z";
 const DEFAULT_MEMORY_LIMIT = 5;
+const MAX_MEMORY_LIMIT = 100;
 
 interface CoreOptions {
   receipt: boolean;
@@ -136,7 +137,7 @@ function parseMemorySearchOptions(tokens: string[]): MemorySearchOptions {
         usage("Missing value for --limit.");
       }
       const parsed = Number(rawLimit);
-      if (!Number.isInteger(parsed) || parsed <= 0) {
+      if (!Number.isInteger(parsed) || parsed <= 0 || parsed > MAX_MEMORY_LIMIT) {
         usage("Invalid --limit value.");
       }
       limit = parsed;
@@ -314,6 +315,8 @@ async function emitPipelineWithMemory(
     task_type: task,
     outcomes: ["accepted", "rewritten"]
   });
+  const memoryStatus =
+    typeof adapter.getStatus === "function" ? adapter.getStatus() : undefined;
   styleProfile = buildStyleProfile(memoryResults);
 
   const result = runPipeline({
@@ -340,12 +343,15 @@ async function emitPipelineWithMemory(
     ok: result.ok,
     violations: result.receipt.violations,
     metrics: result.receipt.metrics,
-    memory: {
-      enabled: true,
-      hits_used: memoryResults.length,
-      retrieved: memoryResults.length,
-      style_profile: styleProfile,
-      examples: memoryResults.map((item) => ({
+      memory: {
+        enabled: true,
+        hits_used: memoryResults.length,
+        retrieved: memoryResults.length,
+        backend: memoryStatus?.backend ?? "unknown",
+        degraded: memoryStatus?.degraded ?? false,
+        reason: memoryStatus?.reason ?? null,
+        style_profile: styleProfile,
+        examples: memoryResults.map((item) => ({
         id: item.record.id,
         task_type: item.record.task_type,
         outcome: item.record.outcome,
@@ -372,6 +378,11 @@ async function emitMemoryAdd(
 
   const outputText = readInputFile(filePath);
   const verification = verifyText(outputText);
+  if (options.outcome === "accepted" && !verification.ok) {
+    throw new Error(
+      "memory add with outcome 'accepted' requires output that passes verification."
+    );
+  }
   const receipt = createReceipt({
     input: outputText,
     output: outputText,
@@ -402,6 +413,8 @@ async function emitMemoryAdd(
     receipt_hash: receipt.receipt_hash,
     created_at: DETERMINISTIC_TIMESTAMP
   });
+  const memoryStatus =
+    typeof adapter.getStatus === "function" ? adapter.getStatus() : undefined;
 
   writeStableJson({
     ok: true,
@@ -411,7 +424,10 @@ async function emitMemoryAdd(
       task_type: record.task_type,
       outcome: record.outcome,
       receipt_hash: record.receipt_hash,
-      created_at: record.created_at
+      created_at: record.created_at,
+      backend: memoryStatus?.backend ?? "unknown",
+      degraded: memoryStatus?.degraded ?? false,
+      reason: memoryStatus?.reason ?? null
     }
   });
   return 0;
@@ -423,8 +439,15 @@ async function emitMemorySearch(
 ): Promise<number> {
   const adapter = createDefaultStyleMemoryAdapter();
   const results = await adapter.search(query, { limit: options.limit });
+  const memoryStatus =
+    typeof adapter.getStatus === "function" ? adapter.getStatus() : undefined;
   writeStableJson({
     ok: true,
+    memory: {
+      backend: memoryStatus?.backend ?? "unknown",
+      degraded: memoryStatus?.degraded ?? false,
+      reason: memoryStatus?.reason ?? null
+    },
     results: results.map((item) => ({
       score: Number(item.score.toFixed(8)),
       id: item.record.id,

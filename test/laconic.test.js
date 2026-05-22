@@ -282,6 +282,27 @@ test("rewrite never introduces new substantive tokens", () => {
   }
 });
 
+test("invalid numeric verifier options fall back to deterministic defaults", () => {
+  const bulletHeavy = readFixture("fixtures/fail/too_many_bullets.txt");
+  const caveatHeavy = readFixture("fixtures/fail/caveat_heavy.txt");
+  const verbose = readFixture("fixtures/fail/verbose_recap_heavy.txt");
+
+  const bulletResult = verifyText(bulletHeavy, { maxBullets: -1 });
+  assert.equal(
+    bulletResult.violations.some((violation) => violation.code === "MAX_BULLETS_EXCEEDED"),
+    true
+  );
+
+  const caveatResult = verifyText(caveatHeavy, { caveatLimit: Number.NaN });
+  assert.equal(
+    caveatResult.violations.some((violation) => violation.code === "TOO_MANY_CAVEATS"),
+    true
+  );
+
+  const rewritten = rewriteText(verbose, { maxChars: 0 });
+  assert.equal(verifyText(rewritten).ok, true);
+});
+
 test("rewrite reduces failing examples and passes when possible", () => {
   for (const { file, options } of failCases) {
     const input = readFixture(file);
@@ -734,6 +755,18 @@ test("memory disabled by default and verifier is unchanged", async () => {
   assert.deepEqual(withMemoryPayload.violations, noMemoryPayload.violations);
 });
 
+test("memory add rejects accepted outcome for non-compliant output", async () => {
+  const result = await runCli(
+    ["memory", "add", "-", "--outcome", "accepted", "--task", "writing"],
+    { stdin: "" }
+  );
+  assert.equal(result.status, 1);
+  assert.equal(
+    result.stderr.includes("memory add with outcome 'accepted' requires output that passes verification."),
+    true
+  );
+});
+
 test("check missing file returns clean error without path leakage", async () => {
   const result = await runCli(["check", "does-not-exist.txt"]);
   assert.equal(result.status, 1);
@@ -757,6 +790,10 @@ test("memory search --limit requires positive integer", async () => {
   const fractional = await runCli(["memory", "search", "test", "--limit", "1.5"]);
   assert.equal(fractional.status, 1);
   assert.equal(fractional.stderr.includes("Invalid --limit value."), true);
+
+  const tooLarge = await runCli(["memory", "search", "test", "--limit", "101"]);
+  assert.equal(tooLarge.status, 1);
+  assert.equal(tooLarge.stderr.includes("Invalid --limit value."), true);
 });
 
 async function runAll() {

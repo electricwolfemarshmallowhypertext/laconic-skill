@@ -39,10 +39,17 @@ export interface StyleMemorySearchResult {
   record: StyleMemoryRecord;
 }
 
+export interface StyleMemoryStatus {
+  backend: "lancedb" | "fallback";
+  degraded: boolean;
+  reason?: string;
+}
+
 export interface StyleMemoryAdapter {
   add(input: StyleMemoryAddInput): Promise<StyleMemoryRecord>;
   search(
     query: string,
     options?: StyleMemorySearchOptions
   ): Promise<StyleMemorySearchResult[]>;
+  getStatus?(): StyleMemoryStatus;
 }
