@@ -23,6 +23,12 @@ Style memory is optional and local-only. Core verifier pass/fail stays determini
 - receipt = proof of laconic-rule compliance
 - correctness-substrate interface is reserved for task-specific checks.
 
+## Local style memory
+
+![Local style memory flow](imgs/laconic-skill-arch.png)
+
+Memory stores accepted outputs, rejected outputs, rewrite patterns, violation codes, metrics, and receipt hashes. It informs style retrieval only. It does not override deterministic verifier rules.
+
 ## Install
 
 ```bash
