@@ -16,6 +16,10 @@ No model calls inside verification.
 
 Style memory is optional and local-only. Core verifier pass/fail stays deterministic and memory-free.
 
+## Keywords
+
+Claude Code plugin, AI agent tooling, deterministic verifier, concise AI output, LLM response verification, prompt enforcement, AI receipts, local style memory, TypeScript CLI, AI output optimization, token savings, response receipts, agent workflow checks.
+
 ## Model
 
 - skill = behavior spec
