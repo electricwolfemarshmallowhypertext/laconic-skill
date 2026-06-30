@@ -2,64 +2,121 @@
 
 # laconic-skill
 
-## Positioning
+AI agents write too much.
 
-Brevity, verified - with local style memory.
+laconic-skill checks AI output after it is written. It can pass, fail, rewrite, and emit receipts for concise-output checks without calling a model during verification.
 
-Skills tell the model what to do. laconic-skill deterministically checks whether output conforms to laconic rules.
+The model drafts.
+The runtime verifies.
 
-A deterministic skill runtime that makes laconic AI responses enforceable.
+Use it for:
 
-The model can draft; the runtime enforces laconic output.
+- AI-generated pull request descriptions
+- code review comments
+- agent status updates
+- documentation drafts
+- any workflow where verbose AI output wastes reviewer time
 
-No model calls inside verification.
+## Why This Exists
 
-Style memory is optional and local-only. Core verifier pass/fail stays deterministic and memory-free.
+Prompting can ask an AI to be brief. It cannot prove the output stayed brief.
 
-## Keywords
+laconic-skill runs outside the model. It applies deterministic rules, returns pass/fail results, and can emit a JSON receipt for the check.
 
-Claude Code plugin, AI agent tooling, deterministic verifier, concise AI output, LLM response verification, prompt enforcement, AI receipts, local style memory, TypeScript CLI, AI output optimization, token savings, response receipts, agent workflow checks.
+## 60-Second Proof
 
-## Model
+Install and build once:
 
-- skill = behavior spec
-- verifier = deterministic form enforcement
-- receipt = proof of laconic-rule compliance
-- correctness-substrate interface is reserved for task-specific checks.
+```bash
+npm install
+npm run build
+```
 
-## Local style memory
+Check a concise output:
+
+```bash
+node dist/cli.js check fixtures/pass/compliant.txt --receipt
+```
+
+Rewrite a verbose output:
+
+```bash
+node dist/cli.js rewrite fixtures/fail/verbose_recap_heavy.txt --receipt
+```
+
+Run the full pipeline:
+
+```bash
+node dist/cli.js pipeline fixtures/fail/filler_heavy.txt --task writing --receipt
+```
+
+Emit a receipt from stdin:
+
+```bash
+cat output.txt | node dist/cli.js check - --receipt
+```
+
+## Proof
+
+- `20` corpus files: the benchmark runs against `benchmarks/corpus/*.txt`.
+- `55.594%` average character reduction: the benchmark reports average shrinkage after deterministic rewrite.
+- `20/20` fixable outputs passed after rewrite: every benchmark output that started failing passed after rewrite.
+- Deterministic across `3` runs: the benchmark repeats and compares stable output signatures.
+- No model calls during verification: the verifier runs locally and deterministically; `package.json` includes no model SDK dependency.
+- Receipt hash determinism: tests verify the same input/output/config produces the same receipt hash.
+
+## What This Is
+
+A local verification runtime for concise AI output.
+
+## What It Does
+
+- checks output
+- rewrites verbose output
+- runs pipelines
+- emits receipts
+- optionally uses local style memory
+- integrates with Claude Code
+
+## Architecture
+
+```text
+input
+-> draft text
+-> laconic verifier
+-> optional deterministic rewrite
+-> final text
+-> receipt
+```
+
+Core pieces:
+
+- `skills/laconic-responses/SKILL.md` defines the laconic response behavior.
+- `src/verifier.ts` checks length, bullets, filler, preambles, repeated prompts, answer-first opening, and caveat limits.
+- `src/rewrite.ts` trims output without inventing facts.
+- `src/receipt.ts` creates hash-bound receipts.
+- `src/pipeline.ts` connects draft text, verification, optional rewrite, placeholder correctness checks, and receipts.
+- `src/memory/` contains optional local style memory.
+
+## Local Memory Boundary
 
 ![Local style memory flow](imgs/laconic-skill-arch.png)
 
-Memory stores accepted outputs, rejected outputs, rewrite patterns, violation codes, metrics, and receipt hashes. It informs style retrieval only. It does not override deterministic verifier rules.
+Memory can guide style.
+Memory does not decide verifier pass/fail.
 
-## Install
+Memory can affect style retrieval, preferred phrasing, and rewrite suggestions. It does not override deterministic checks or rule enforcement.
 
-```bash
-npm install
-npm run build
-```
-
-## Demo Commands
-
-```bash
-npm install
-npm run build
-node dist/cli.js check fixtures/pass/compliant.txt --receipt
-node dist/cli.js rewrite fixtures/fail/verbose_recap_heavy.txt --receipt
-node dist/cli.js pipeline fixtures/fail/filler_heavy.txt --task writing --receipt
-node dist/cli.js memory add fixtures/pass/compliant.txt --outcome accepted --task writing
-node dist/cli.js memory search "npm run build" --limit 5
-node dist/cli.js pipeline fixtures/fail/filler_heavy.txt --task writing --memory --receipt
-```
+Memory-enabled pipeline receipts may include memory metrics so the receipt identifies the exact run context. Core verifier receipts do not require memory.
 
 ## Examples
 
-- `examples/basic-check.md`
-- `examples/rewrite-before-after.md`
-- `examples/pipeline-receipt.json`
+- Full walkthroughs: `EXAMPLES.md`
+- Basic check: `examples/basic-check.md`
+- Rewrite before/after: `examples/rewrite-before-after.md`
+- Pipeline receipt: `examples/pipeline-receipt.json`
 
-## Claude Code plugin
+## Claude Code Plugin
 
 Local test:
 
@@ -67,45 +124,44 @@ Local test:
 claude --plugin-dir .
 ```
 
-Then invoke:
+Invoke the skill:
 
 ```text
 /laconic-skill:laconic-responses
 ```
 
-Validate:
+Validate the plugin:
 
 ```bash
 claude plugin validate .
 ```
 
-## Adoption Hooks
+## CLI Usage
 
-GitHub Action snippet:
-
-```yaml
-name: laconic-check
-
-on:
-  pull_request:
-
-jobs:
-  laconic:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - run: npm ci
-      - run: npm run build
-      - run: cat output.txt | laconic check - --receipt
-```
-
-Pipe example:
+Check output:
 
 ```bash
-cat output.txt | laconic check - --receipt
+node dist/cli.js check fixtures/pass/compliant.txt --receipt
+```
+
+Rewrite verbose output:
+
+```bash
+node dist/cli.js rewrite fixtures/fail/verbose_recap_heavy.txt --receipt
+```
+
+Run the pipeline:
+
+```bash
+node dist/cli.js pipeline fixtures/fail/filler_heavy.txt --task writing --receipt
+```
+
+Use local style memory:
+
+```bash
+node dist/cli.js memory add fixtures/pass/compliant.txt --outcome accepted --task writing
+node dist/cli.js memory search "npm run build" --limit 5
+node dist/cli.js pipeline fixtures/fail/filler_heavy.txt --task writing --memory --receipt
 ```
 
 ## License
@@ -117,19 +173,5 @@ Attribution is preserved through the project NOTICE file:
 Electric Wolfe Marshmallow Hypertext | Tionne Smith, 2026.
 
 The software is Apache-2.0 licensed. Project names, marks, and branding are reserved separately.
-
-## Release Checklist
-
-- Apache-2.0 license and NOTICE included
-- build passes
-- tests pass
-- CLI fixture checks pass
-- receipt hash determinism confirmed
-- no Laco dependency
-- no hosted/external database; optional local LanceDB style memory only.
-- no web app
-- no model calls in verifier
-
-## Attribution
 
 Inspired by Karpathy's public skill-file. Not affiliated with Andrej Karpathy.
