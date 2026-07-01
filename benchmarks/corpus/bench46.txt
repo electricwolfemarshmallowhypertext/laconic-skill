@@ -1,0 +1,3 @@
+﻿Of course, here is the implementation note after some extra context about why memory should remain optional and local in v0. I will explain why memory stays local before listing what the adapter stores.
+The memory adapter stores accepted outputs, rejected outputs, violations, rewrite diffs, receipt hashes, task type, and length profile locally.
+I hope this helps

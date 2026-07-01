@@ -1,0 +1,3 @@
+﻿Sure, here is a recap-heavy version of the requested answer before the actual priority order for the trust-hardening sprint. I am recapping the sprint decision before listing the trust fixes.
+Use this priority: fix trust issues first, including license consistency, package contents, rewrite exits, CLI errors, deterministic sorting, and stdin support.
+Happy to help

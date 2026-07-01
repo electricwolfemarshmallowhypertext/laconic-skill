@@ -1,0 +1,3 @@
+﻿Of course, here's the plan in more detail than necessary, including the adoption context and the fact that the runtime itself does not need to change for plugin metadata. I am adding adoption context and plugin layout details before the short implementation instruction.
+Add the Claude plugin manifest, keep the skill path unchanged, and validate locally with `claude plugin validate .`.
+Happy to help

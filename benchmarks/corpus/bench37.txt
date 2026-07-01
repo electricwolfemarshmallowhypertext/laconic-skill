@@ -1,0 +1,3 @@
+﻿Of course, I can provide a careful answer here with package hygiene context and a reminder that publish boundaries need to be intentional. I will explain publish hygiene first so the package boundary is clear.
+The package should ship runtime files, skills, plugin metadata, examples, docs, README images, license, and notice.
+Happy to help

@@ -1,0 +1,3 @@
+﻿Of course, here's a breakdown of the review comment, including why the behavior matters and why the CLI should stay friendly even when the user gives it a bad path. I am including extra rationale about user impact, failure behavior, and CLI expectations before the direct recommendation.
+Update the error path to print one clean missing-file message, avoid stack traces, and exit non-zero.
+Let me know if you have any questions

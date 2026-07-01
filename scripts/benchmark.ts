@@ -27,6 +27,8 @@ interface BenchmarkSummary {
   deterministic_failures: string[];
   fixable_total: number;
   fixable_passed: number;
+  compliant_controls: number;
+  compliant_false_fail_count: number;
   avg_chars_reduced_pct: number;
 }
 
@@ -53,7 +55,8 @@ const { rewriteText } = require(rewritePath) as { rewriteText: RewriteText };
 const { createReceipt } = require(receiptPath) as { createReceipt: CreateReceipt };
 
 const BENCHMARK_CORPUS_DIR = resolve(process.cwd(), "benchmarks", "corpus");
-const REPEATS = 3;
+const COMPLIANT_CONTROL_DIR = resolve(process.cwd(), "benchmarks", "compliant");
+const REPEATS = 5;
 const DETERMINISTIC_TIMESTAMP = "1970-01-01T00:00:00.000Z";
 
 function elapsedMs(startNs: bigint): number {
@@ -64,14 +67,34 @@ function round(value: number): number {
   return Number(value.toFixed(3));
 }
 
-function loadCorpusFiles(): string[] {
-  return readdirSync(BENCHMARK_CORPUS_DIR)
-    .filter((entry) => entry.endsWith(".txt"))
-    .sort();
+function compareCodepointStable(left: string, right: string): number {
+  if (left === right) {
+    return 0;
+  }
+
+  const leftChars = [...left];
+  const rightChars = [...right];
+  const maxSharedLength = Math.min(leftChars.length, rightChars.length);
+
+  for (let index = 0; index < maxSharedLength; index += 1) {
+    const leftCodepoint = leftChars[index].codePointAt(0)!;
+    const rightCodepoint = rightChars[index].codePointAt(0)!;
+    if (leftCodepoint !== rightCodepoint) {
+      return leftCodepoint - rightCodepoint;
+    }
+  }
+
+  return leftChars.length - rightChars.length;
 }
 
-function buildRow(file: string): BenchmarkRow {
-  const fullPath = join(BENCHMARK_CORPUS_DIR, file);
+function loadTextFiles(directory: string): string[] {
+  return readdirSync(directory)
+    .filter((entry) => entry.endsWith(".txt"))
+    .sort(compareCodepointStable);
+}
+
+function buildRow(file: string, directory = BENCHMARK_CORPUS_DIR): BenchmarkRow {
+  const fullPath = join(directory, file);
   const input = readFileSync(fullPath, "utf8");
 
   const verifyBeforeStart = process.hrtime.bigint();
@@ -138,9 +161,10 @@ function deterministicSignature(row: BenchmarkRow): string {
   });
 }
 
-function summarize(rows: BenchmarkRow[]): BenchmarkSummary {
+function summarize(rows: BenchmarkRow[], compliantControlRows: BenchmarkRow[]): BenchmarkSummary {
   const fixableRows = rows.filter((row) => !row.before_ok);
   const fixablePassed = fixableRows.filter((row) => row.after_ok).length;
+  const compliantFalseFailCount = compliantControlRows.filter((row) => !row.before_ok).length;
   const avgReduction =
     rows.length === 0
       ? 0
@@ -153,12 +177,15 @@ function summarize(rows: BenchmarkRow[]): BenchmarkSummary {
     deterministic_failures: [],
     fixable_total: fixableRows.length,
     fixable_passed: fixablePassed,
+    compliant_controls: compliantControlRows.length,
+    compliant_false_fail_count: compliantFalseFailCount,
     avg_chars_reduced_pct: round(avgReduction)
   };
 }
 
 function run(): void {
-  const files = loadCorpusFiles();
+  const files = loadTextFiles(BENCHMARK_CORPUS_DIR);
+  const compliantControlFiles = loadTextFiles(COMPLIANT_CONTROL_DIR);
   if (files.length === 0) {
     throw new Error("No benchmark corpus files found.");
   }
@@ -169,7 +196,10 @@ function run(): void {
   }
 
   const reference = runs[0];
-  const summary = summarize(reference);
+  const compliantControlRows = compliantControlFiles.map((file) =>
+    buildRow(file, COMPLIANT_CONTROL_DIR)
+  );
+  const summary = summarize(reference, compliantControlRows);
 
   for (let runIndex = 1; runIndex < runs.length; runIndex += 1) {
     for (let rowIndex = 0; rowIndex < files.length; rowIndex += 1) {
@@ -185,9 +215,10 @@ function run(): void {
   }
 
   const checks = {
-    deterministic_across_3_runs: summary.deterministic,
+    deterministic_across_5_runs: summary.deterministic,
     rewritten_outputs_pass_when_fixable:
       summary.fixable_total === summary.fixable_passed,
+    compliant_outputs_remain_passing: summary.compliant_false_fail_count === 0,
     no_model_calls: true
   };
 
@@ -209,10 +240,13 @@ function run(): void {
 
   process.stdout.write(`${JSON.stringify(output, null, 2)}\n`);
 
-  if (!checks.deterministic_across_3_runs) {
+  if (!checks.deterministic_across_5_runs) {
     process.exit(1);
   }
   if (!checks.rewritten_outputs_pass_when_fixable) {
+    process.exit(1);
+  }
+  if (!checks.compliant_outputs_remain_passing) {
     process.exit(1);
   }
 }

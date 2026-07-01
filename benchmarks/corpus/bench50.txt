@@ -1,0 +1,3 @@
+﻿Sure, here is a verbose assistant reply that needs trimming before the actual answer about improving the benchmark honestly. I will acknowledge the proof target before the direct benchmark plan.
+Yes: expand the corpus honestly, keep hard cases, add compliant controls, repeat determinism checks five times, and update proof numbers after passing.
+I hope this helps

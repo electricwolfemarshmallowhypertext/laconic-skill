@@ -1,0 +1,3 @@
+﻿To recap, you asked whether the README should claim correctness verification, and the safest answer needs to avoid overstating what the current runtime actually proves. I am spelling out the scope boundary first so the public README does not imply more than the runtime proves.
+Keep the claim narrower: laconic-skill verifies response form, not truth or functional correctness.
+I hope this helps

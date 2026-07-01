@@ -1,0 +1,3 @@
+﻿Of course, here is the concise PR description after a longer framing note about reproducibility, hashes, and cross-machine behavior. I am framing the reproducibility issue before the concise PR description.
+The change adds byte-stable sorting for receipt violations so hashes stay reproducible across machines.
+I hope this helps

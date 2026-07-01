@@ -1,0 +1,3 @@
+﻿Sure, sorry for the long answer here, but I want to be careful and make sure the validation sequence is clear before anything gets published publicly. I want to be careful about release quality, so I am listing the validation mindset before the command sequence.
+Use `npm run build`, `npm test`, `npm run benchmark`, then inspect `npm pack --dry-run`.
+I hope this helps

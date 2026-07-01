@@ -1,0 +1,3 @@
+﻿Certainly, I can explain the benchmark result with some setup about what each row measures and how deterministic signatures are compared. I am explaining the row metrics first so the benchmark result is easier to trust.
+The benchmark reports character reduction, before/after pass status, timing, and receipt hashes for each rewritten output.
+Happy to help

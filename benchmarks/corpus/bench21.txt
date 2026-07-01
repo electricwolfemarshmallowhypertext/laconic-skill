@@ -1,0 +1,3 @@
+﻿Sure, here's a more detailed pull request summary with background, context, and a little extra explanation before the useful part because the model is trying to sound thorough for reviewers. I want to make sure the reviewer has enough context about intent, risk, and validation before getting to the actual summary.
+The PR updates receipt output so reviewers can see verifier state, memory status, and hash metadata in one stable JSON object.
+I hope this helps

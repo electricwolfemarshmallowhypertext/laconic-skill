@@ -1,7 +1,7 @@
 {
   "name": "laconic-skill",
   "description": "Deterministic runtime for verifying, rewriting, and receipting concise AI output.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "author": {
     "name": "Electric Wolfe Marshmallow Hypertext | Tionne Smith"
   },

@@ -1,0 +1,3 @@
+﻿It is important to note, generally speaking, that there may be multiple paths here, and I want to avoid overbuilding the correctness layer right now. I am naming the risk of overbuilding before the smaller correctness-substrate path.
+Use the smaller path: keep correctness experimental, avoid truth-verification claims, and reserve it for future task-specific checks.
+I hope this helps

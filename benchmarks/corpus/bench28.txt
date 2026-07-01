@@ -1,0 +1,3 @@
+﻿Sure, I can summarize the issue first and explain the false-fail mechanism before giving the actual fix, because this one is easy to misunderstand. I will explain the false-fail mechanism and why the default matters before stating the actual rule.
+The pipeline should only run repeated-prompt detection when a caller explicitly passes `userPrompt`.
+I hope this helps

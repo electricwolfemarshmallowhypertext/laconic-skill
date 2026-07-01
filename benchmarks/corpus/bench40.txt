@@ -1,0 +1,3 @@
+﻿Sure, here is the planning reply with more words than needed before the actual small correction workflow you asked for. I will restate the workflow carefully before the tiny README-only instruction.
+Update the README proof line, run verification, and commit only the README change.
+I hope this helps

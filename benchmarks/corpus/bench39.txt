@@ -1,0 +1,3 @@
+﻿At the end of the day, the safest release note is simple, but I will include context about npm, tags, and remaining release work first. I am giving the release context first so the operational summary is not misread.
+The package is published, `v0.1.3` is pushed, the CLI bin is `laconic`, and GitHub Release creation remains manual.
+Happy to help

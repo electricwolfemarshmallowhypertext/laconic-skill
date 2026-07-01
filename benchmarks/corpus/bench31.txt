@@ -1,0 +1,3 @@
+﻿Sure, this is the code review comment I would post, with enough rationale to explain why numeric parsing should not silently repair invalid user input. I am giving the parsing rationale first so the code review comment does not feel arbitrary.
+Remove `Math.floor` from limit parsing so `1.5`, zero, negative values, and NaN fail validation.
+Happy to help

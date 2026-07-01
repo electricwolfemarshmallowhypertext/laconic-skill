@@ -1,0 +1,3 @@
+﻿Sure, sorry for overexplaining this one, but the boundary matters because new architecture would make the release harder to trust. I am stating the architecture boundary first so the next change stays small.
+Avoid adding a web app, database, hosted service, model call, framework rewrite, or speculative memory behavior.
+Happy to help

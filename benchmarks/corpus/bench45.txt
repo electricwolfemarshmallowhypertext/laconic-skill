@@ -1,0 +1,3 @@
+﻿Sure, I can help write the release body in a polished way with a little product framing before listing the actual shipped pieces. I am adding product framing before the release contents.
+The release includes local style memory, Claude Code plugin metadata, examples, intention docs, benchmark proof, and Apache-2.0 attribution.
+Happy to help

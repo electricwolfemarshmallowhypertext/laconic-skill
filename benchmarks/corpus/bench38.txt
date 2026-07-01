@@ -1,0 +1,3 @@
+﻿Just to clarify, the problem is not that AI answers are always long, and there are cases where detail is useful, but review workflows still need enforcement. I am acknowledging that detail can be useful before naming the real review-time problem.
+The problem is verbose AI output wasting review time when the requested answer could be direct.
+I hope this helps

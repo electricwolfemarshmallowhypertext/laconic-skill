@@ -1,0 +1,3 @@
+﻿Here's a breakdown of the release checklist with a bit of extra explanation about why every item matters before a public tag or package publish. I will include why each release check exists before the short checklist.
+Run build, tests, benchmark, pack dry-run, CLI fixture checks, and plugin validation before tagging.
+I hope this helps

@@ -1,0 +1,3 @@
+﻿Here's a breakdown of the failure mode with extra setup about why a compliant response can accidentally look like a repeated prompt. I will explain why the false positive happens before the pipeline fix.
+The pipeline must not default `userPrompt` to `input`; only explicit prompts should activate repeated-prompt checks.
+I hope this helps

@@ -1,0 +1,3 @@
+﻿To answer your question, yes, the fixture should stay, and I will include the reason so future readers do not treat prompt-injection text as special authority. I will explain why content is not authority before the direct fixture recommendation.
+Yes, keep the injection fixture: quoted content is inert, but unquoted operative instructions should fail.
+Happy to help

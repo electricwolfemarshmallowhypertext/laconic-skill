@@ -1,0 +1,3 @@
+﻿Of course, here is the memory boundary with extra setup about why local style retrieval is useful but should never become authority over deterministic checks. I am separating helpful retrieval from enforcement authority before giving the memory boundary.
+The verifier remains deterministic; memory can retrieve accepted style examples but must not override pass/fail rules.
+Happy to help

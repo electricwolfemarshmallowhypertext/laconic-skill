@@ -58,10 +58,11 @@ cat output.txt | node dist/cli.js check - --receipt
 
 ## Proof
 
-- `20` corpus files: the benchmark runs against `benchmarks/corpus/*.txt`.
-- `55.594%` average character reduction: the benchmark reports average shrinkage after deterministic rewrite.
-- `20/20` fixable outputs passed after rewrite: every benchmark output that started failing passed after rewrite.
-- Deterministic across `3` runs: the benchmark repeats and compares stable output signatures.
+- `50` corpus files: the benchmark runs against realistic verbose AI outputs in `benchmarks/corpus/*.txt`.
+- `63.477%` average character reduction: the benchmark reports average shrinkage after deterministic rewrite.
+- `50/50` fixable outputs passed after rewrite: every benchmark output that started failing passed after rewrite.
+- `0` compliant false fails: short compliant controls in `benchmarks/compliant/*.txt` stayed passing.
+- Deterministic across `5` runs: the benchmark repeats and compares stable output signatures.
 - No model calls during verification: the verifier runs locally and deterministically; `package.json` includes no model SDK dependency.
 - Receipt hash determinism: tests verify the same input/output/config produces the same receipt hash.
 

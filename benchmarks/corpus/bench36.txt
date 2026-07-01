@@ -1,0 +1,3 @@
+﻿Sure, here is a longer documentation paragraph for users before the useful distinction between the three CLI paths. I am giving users the background distinction before the CLI usage sentence.
+Use `laconic check` for pass/fail, `laconic rewrite` for deterministic trimming, and `laconic pipeline` for final text plus receipt.
+I hope this helps

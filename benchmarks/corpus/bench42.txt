@@ -1,0 +1,3 @@
+﻿Of course, here's the user-facing answer with install context, stdin context, and a note about why receipts matter for review workflows. I will include install and stdin context before the single command users should try.
+Install the package or use `npx`, then pipe model output into `laconic check - --receipt`.
+I hope this helps
