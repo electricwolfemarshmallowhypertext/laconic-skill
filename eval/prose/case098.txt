@@ -1,1 +1,15 @@
-Two components of a computer system are the hardware and the software.
+Yes, IoT devices being used in botnets for DDoS attacks is unfortunately a common occurrence. A botnet is a network of infected devices that are controlled by a hacker to carry out malicious activity, such as mass-scale DDoS attacks, spreading malware and spam.
+
+There are a few things you can do to minimize the risk of your IoT device being used in a botnet:
+
+1. Secure your Wi-Fi network: Make sure you use a strong and unique password for your Wi-Fi network. Also, consider using WPA3 encryption which is a more secure option than WPA2.
+
+2. Regularly update your device firmware: Most manufacturers release regular updates to fix known security flaws that could be exploited in botnets or other attacks. Make sure to check for and install updates regularly.
+
+3. Disable unnecessary features: Disable any features on your IoT device that you don't need. This can include features like remote access or SSH, which can be exploited by attackers.
+
+4. Invest in a secure IoT device: Before purchasing an IoT device, check the manufacturer's reputation and track record for security. Look for products that have strong encryption, secure passwords, and other security features built-in.
+
+5. Use IoT security software: There are various security apps available that can monitor for suspicious activity on your device and prevent it from being used in botnets.
+
+Following these tips will make it more difficult for your device to be used in a botnet and minimize the risk of your personal information or data becoming compromised.

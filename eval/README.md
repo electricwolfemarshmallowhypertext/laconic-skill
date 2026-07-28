@@ -6,13 +6,13 @@ The important rule: labels must be written before running the checker.
 
 ## Public assistant prose eval
 
-The checked-in `eval/prose/` corpus contains `120` public assistant outputs sampled from the Hugging Face dataset `tatsu-lab/alpaca`, train split.
+The checked-in `eval/prose/` corpus contains `200` public assistant messages sampled from the MIT-licensed Hugging Face dataset `HuggingFaceH4/ultrachat_200k`, `train_sft` split.
 
 Current label mix:
 
-- `68` expected pass
-- `52` expected fail
-- `35` trimming-fixable failures
+- `18` expected pass
+- `182` expected fail
+- `70` trimming-fixable failures
 
 Run:
 

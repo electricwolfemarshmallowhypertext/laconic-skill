@@ -1,1 +1,50 @@
-The world's most famous painter is generally considered to be the Italian renaissance artist Leonardo da Vinci. His work includes the Mona Lisa and The Last Supper, both of which are considered masterpieces. Da Vinci was also a master of science, inventing the helicopter and the tank, among other inventions. He was also a prolific musician, sculptor, and architect. His work has inspired generations of artists and continues to be revered today.
+Sure! Here's a modified version of the code with added prompts for user input:
+
+```
+from PIL import Image
+import os
+import hashlib
+
+def get_size(img_path):
+    """Calculate and return file size of image"""
+    size = os.path.getsize(img_path)
+    return size
+
+def get_hash(img_path):
+    """Calculate and return hash value of image"""
+    with open(img_path, 'rb') as f:
+        img_hash = hashlib.md5(f.read()).hexdigest()
+    return img_hash
+
+# Prompt user to enter directory path
+dir_path = input("Enter the path of the directory to check for duplicates: ")
+
+def find_duplicates(path):
+    """Find duplicate images in a directory"""
+    hashes = {}
+    duplicates = {}
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            img_path = os.path.join(root, file)
+            size = get_size(img_path)
+            img_hash = get_hash(img_path)
+            if img_hash in hashes.keys() and size == hashes[img_hash]:
+                if img_hash in duplicates.keys():
+                    duplicates[img_hash].append(img_path)
+                else:
+                    duplicates[img_hash] = [hashes[img_hash], img_path]
+            else:
+                hashes[img_hash] = size
+    return duplicates
+
+def remove_duplicates(duplicates):
+    """Remove duplicate images"""
+    for img1, img2 in duplicates.items():
+        for I in img2:
+            os.remove(i)
+
+duplicates = find_duplicates(dir_path)
+remove_duplicates(duplicates)
+```
+
+Now, when the user runs the program, they will be prompted to enter the path of the directory they want to check for duplicates. The program will then use this path in the `find_duplicates()` function to identify and remove duplicate images. I hope this helps! Let me know if you have any other questions.

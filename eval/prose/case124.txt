@@ -1,0 +1,67 @@
+Sure, here's an example program that achieves the functionality you described:
+
+```java
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
+
+public class WordCount {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String letter = "";
+        while (!letter.equalsIgnoreCase("quit")) {
+            System.out.print("Enter a letter to search for or 'quit' to exit: ");
+            letter = scanner.nextLine();
+            if (letter.equalsIgnoreCase("quit")) {
+                break;
+            }
+            String fileName = "input.txt"; // the name of the text file to read
+            Map<String, Integer> wordCounts = new TreeMap<>(); // a map to store word counts
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    line = line.replaceAll("\\p{Punct}", ""); // remove all punctuation marks
+                    String[] words = line.split("\\s+"); // split the line into words
+                    for (String word : words) {
+                        if (word.toLowerCase().startsWith(letter.toLowerCase())) { // check if the word starts with the given letter
+                            wordCounts.put(word.toLowerCase(), wordCounts.getOrDefault(word.toLowerCase(), 0) + 1); // update word counts
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                System.err.println("Error reading file: " + e.getMessage());
+                System.exit(1);
+            }
+
+            if (wordCounts.isEmpty()) {
+                System.out.println("No words found starting with the letter " + letter);
+            } else {
+                int totalCount = 0;
+                System.out.println("Words starting with " + letter.toUpperCase() + ":");
+                for (Map.Entry<String, Integer> entry : wordCounts.entrySet()) {
+                    String word = entry.getKey();
+                    int count = entry.getValue();
+                    System.out.println(word + " - " + count);
+                    totalCount += count;
+                }
+                System.out.println("Total count: " + totalCount);
+            }
+        }
+    }
+}
+```
+
+Here's how the program works:
+
+1. The program uses a `while` loop to repeatedly ask the user for a letter to search for or to enter "quit" to exit. The loop continues until the user enters "quit".
+2. The program reads the contents of a text file called "input.txt" and stores the word counts in a `Map` called `wordCounts`. The `Map` is created using a `TreeMap` to ensure that the words are sorted in alphabetical order.
+3. The program removes all punctuation marks from the input by calling `replaceAll("\\p{Punct}", "")`.
+4. The program splits each line into words by calling `split("\\s+")`.
+5. The program checks if each word starts with the given letter by calling `word.toLowerCase().startsWith(letter.toLowerCase())`. The `toLowerCase()` method is called on both the word and the letter to make the comparison case-insensitive.
+6. The program updates the `wordCounts` map by calling `wordCounts.put(word.toLowerCase(), wordCounts.getOrDefault(word.toLowerCase(), 0) + 1)`. If the word is not already in the map, its count is set to 1. If the word is already in the map, its count is incremented by 1.
+7. If the `wordCounts` map is empty, the program prints a message saying that no words were found starting with the given letter.
+8. If the `wordCounts` map is not empty, the program prints a message saying how many words were found starting with the given letter and then lists the words and their counts in alphabetical order. Finally, the program prints the total count of all words found.
+
+I hope this helps! Let me know if you have any questions.

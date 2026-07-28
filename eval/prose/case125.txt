@@ -1,0 +1,55 @@
+Sure, I'm glad the code is working well for you! In Java, the `Map` interface represents an object that maps keys to values. It provides methods to add, remove, and retrieve values by their keys. There are various types of `Map` implementations available in Java, such as `HashMap`, `TreeMap`, `LinkedHashMap`, and others, each with its own advantages and disadvantages. In this program, we are using a `TreeMap`. The main advantage of a `TreeMap` is that it maintains the key-value pairs in sorted order based on the natural ordering of the keys (or an explicit `Comparator`). This makes it easy to list the words in alphabetical order, as we did in the program's output. Regarding performance, one possible improvement is to use a `HashSet` instead of a `TreeMap` to store the word counts. A `HashSet` is a collection that does not allow duplicate elements, and it provides `O(1)` time complexity for add, remove, and contains operations. In this program, we could first add all the words starting with the given letter to a `HashSet`, then count the occurrences of each word in the original list using a `HashMap`, and finally iterate over the `HashSet` to display the words in alphabetical order. Here's an example implementation of this approach:
+
+```java
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util. *;
+
+public class WordCount {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String letter = "";
+        while (!letter.equalsIgnoreCase("quit")) {
+            System.out.print("Enter a letter to search for or 'quit' to exit: ");
+            letter = scanner.nextLine();
+            if (letter.equalsIgnoreCase("quit")) {
+                break;
+            }
+            String fileName = "input.txt"; // the name of the text file to read
+            Set<String> wordSet = new HashSet<>(); // a set to store unique words
+            Map<String, Integer> wordCounts = new HashMap<>(); // a map to store word counts
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    line = line.replaceAll("\\p{Punct}", ""); // remove all punctuation marks
+                    String[] words = line.split("\\s+"); // split the line into words
+                    for (String word : words) {
+                        if (word.toLowerCase().startsWith(letter.toLowerCase())) { // check if the word starts with the given letter
+                            wordSet.add(word);
+                        }
+                        wordCounts.put(word.toLowerCase(), wordCounts.getOrDefault(word.toLowerCase(), 0) + 1); // update word counts
+                    }
+                }
+            } catch (IOException e) {
+                System.err.println("Error reading file: " + e.getMessage());
+                System.exit(1);
+            }
+
+            List<String> sortedWords = new ArrayList<>(wordSet);
+            Collections.sort(sortedWords); // sort the words in alphabetical order
+            int totalCount = 0;
+            System.out.println("Words starting with " + letter.toUpperCase() + ":");
+            for (String word : sortedWords) {
+                int count = wordCounts.get(word.toLowerCase());
+                System.out.println(word + " - " + count);
+                totalCount += count;
+            }
+            System.out.println("Total count: " + totalCount);
+        }
+    }
+}
+```
+
+In this version of the program, we first create a `HashSet` called `wordSet` to store the unique words starting with the given letter. Then, we update the `wordCounts` map as before to count the occurrences of each word. After reading the entire file, we convert the `wordSet` to a `List` called `sortedWords`, sort it alphabetically using `Collections.sort()`, and then iterate over it to display the words and their counts. I hope that helps! Let me know if you have any other questions.

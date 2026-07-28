@@ -31,13 +31,13 @@ Command:
 npm run eval:labeled
 ```
 
-The default checked-in eval uses `120` public assistant outputs sampled from the `tatsu-lab/alpaca` train split. Labels are stored in `eval/prose/labels.json`.
+The default checked-in eval uses `200` public assistant messages sampled from the MIT-licensed `HuggingFaceH4/ultrachat_200k` `train_sft` split. Labels are stored in `eval/prose/labels.json`.
 
 Current expected mix:
 
-- `68` expected pass
-- `52` expected fail
-- `35` trimming-fixable failures
+- `18` expected pass
+- `182` expected fail
+- `70` trimming-fixable failures
 
 The runner exits nonzero on pass/fail misses. If a failing case has `fixable: true`, rewrite must also pass. The default gate requires at least `100` cases and `20` fixable cases.
 

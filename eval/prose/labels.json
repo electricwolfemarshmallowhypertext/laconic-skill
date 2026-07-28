@@ -4,959 +4,1599 @@
     "expected": "pass",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=0; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=0; message_index=1; fits default laconic form policy"
   },
   {
     "file": "case002.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=0; message_index=3; over default max chars; over default max bullets; starts with banned preamble"
   },
   {
     "file": "case003.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=2; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=0; message_index=5; over default max chars"
   },
   {
     "file": "case004.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=3; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=0; message_index=7; over default max chars"
   },
   {
     "file": "case005.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=4; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=1; message_index=1; over default max chars; over default max bullets"
   },
   {
     "file": "case006.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=5; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=1; message_index=3; over default max chars; over default max bullets"
   },
   {
     "file": "case007.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=6; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=1; message_index=5; over default max chars"
   },
   {
     "file": "case008.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=7; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=1; message_index=7; over default max chars"
   },
   {
     "file": "case009.txt",
     "expected": "fail",
-    "fixable": false,
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=8; does not open as direct laconic answer"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=1; message_index=9; over default max chars"
   },
   {
     "file": "case010.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=9; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=1; message_index=11; over default max chars"
   },
   {
     "file": "case011.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=10; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=2; message_index=1; over default max chars; over default max bullets"
   },
   {
     "file": "case012.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=11; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=2; message_index=3; over default max chars; over default max bullets"
   },
   {
     "file": "case013.txt",
     "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=12; over default max bullets"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=2; message_index=5; over default max chars; over default max bullets"
   },
   {
     "file": "case014.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=13; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=2; message_index=7; over default max chars"
   },
   {
     "file": "case015.txt",
     "expected": "pass",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=14; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=3; message_index=1; fits default laconic form policy"
   },
   {
     "file": "case016.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=15; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=3; message_index=3; over default max chars; starts with banned preamble"
   },
   {
     "file": "case017.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=16; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=4; message_index=1; over default max chars"
   },
   {
     "file": "case018.txt",
     "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=17; does not open as direct laconic answer"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=4; message_index=3; over default max chars; starts with banned preamble"
   },
   {
     "file": "case019.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=18; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=4; message_index=5; over default max chars"
   },
   {
     "file": "case020.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=19; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=4; message_index=7; over default max chars; starts with banned preamble"
   },
   {
     "file": "case021.txt",
     "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=20; does not open as direct laconic answer"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=5; message_index=1; over default max bullets"
   },
   {
     "file": "case022.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=21; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=5; message_index=3; over default max chars"
   },
   {
     "file": "case023.txt",
     "expected": "fail",
-    "fixable": false,
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=22; does not open as direct laconic answer"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=6; message_index=1; over default max chars"
   },
   {
     "file": "case024.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=23; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=6; message_index=3; over default max chars"
   },
   {
     "file": "case025.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=24; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=6; message_index=5; over default max chars"
   },
   {
     "file": "case026.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=250; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=7; message_index=1; over default max chars; over default max bullets"
   },
   {
     "file": "case027.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=251; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=7; message_index=3; over default max chars; over default max bullets; starts with banned preamble"
   },
   {
     "file": "case028.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=252; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=7; message_index=5; over default max chars; over default caveat limit; starts with banned preamble"
   },
   {
     "file": "case029.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=253; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=8; message_index=1; over default max chars; over default max bullets"
   },
   {
     "file": "case030.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=254; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=8; message_index=3; over default max chars; over default max bullets; starts with banned preamble"
   },
   {
     "file": "case031.txt",
-    "expected": "fail",
-    "fixable": true,
+    "expected": "pass",
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=255; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=8; message_index=5; fits default laconic form policy"
   },
   {
     "file": "case032.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=256; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=8; message_index=7; over default max chars; over default max bullets; starts with banned preamble"
   },
   {
     "file": "case033.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=257; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=8; message_index=9; over default max chars; over default max bullets"
   },
   {
     "file": "case034.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=258; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=8; message_index=11; over default max chars"
   },
   {
     "file": "case035.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=259; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=8; message_index=13; over default max chars; over default max bullets"
   },
   {
     "file": "case036.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=260; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=9; message_index=1; over default max chars; over default max bullets"
   },
   {
     "file": "case037.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=261; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=9; message_index=3; over default max chars; over default max bullets"
   },
   {
     "file": "case038.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=262; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=9; message_index=5; over default max chars; over default max bullets"
   },
   {
     "file": "case039.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=263; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=9; message_index=7; over default max chars; over default max bullets"
   },
   {
     "file": "case040.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=264; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=10; message_index=1; over default max chars"
   },
   {
     "file": "case041.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=265; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=10; message_index=3; over default max chars; over default max bullets"
   },
   {
     "file": "case042.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=266; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=11; message_index=1; over default max chars; over default max bullets"
   },
   {
     "file": "case043.txt",
     "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=267; over default max chars; does not open as direct laconic answer"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=11; message_index=3; over default max chars; over default max bullets"
   },
   {
     "file": "case044.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=268; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=11; message_index=5; over default max chars; over default caveat limit"
   },
   {
     "file": "case045.txt",
     "expected": "pass",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=269; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=12; message_index=1; fits default laconic form policy"
   },
   {
     "file": "case046.txt",
     "expected": "pass",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=270; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=12; message_index=3; fits default laconic form policy"
   },
   {
     "file": "case047.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=271; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=12; message_index=5; over default max chars; over default max bullets; starts with banned preamble"
   },
   {
     "file": "case048.txt",
     "expected": "fail",
-    "fixable": false,
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=272; over default max chars; over default caveat limit"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=12; message_index=7; over default max chars"
   },
   {
     "file": "case049.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=273; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=12; message_index=9; over default max chars; over default max bullets"
   },
   {
     "file": "case050.txt",
     "expected": "pass",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=274; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=12; message_index=11; fits default laconic form policy"
   },
   {
     "file": "case051.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=500; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=13; message_index=1; over default max chars; over default max bullets"
   },
   {
     "file": "case052.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=501; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=13; message_index=3; over default max chars"
   },
   {
     "file": "case053.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=502; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=14; message_index=1; over default max chars"
   },
   {
     "file": "case054.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=503; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=14; message_index=3; over default max chars"
   },
   {
     "file": "case055.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=504; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=14; message_index=5; over default max chars; over default caveat limit"
   },
   {
     "file": "case056.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=505; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=15; message_index=1; over default max chars; over default max bullets"
   },
   {
     "file": "case057.txt",
     "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=506; over default max chars; over default caveat limit"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=15; message_index=3; over default max chars; over default max bullets"
   },
   {
     "file": "case058.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=507; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=15; message_index=5; over default max chars"
   },
   {
     "file": "case059.txt",
     "expected": "fail",
-    "fixable": false,
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=508; does not open as direct laconic answer"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=16; message_index=1; over default max chars"
   },
   {
     "file": "case060.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=509; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=16; message_index=3; over default max chars; starts with banned preamble"
   },
   {
     "file": "case061.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=510; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=17; message_index=1; over default max chars"
   },
   {
     "file": "case062.txt",
     "expected": "fail",
-    "fixable": false,
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=511; does not open as direct laconic answer"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=17; message_index=3; over default max chars"
   },
   {
     "file": "case063.txt",
     "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=512; over default max chars; over default max bullets"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=17; message_index=5; over default max chars; over default max bullets; starts with banned preamble"
   },
   {
     "file": "case064.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=513; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=18; message_index=1; over default max chars"
   },
   {
     "file": "case065.txt",
     "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=514; over default max chars; over default max bullets"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=18; message_index=3; over default max chars; over default max bullets"
   },
   {
     "file": "case066.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=515; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=18; message_index=5; over default max chars; over default max bullets"
   },
   {
     "file": "case067.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=516; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=19; message_index=1; over default max chars"
   },
   {
     "file": "case068.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=517; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=19; message_index=3; over default max chars"
   },
   {
     "file": "case069.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=518; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=20; message_index=1; over default max chars"
   },
   {
     "file": "case070.txt",
     "expected": "fail",
-    "fixable": false,
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=519; does not open as direct laconic answer"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=20; message_index=3; over default max chars"
   },
   {
     "file": "case071.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=520; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=20; message_index=5; over default max chars; starts with banned preamble"
   },
   {
     "file": "case072.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=521; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=20; message_index=7; over default max chars; over default max bullets"
   },
   {
     "file": "case073.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=522; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=21; message_index=1; over default max chars"
   },
   {
     "file": "case074.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=523; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=21; message_index=3; over default max chars; over default max bullets"
   },
   {
     "file": "case075.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=524; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=21; message_index=5; over default max chars; over default max bullets"
   },
   {
     "file": "case076.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=750; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=21; message_index=7; over default max chars"
   },
   {
     "file": "case077.txt",
     "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=751; does not open as direct laconic answer"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=21; message_index=9; over default max chars; over default max bullets"
   },
   {
     "file": "case078.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=752; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=22; message_index=1; over default max chars; over default max bullets"
   },
   {
     "file": "case079.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=753; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=22; message_index=3; over default max chars; starts with banned preamble"
   },
   {
     "file": "case080.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=754; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=22; message_index=5; over default max chars; starts with banned preamble"
   },
   {
     "file": "case081.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=755; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=22; message_index=7; over default max chars; over default max bullets"
   },
   {
     "file": "case082.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=756; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=23; message_index=1; over default max chars"
   },
   {
     "file": "case083.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=757; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=23; message_index=3; over default max chars"
   },
   {
     "file": "case084.txt",
     "expected": "fail",
-    "fixable": false,
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=758; over default max bullets"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=23; message_index=5; over default max chars"
   },
   {
     "file": "case085.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=759; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=23; message_index=7; over default max chars; over default max bullets"
   },
   {
     "file": "case086.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=760; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=24; message_index=1; over default max chars"
   },
   {
     "file": "case087.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=761; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=24; message_index=3; over default max chars; starts with banned preamble"
   },
   {
     "file": "case088.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=762; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=24; message_index=5; over default max chars"
   },
   {
     "file": "case089.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=763; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=24; message_index=7; over default max chars; over default max bullets"
   },
   {
     "file": "case090.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=764; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=200; message_index=1; over default max chars; over default caveat limit"
   },
   {
     "file": "case091.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=765; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=200; message_index=3; over default max chars; starts with banned preamble"
   },
   {
     "file": "case092.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=766; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=201; message_index=1; over default max chars"
   },
   {
     "file": "case093.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=767; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=201; message_index=3; over default max chars"
   },
   {
     "file": "case094.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=768; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=202; message_index=1; over default max chars; over default max bullets; over default caveat limit"
   },
   {
     "file": "case095.txt",
     "expected": "pass",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=769; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=202; message_index=3; fits default laconic form policy"
   },
   {
     "file": "case096.txt",
     "expected": "pass",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=770; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=202; message_index=5; fits default laconic form policy"
   },
   {
     "file": "case097.txt",
     "expected": "pass",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=771; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=202; message_index=7; fits default laconic form policy"
   },
   {
     "file": "case098.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=772; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=202; message_index=9; over default max chars; over default max bullets"
   },
   {
     "file": "case099.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=773; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=203; message_index=1; over default max chars; over default max bullets"
   },
   {
     "file": "case100.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=774; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=203; message_index=3; over default max chars; over default max bullets; starts with banned preamble"
   },
   {
     "file": "case101.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1000; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=203; message_index=5; over default max chars; starts with banned preamble"
   },
   {
     "file": "case102.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1001; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=203; message_index=7; over default max chars"
   },
   {
     "file": "case103.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1002; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=204; message_index=1; over default max chars; over default max bullets"
   },
   {
     "file": "case104.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1003; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=204; message_index=3; over default max chars; starts with banned preamble"
   },
   {
     "file": "case105.txt",
     "expected": "fail",
-    "fixable": true,
+    "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1004; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=204; message_index=5; over default max chars; over default max bullets; starts with banned preamble"
   },
   {
     "file": "case106.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1005; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=204; message_index=7; over default max chars; over default max bullets; starts with banned preamble"
   },
   {
     "file": "case107.txt",
     "expected": "fail",
     "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1006; over default max chars"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=205; message_index=1; over default max chars"
   },
   {
     "file": "case108.txt",
     "expected": "fail",
-    "fixable": false,
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1007; over default max chars; over default caveat limit"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=205; message_index=3; over default max chars"
   },
   {
     "file": "case109.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1008; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=205; message_index=5; over default max chars"
   },
   {
     "file": "case110.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1009; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=205; message_index=7; over default max chars; starts with banned preamble"
   },
   {
     "file": "case111.txt",
     "expected": "pass",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1010; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=206; message_index=1; fits default laconic form policy"
   },
   {
     "file": "case112.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1011; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=206; message_index=3; over default max chars"
   },
   {
     "file": "case113.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1012; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=207; message_index=1; over default max chars"
   },
   {
     "file": "case114.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1013; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=207; message_index=3; over default max chars; over default max bullets"
   },
   {
     "file": "case115.txt",
     "expected": "pass",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1014; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=207; message_index=5; fits default laconic form policy"
   },
   {
     "file": "case116.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1015; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=208; message_index=1; over default max chars"
   },
   {
     "file": "case117.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1016; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=208; message_index=3; over default max chars"
   },
   {
     "file": "case118.txt",
-    "expected": "pass",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1017; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=208; message_index=5; over default max chars; over default max bullets"
   },
   {
     "file": "case119.txt",
-    "expected": "pass",
-    "fixable": false,
+    "expected": "fail",
+    "fixable": true,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1018; fits default laconic form policy"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=209; message_index=1; over default max chars"
   },
   {
     "file": "case120.txt",
     "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=209; message_index=3; over default max chars"
+  },
+  {
+    "file": "case121.txt",
+    "expected": "fail",
     "fixable": false,
     "category": "public assistant prose",
-    "source": "tatsu-lab/alpaca train output",
-    "notes": "row_idx=1019; does not open as direct laconic answer"
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=209; message_index=5; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case122.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=209; message_index=7; over default max chars"
+  },
+  {
+    "file": "case123.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=210; message_index=1; fits default laconic form policy"
+  },
+  {
+    "file": "case124.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=210; message_index=3; over default max chars; over default max bullets; starts with banned preamble"
+  },
+  {
+    "file": "case125.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=210; message_index=5; over default max chars; starts with banned preamble"
+  },
+  {
+    "file": "case126.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=210; message_index=7; over default max chars; over default caveat limit; starts with banned preamble"
+  },
+  {
+    "file": "case127.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=211; message_index=1; over default max chars"
+  },
+  {
+    "file": "case128.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=211; message_index=3; over default max chars"
+  },
+  {
+    "file": "case129.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=212; message_index=1; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case130.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=212; message_index=3; over default max chars; over default max bullets; starts with banned preamble"
+  },
+  {
+    "file": "case131.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=212; message_index=5; over default max chars"
+  },
+  {
+    "file": "case132.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=213; message_index=1; over default max chars"
+  },
+  {
+    "file": "case133.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=213; message_index=3; over default max chars"
+  },
+  {
+    "file": "case134.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=214; message_index=1; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case135.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=214; message_index=3; over default max chars; starts with banned preamble"
+  },
+  {
+    "file": "case136.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=214; message_index=5; over default max chars"
+  },
+  {
+    "file": "case137.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=215; message_index=1; over default max chars; over default max bullets; starts with banned preamble"
+  },
+  {
+    "file": "case138.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=215; message_index=3; over default max chars; over default max bullets; starts with banned preamble"
+  },
+  {
+    "file": "case139.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=215; message_index=5; over default max chars; over default max bullets; starts with banned preamble"
+  },
+  {
+    "file": "case140.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=215; message_index=7; over default max chars"
+  },
+  {
+    "file": "case141.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=216; message_index=1; over default max chars"
+  },
+  {
+    "file": "case142.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=216; message_index=3; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case143.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=216; message_index=5; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case144.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=217; message_index=1; fits default laconic form policy"
+  },
+  {
+    "file": "case145.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=217; message_index=3; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case146.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=217; message_index=5; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case147.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=217; message_index=7; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case148.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=218; message_index=1; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case149.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=218; message_index=3; over default max chars"
+  },
+  {
+    "file": "case150.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=218; message_index=5; over default max chars"
+  },
+  {
+    "file": "case151.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=219; message_index=1; fits default laconic form policy"
+  },
+  {
+    "file": "case152.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=219; message_index=3; over default max chars; over default max bullets; starts with banned preamble"
+  },
+  {
+    "file": "case153.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=219; message_index=5; over default max chars"
+  },
+  {
+    "file": "case154.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=220; message_index=1; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case155.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=220; message_index=3; over default max chars"
+  },
+  {
+    "file": "case156.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=220; message_index=5; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case157.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=221; message_index=1; over default max chars"
+  },
+  {
+    "file": "case158.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=221; message_index=3; over default max chars; starts with banned preamble"
+  },
+  {
+    "file": "case159.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=222; message_index=1; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case160.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=222; message_index=3; over default max chars; over default max bullets; starts with banned preamble"
+  },
+  {
+    "file": "case161.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=222; message_index=5; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case162.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=223; message_index=1; fits default laconic form policy"
+  },
+  {
+    "file": "case163.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=223; message_index=3; fits default laconic form policy"
+  },
+  {
+    "file": "case164.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=224; message_index=1; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case165.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=224; message_index=3; over default max chars; over default max bullets; over default caveat limit"
+  },
+  {
+    "file": "case166.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=224; message_index=5; over default max chars; over default max bullets; starts with banned preamble"
+  },
+  {
+    "file": "case167.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=224; message_index=7; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case168.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=400; message_index=1; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case169.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=400; message_index=3; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case170.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=400; message_index=5; over default max chars"
+  },
+  {
+    "file": "case171.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=400; message_index=7; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case172.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=401; message_index=1; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case173.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=401; message_index=3; over default max chars; over default max bullets; starts with banned preamble"
+  },
+  {
+    "file": "case174.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=402; message_index=1; over default max chars"
+  },
+  {
+    "file": "case175.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=402; message_index=3; over default max chars"
+  },
+  {
+    "file": "case176.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=402; message_index=5; over default max chars"
+  },
+  {
+    "file": "case177.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=403; message_index=1; fits default laconic form policy"
+  },
+  {
+    "file": "case178.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=403; message_index=3; over default max chars"
+  },
+  {
+    "file": "case179.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=404; message_index=1; over default max chars"
+  },
+  {
+    "file": "case180.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=404; message_index=3; over default max chars; over default max bullets; starts with banned preamble"
+  },
+  {
+    "file": "case181.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=404; message_index=5; over default max chars; starts with banned preamble"
+  },
+  {
+    "file": "case182.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=405; message_index=1; fits default laconic form policy"
+  },
+  {
+    "file": "case183.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=405; message_index=3; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case184.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=405; message_index=5; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case185.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=405; message_index=7; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case186.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=406; message_index=1; over default max chars"
+  },
+  {
+    "file": "case187.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=406; message_index=3; over default max chars; starts with banned preamble"
+  },
+  {
+    "file": "case188.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=406; message_index=5; over default max chars; does not open as direct laconic answer"
+  },
+  {
+    "file": "case189.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=406; message_index=7; over default max chars; starts with banned preamble"
+  },
+  {
+    "file": "case190.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=407; message_index=1; over default max chars"
+  },
+  {
+    "file": "case191.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=407; message_index=3; over default max chars; starts with banned preamble"
+  },
+  {
+    "file": "case192.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=407; message_index=5; over default max chars; starts with banned preamble"
+  },
+  {
+    "file": "case193.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=408; message_index=1; over default max chars"
+  },
+  {
+    "file": "case194.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=408; message_index=3; over default max chars; starts with banned preamble"
+  },
+  {
+    "file": "case195.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=408; message_index=5; over default max chars; over default max bullets; starts with banned preamble"
+  },
+  {
+    "file": "case196.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=409; message_index=1; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case197.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=409; message_index=3; over default max chars; over default max bullets; starts with banned preamble"
+  },
+  {
+    "file": "case198.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=409; message_index=5; over default max chars; over default max bullets; starts with banned preamble"
+  },
+  {
+    "file": "case199.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=409; message_index=7; over default max chars; over default max bullets; starts with banned preamble"
+  },
+  {
+    "file": "case200.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "HuggingFaceH4/ultrachat_200k train_sft assistant message",
+    "notes": "row_idx=410; message_index=1; over default max chars; over default max bullets"
   }
 ]

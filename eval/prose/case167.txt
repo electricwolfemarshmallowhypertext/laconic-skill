@@ -1,0 +1,54 @@
+Sure! Here's the updated schema with the "total_duration" column added to the "album" table:
+
+TABLE: artist
+- artist_id (primary key)
+- name
+- country
+
+TABLE: album
+- album_id (primary key)
+- title
+- release_date
+- genre_id (foreign key references genres(genre_id))
+- artist_id (foreign key references artist(artist_id))
+- total_duration
+
+TABLE: track
+- track_id (primary key)
+- title
+- duration
+- track_number
+- album_id (foreign key references album(album_id))
+
+TABLE: song
+- song_id (primary key)
+- title
+- duration
+- release_date
+- genre_id (foreign key references genres(genre_id))
+- artist_id (foreign key references artist(artist_id))
+
+TABLE: user
+- user_id (primary key)
+- email
+- password
+
+TABLE: playlist
+- playlist_id (primary key)
+- title
+- user_id (foreign key references user(user_id))
+
+TABLE: playlist_track
+- playlist_id (foreign key references playlist(playlist_id))
+- track_id (foreign key references track(track_id))
+- track_order
+
+TABLE: genres
+- genre_id (primary key)
+- name
+
+CONSTRAINTS:
+- Primary key constraints on each table to ensure unique identification of records. - Foreign key constraint on album, track and song tables to ensure data integrity and avoid orphan records. - Unique constraint on email to ensure each user has a unique email address. - Unique constraint on genre name to ensure unique identification of genres. INDEXES:
+- Index on artist_id in album, song and track tables for faster retrieval of albums, songs and tracks by artist. - Index on album_id in track table for faster retrieval of tracks by album. - Index on user_id in playlist table for faster retrieval of playlists by user. - Index on playlist_id in playlist_track table for faster retrieval of tracks in a playlist. TRIGGERS:
+- Trigger on playlist_track table to update the track_order column when a track is added or removed from a playlist, to ensure correct order of tracks in playlist. ADDITIONAL COLUMNS:
+- The "album" table includes a "total_duration" column to store the total duration of all tracks on the album. The value of this column can be calculated by summing the "duration" values of all tracks associated with the album. Note: The "total_duration" column is redundant since the duration of the album can be calculated by summing the durations of the tracks associated with the album. However, including this column can improve query performance since it saves the need to calculate the duration every time it's requested.

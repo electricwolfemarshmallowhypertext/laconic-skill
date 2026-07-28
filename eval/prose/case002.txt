@@ -1,1 +1,11 @@
-The three primary colors are red, blue, and yellow.
+Sure, here are the steps to enable the secondary image hover feature on your Collection pages and Featured Collections sections:
+
+1. Log in to your Shopify account and go to your Online Store.
+2. Click on Customize theme for the section-based theme you are using.
+3. Navigate to the Collection pages or Featured Collections section where you want to enable the secondary image hover feature.
+4. With the section open, click on the section's setting (gear) icon in the top-left corner.
+5. In the settings panel that appears, look for an option labeled 'Image display' or 'Image hover'.
+6. If available, select 'Show secondary image on hover'.
+7. Save the changes and preview the Collection/Featured Collection page to see the effect.
+
+If you're having trouble finding the setting, the best thing to do is refer to your theme's documentation, since the location and labeling of settings can vary between themes.

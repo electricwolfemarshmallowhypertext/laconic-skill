@@ -1,1 +1,43 @@
-The Battle of Waterloo, fought on June 18, 1815, was the last major battle of the Napoleonic Wars. It marked the end of Napoleon Bonaparte's rule. The battle was fought between Napoleon Bonaparte's French forces and an allied force of British, Dutch, Belgian and Prussian troops, led by the Duke of Wellington. It was fought near the town of Waterloo in the former Austrian Netherlands, now present-day Belgium. The battle was a defeat for Napoleon's forces and ended Napoleon's rule over France. Napoleon himself was exiled to St. Helena, where he would die in 1821. The battle marked the end of French domination of Europe and the beginning of a period of peace in the region. It was also the last major battle of the Napoleonic Wars and is remembered as one of the most important battles in history. The victory of the allied forces at Waterloo helped to bring an end to French imperial ambitions in Europe. It also established the British as one of the most powerful nations in Europe. The battle was fought with a combination of infantry, cavalry, and artillery tactics, and showed the beginning of the changing nature of warfare. Although the French forces greatly outnumbered the allies, their strategic and tactical mistake led to the loss of the battle. This defeat signaled the end of French imperial power in Europe. The legacy of Waterloo still stands today, and it cemented the British Empire's position for the next one hundred years.
+Sure! Here's the code with comments:
+
+```
+from PIL import Image
+import os
+import hashlib
+
+def get_size(img_path):
+    """Calculate and return file size of image"""
+    size = os.path.getsize(img_path) # Get size of image
+    return size
+
+def get_hash(img_path):
+    """Calculate and return hash value of image"""
+    with open(img_path, 'rb') as f:
+        img_hash = hashlib.md5(f.read()).hexdigest() # Calculate hash value of image
+    return img_hash
+
+def find_duplicates(path):
+    """Find duplicate images in a directory"""
+    hashes = {} # Dictionary to store hash values and image sizes
+    duplicates = {} # Dictionary to store duplicate images
+    for root, dirs, files in os.walk(path): # Iterate over all files in directory
+        for file in files:
+            img_path = os.path.join(root, file) # Get image path
+            size = get_size(img_path)
+            img_hash = get_hash(img_path)
+            if img_hash in hashes.keys() and size == hashes[img_hash]: # If size and hash value match, image is duplicate. If img_hash in duplicates.keys(): # If dictionary already contains an entry for this hash value
+                    duplicates[img_hash].append(img_path) # Append the path of the duplicate to the list of duplicates for this hash
+                else:
+                    duplicates[img_hash] = [hashes[img_hash], img_path] # If this is the first duplicate for this hash value, add an entry to the dictionary with this hash and the path of the first occurrence of this hash
+            else: # If size and hash value don't match, image is not a duplicate
+                hashes[img_hash] = size # Add hash and size entry for new image
+    return duplicates # Return dictionary of duplicate images
+
+def remove_duplicates(duplicates):
+    """Remove duplicate images"""
+    for img1, img2 in duplicates.items(): # Iterate over dictionary of duplicates
+        for I in img2:
+            os.remove(i) # Remove duplicate image
+```
+
+Hope this helps! Let me know if you have any other questions.

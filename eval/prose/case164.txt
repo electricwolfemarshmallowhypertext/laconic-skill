@@ -1,0 +1,49 @@
+Here is a sample schema for a music database:
+
+TABLE: artist
+- artist_id (primary key)
+- name
+- country
+
+TABLE: album
+- album_id (primary key)
+- title
+- release_date
+- genre
+- artist_id (foreign key references artist(artist_id))
+
+TABLE: track
+- track_id (primary key)
+- title
+- duration
+- track_number
+- album_id (foreign key references album(album_id))
+
+TABLE: user
+- user_id (primary key)
+- email
+- password
+
+TABLE: playlist
+- playlist_id (primary key)
+- title
+- user_id (foreign key references user(user_id))
+
+TABLE: playlist_track
+- playlist_id (foreign key references playlist(playlist_id))
+- track_id (foreign key references track(track_id))
+- track_order
+
+CONSTRAINTS:
+- Primary key constraints on each table to ensure unique identification of records.
+- Foreign key constraint on album and track tables to ensure data integrity and avoid orphan records.
+- Unique constraint on email to ensure each user has a unique email address.
+
+INDEXES:
+- Index on artist_id in album table for faster retrieval of albums by artist.
+- Index on album_id in track table for faster retrieval of tracks by album.
+- Index on user_id in playlist table for faster retrieval of playlists by user.
+- Index on playlist_id in playlist_track table for faster retrieval of tracks in a playlist.
+
+TRIGGERS:
+- Trigger on playlist_track table to update the track_order column when a track is added or removed from a playlist, to ensure correct order of tracks in playlist.

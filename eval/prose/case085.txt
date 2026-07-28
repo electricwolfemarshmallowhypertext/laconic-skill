@@ -1,2 +1,13 @@
-Verb: Played
-Tense: Past
+Yes! Here are some examples of companies and products that are currently utilizing embedded sensors in clothing:
+
+1. Athos - Athos makes smart workout clothes with sensors that track muscle activity, heart rate, and breathing. The data is sent to a smartphone app, which provides feedback on how to improve workouts and prevent injury.
+
+2. Nadi X - Nadi X makes smart yoga pants with embedded sensors that provide feedback on posture and breathing during yoga practice. The data is sent to a smartphone app, which offers guidance on how to improve alignment and breathing.
+
+3. Owlet - Owlet makes smart baby socks with sensors that track heart rate and oxygen levels. The data is sent to a smartphone app, which alerts parents if anything seems abnormal.
+
+4. SmartLife Tech - SmartLife Tech makes smart clothing with sensors that track vital signs like heart rate, breathing, and body temperature. The data is sent to a smartphone app, which provides real-time feedback on overall health and wellness.
+
+5. Hexoskin - Hexoskin makes smart shirts with sensors that track vital signs like heart rate, breathing, and activity levels. The data is sent to a smartphone app, which provides detailed insights into overall health and wellness.
+
+These are just a few examples of the many companies and products that are currently utilizing embedded sensors in clothing. As the technology continues to develop, we can expect to see more and more innovative applications in this space.

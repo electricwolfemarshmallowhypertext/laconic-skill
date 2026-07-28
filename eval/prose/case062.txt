@@ -1,3 +1,1 @@
-SELECT TOP 10 *
-FROM Orders
-ORDER BY value DESC;
+I do not have access to specific information about sellers or their contact details. However, if you have seen this sideboard online or in a physical store, you may be able to find the seller's contact information on their website or by reaching out to the store directly. Alternatively, you could search for similar handcrafted furniture makers in your area or online and reach out to them for custom orders.

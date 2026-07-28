@@ -1,0 +1,118 @@
+Certainly. Adding authentication to the microservice is an important step to ensure that only authorized users can access the API endpoints. Here's an example implementation using Amazon Cognito as the authentication service:
+
+1. Create a new Amazon Cognito user pool through the AWS Management Console. Configure the user pool with the necessary settings for your authentication requirements.
+
+2. Update your `serverless.yml` file with the Cognito User Pool settings:
+```
+service: my-microservice
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  environment:
+    USER_POOL_ID: YOUR_COGNITO_USER_POOL_ID
+    APP_CLIENT_ID: YOUR_COGNITO_APP_CLIENT_ID
+
+functions:
+  myFunction:
+    handler: handler.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+          authorizer:
+            name: authorizer
+            arn: arn:aws:cognito-idp:${self:provider.region}:#{AWS::AccountId}:userpool/${self:provider.environment.USER_POOL_ID}
+          cors: true
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3000
+
+  logRetentionInDays: 14
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: "logs:*"
+      Resource:
+        - "arn:aws:logs:*:*:*"
+```
+Make sure to replace `YOUR_COGNITO_USER_POOL_ID` and `YOUR_COGNITO_APP_CLIENT_ID` with the correct values from your Cognito User Pool.
+
+3. Create a new `authorizer.js` file to handle the Cognito authorizer logic:
+```
+const jwt = require('jsonwebtoken');
+
+exports.handler = async function(event) {
+    const token = event.authorizationToken;
+
+    try {
+        const decoded = jwt.verify(token, process.env.APP_CLIENT_ID);
+        const sub = decoded.sub;
+
+        return {
+            principalId: sub,
+            policyDocument: {
+                Version: '2012-10-17',
+                Statement: [
+                    {
+                        Action: 'execute-api:Invoke',
+                        Effect: 'Allow',
+                        Resource: event.methodArn
+                    }
+                ]
+            }
+        }
+    } catch (err) {
+        console.log(err);
+        throw 'Unauthorized';
+    }
+};
+```
+This implementation uses the JWT token to verify the Cognito user and returns a policy document that allows access to the API Gateway endpoint.
+
+4. Update your API endpoints in `handler.js` to use the `event.requestContext.authorizer.principalId` to identify the authenticated user:
+```
+const { createServer, proxy } = require('aws-serverless-express');
+const bodyParser = require('body-parser');
+
+const express = require('express');
+const app = express();
+app.use(bodyParser.json({ strict: false }));
+
+app.get('/', (req, res) => {
+    const username = event.requestContext.authorizer.principalId;
+    res.json({ message: `Hello, ${username}!` });
+});
+
+const server = createServer(app);
+
+exports.handler = (event, context, callback) => {
+    context.callbackWaitsForEmptyEventLoop = false;
+
+    const resContext = {
+        succeed: (result) => {
+            callback(null, result);
+        },
+        fail: (error) => {
+            callback(error, null);
+        }
+    };
+
+    proxy(server, event, resContext);
+};
+```
+This implementation uses `event.requestContext.authorizer.principalId` to retrieve the authenticated user's username and send a personalized message in the response.
+
+5. Deploy your microservice with the following command:
+```
+$ serverless deploy
+```
+This will create a new Lambda function and update the necessary resources to handle the Cognito authorizer.
+
+6. Test your microservice by sending a request with an `Authorization` header that contains a valid JWT token from your Cognito User Pool.
+
+Congratulations! You now have a secure and authenticated Node.js microservice that can handle high levels of traffic and is easily maintainable.

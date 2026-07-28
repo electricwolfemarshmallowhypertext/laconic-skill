@@ -1,1 +1,68 @@
-Romeo is a tragic hero with a passionate heart. He is brave and impulsive, often making decisions without fully thinking them through. He is deeply romantic and has a heartbreaking loyalty to his family and his beloved, Juliet.
+Here's an implementation of a queue data structure in Java using an array:
+
+```
+public class Queue<T> {
+
+    private int maxSize;
+    private int front;
+    private int rear;
+    private int currentSize;
+    private T[] queue;
+
+    @SuppressWarnings("unchecked")
+    public Queue(int size) {
+        this.maxSize = size;
+        this.front = 0;
+        this.rear = -1;
+        this.currentSize = 0;
+        this.queue = (T[]) new Object[size];
+    }
+
+    public void enqueue(T item) throws QueueFullException {
+        if (isFull()) {
+            throw new QueueFullException("Queue is full");
+        }
+        rear = (rear + 1) % maxSize;
+        queue[rear] = item;
+        currentSize++;
+    }
+
+    public T dequeue() {
+        if (isEmpty()) {
+            return null;
+        }
+        T item = queue[front];
+        front = (front + 1) % maxSize;
+        currentSize--;
+        return item;
+    }
+
+    public int size() {
+        return currentSize;
+    }
+
+    public boolean isEmpty() {
+        return currentSize == 0;
+    }
+
+    public boolean isFull() {
+        return currentSize == maxSize;
+    }
+}
+```
+
+Explanation:
+
+- `maxSize`: maximum size of the queue
+- `front`: index of the first element in the queue
+- `rear`: index of the last element in the queue
+- `currentSize`: current number of elements in the queue
+- `queue`: array to hold the elements in the queue
+
+In the constructor, we initialize the variables with their initial values. We also create the array using the `maxSize` parameter passed to the constructor, casting it to type `T[]`.
+
+In the `enqueue` method, we check if the queue is full using the `isFull` method. If it is full, we throw a `QueueFullException`. If it is not full, we increment `rear` to point to the next position in the queue (taking into consideration the wrapping around when `rear` reaches the end of the array), and then add the item to the queue. We also increment `currentSize`.
+
+In the `dequeue` method, we check if the queue is empty using the `isEmpty` method. If it is empty, we return null. If it is not empty, we retrieve the item at the front of the queue, increment `front` to point to the next position in the queue (again taking into consideration wrapping around), decrement `currentSize`, and then return the item.
+
+The `size`, `isEmpty`, and `isFull` methods are self-explanatory. They simply return the current number of elements in the queue, whether the queue is empty, and whether the queue is full, respectively.

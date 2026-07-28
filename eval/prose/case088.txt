@@ -1,1 +1,20 @@
-To thaw frozen food, place the food item in the refrigerator overnight or in a bowl of warm water for several hours. Once thawed, do not refreeze uncooked food.
+Sure! Here are the steps to set up OAuth2 authentication with an external provider like Google:
+
+1. Create a Google Cloud project and enable the â€œIdentity Platform APIâ€. 2. Create a new OAuth2 client ID in the Google Cloud Console. Set the authorized redirect URIs to the Kubernetes API server's OAuth2 callback URL (e.g. `https://your-kubernetes-domain.com/oauth2callback`). 3. Configure the Kubernetes API server to use Google OAuth2. In the Kubernetes master configuration file (`/etc/kubernetes/manifests/kube-apiserver.yaml`), configure the following flags:
+
+    ```
+    --oidc-issuer-url=https://accounts.google.com
+    --oidc-client-id=<YOUR_CLIENT_ID>
+    --oidc-username-claim=email
+    --oidc-groups-claim=groups
+    --oidc-client-secret-file=<YOUR_CLIENT_SECRET_FILE>
+    --oidc-ca-file=<YOUR_CA_FILE>
+    ```
+
+    Replace `<YOUR_CLIENT_ID>` with the client ID of the OAuth2 client you created in Google Cloud Console, and replace `<YOUR_CLIENT_SECRET_FILE>` with the path to the secret key file you downloaded after creating the client. Replace `<YOUR_CA_FILE>` with the path to the CA file used to sign the Google SSL certificate. 4. Restart the Kubernetes API server for the changes to take effect by running the following command:
+
+    ```
+    sudo systemctl restart kube-apiserver
+    ```
+
+5. Open a web browser and navigate to the Kubernetes dashboard. You should be redirected to the Google login page. Enter your credentials and a consent screen will show if this is the first time. After giving consent, you will be redirected back to the Kubernetes dashboard. That's it! Now you can use Google OAuth2 to authenticate with your Kubernetes cluster.
