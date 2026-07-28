@@ -8,8 +8,14 @@ import {
   LACONIC_VERIFIER_VERSION,
   runPipeline
 } from "./pipeline";
-import { createReceipt, type ReceiptViolation } from "./receipt";
+import { createReceipt, type JsonValue, type ReceiptViolation } from "./receipt";
 import { type CorrectnessTaskType } from "./correctness";
+import {
+  CORRECTNESS_CONFIDENCE_VERSION,
+  analyzeCorrectnessConfidence,
+  loadCorrectnessCasesFile,
+  loadCorrectnessConfigFile
+} from "./correctness/confidence";
 import { compareCodepointStable } from "./deterministic";
 import {
   createDefaultStyleMemoryAdapter,
@@ -38,6 +44,12 @@ interface MemorySearchOptions {
   limit: number;
 }
 
+interface CorrectnessConfidenceOptions {
+  input?: string;
+  config?: string;
+  receipt: boolean;
+}
+
 function usage(message?: string): never {
   if (message) {
     process.stderr.write(`${message}\n`);
@@ -45,6 +57,7 @@ function usage(message?: string): never {
   process.stderr.write(
     "Usage:\n" +
       "  laconic <check|rewrite|pipeline> <file|-> [--task writing|code|data|regulated] [--receipt] [--memory]\n" +
+      "  laconic correctness --input <results.json|results.jsonl> --config <config.json> [--receipt]\n" +
       "  laconic memory add <file|-> --outcome accepted|rejected|rewritten --task writing|code|data|regulated\n" +
       "  laconic memory search <query> [--limit N]\n"
   );
@@ -147,6 +160,43 @@ function parseMemorySearchOptions(tokens: string[]): MemorySearchOptions {
     usage(`Unknown option: ${token}`);
   }
   return { limit };
+}
+
+function parseCorrectnessConfidenceOptions(tokens: string[]): CorrectnessConfidenceOptions {
+  const options: CorrectnessConfidenceOptions = { receipt: false };
+  for (let index = 0; index < tokens.length; index += 1) {
+    const token = tokens[index];
+    if (token === "--receipt") {
+      options.receipt = true;
+      continue;
+    }
+    if (token === "--input") {
+      const input = tokens[index + 1];
+      if (!input) {
+        usage("Missing value for --input.");
+      }
+      options.input = input;
+      index += 1;
+      continue;
+    }
+    if (token === "--config") {
+      const config = tokens[index + 1];
+      if (!config) {
+        usage("Missing value for --config.");
+      }
+      options.config = config;
+      index += 1;
+      continue;
+    }
+    usage(`Unknown option: ${token}`);
+  }
+  if (!options.input) {
+    usage("correctness requires --input.");
+  }
+  if (!options.config) {
+    usage("correctness requires --config.");
+  }
+  return options;
 }
 
 function stableValue(value: unknown): unknown {
@@ -462,6 +512,48 @@ async function emitMemorySearch(
   return 0;
 }
 
+function emitCorrectnessConfidence(options: CorrectnessConfidenceOptions): number {
+  const inputPath = resolve(process.cwd(), options.input!);
+  const configPath = resolve(process.cwd(), options.config!);
+  const cases = loadCorrectnessCasesFile(inputPath);
+  const config = loadCorrectnessConfigFile(configPath);
+  const report = analyzeCorrectnessConfidence(cases, config);
+  const stableReport = stableValue(report) as JsonValue;
+
+  if (!options.receipt) {
+    writeStableJson(report);
+    return 0;
+  }
+
+  const output = JSON.stringify(stableReport);
+  const receipt = createReceipt({
+    input: JSON.stringify(stableValue({ cases, config })),
+    output,
+    skill_name: "correctness-confidence",
+    verifier_version: CORRECTNESS_CONFIDENCE_VERSION,
+    ok: report.status === "capable",
+    violations:
+      report.status === "capable"
+        ? []
+        : [
+            {
+              source: "correctness",
+              code: "CAPABILITY_NOT_MET",
+              message: `Capability status is ${report.status}.`
+            }
+          ],
+    metrics: stableReport,
+    timestamp: DETERMINISTIC_TIMESTAMP
+  });
+
+  writeStableJson({
+    ...report,
+    receipt_hash: receipt.receipt_hash,
+    receipt
+  });
+  return 0;
+}
+
 function runAsync(task: Promise<number>): void {
   task
     .then((status) => process.exit(status))
@@ -496,6 +588,13 @@ function main(): void {
         return;
       }
       usage(`Unknown memory subcommand: ${memorySubcommand}`);
+    }
+
+    if (commandArg === "correctness") {
+      const options = parseCorrectnessConfidenceOptions(rest);
+      const exitCode = emitCorrectnessConfidence(options);
+      process.exit(exitCode);
+      return;
     }
 
     if (!isCoreCommand(commandArg)) {

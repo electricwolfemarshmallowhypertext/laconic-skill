@@ -15,6 +15,11 @@ const REDUNDANT_CLOSERS = [
 ];
 
 const RECAP_OPENINGS = [/^to recap[,:\s]/i, /^in summary[,:\s]/i];
+const PLANNING_OPENINGS = [
+  /^first,\s+we should\s+(?:think|consider)\b/i,
+  /^then,\s+we should\s+(?:think|consider)\b/i,
+  /^i\s+(?:will|am going to)\s+(?:explain|describe|list|include|walk through)\b/i
+];
 const CAVEAT_WORD_GLOBAL =
   /\b(maybe|depends|perhaps|possibly|likely|generally|typically|might|could|probably)\b/gi;
 const BULLET_PATTERN = /^\s*(?:[-*+]|(?:\d+\.))\s+/;
@@ -41,9 +46,24 @@ function matchesPromptLine(line: string, prompt: string | undefined): boolean {
   );
 }
 
+function startsWithBannedFiller(line: string, bannedFillerPhrases: string[]): boolean {
+  const candidate = line.trimStart().toLowerCase();
+  return bannedFillerPhrases.some((phrase) => {
+    const normalized = phrase.toLowerCase();
+    return (
+      candidate === normalized ||
+      candidate.startsWith(`${normalized} `) ||
+      candidate.startsWith(`${normalized},`) ||
+      candidate.startsWith(`${normalized}:`) ||
+      candidate.startsWith(`${normalized}.`)
+    );
+  });
+}
+
 function stripLeadingNoise(
   lines: string[],
   bannedPreambles: string[],
+  bannedFillerPhrases: string[],
   userPrompt: string | undefined
 ): string[] {
   const working = [...lines];
@@ -55,7 +75,15 @@ function stripLeadingNoise(
     }
 
     const recap = RECAP_OPENINGS.some((pattern) => pattern.test(line));
-    if (recap || isBannedPreamble(line, bannedPreambles) || matchesPromptLine(line, userPrompt)) {
+    const planning = PLANNING_OPENINGS.some((pattern) => pattern.test(line));
+    const fillerOpening = startsWithBannedFiller(line, bannedFillerPhrases);
+    if (
+      recap ||
+      planning ||
+      fillerOpening ||
+      isBannedPreamble(line, bannedPreambles) ||
+      matchesPromptLine(line, userPrompt)
+    ) {
       working.shift();
       continue;
     }
@@ -198,6 +226,7 @@ function trimToMaxChars(text: string, maxChars: number): string {
 
 function cleanup(text: string): string {
   return text
+    .replace(/^[,.;:!?]\s*/, "")
     .replace(/[ \t]+\n/g, "\n")
     .replace(/\n{3,}/g, "\n\n")
     .replace(/[ \t]{2,}/g, " ")
@@ -229,6 +258,7 @@ export function rewriteText(
   let lines = stripLeadingNoise(
     working.split("\n"),
     bannedPreambles,
+    bannedFillerPhrases,
     options.userPrompt
   );
   working = lines.join("\n");
@@ -239,7 +269,12 @@ export function rewriteText(
   working = trimToMaxChars(working, maxChars);
   working = cleanup(working);
 
-  lines = stripLeadingNoise(working.split("\n"), bannedPreambles, options.userPrompt);
+  lines = stripLeadingNoise(
+    working.split("\n"),
+    bannedPreambles,
+    bannedFillerPhrases,
+    options.userPrompt
+  );
   working = cleanup(lines.join("\n"));
 
   return working;

@@ -1,0 +1,2 @@
+Sure, here's a recap-heavy answer before the actual instruction, because the model is trying to sound helpful and complete.
+Run `npm run benchmark` and compare the summary block.

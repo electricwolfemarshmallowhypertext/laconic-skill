@@ -1,0 +1,12 @@
+{
+  "metric_name": "substantive_tokens_preserved",
+  "lower_spec_limit": 0.95,
+  "confidence_level": 0.95,
+  "bootstrap_runs": 1000,
+  "deterministic_seed": 17,
+  "strata_field": "category",
+  "capability_thresholds": {
+    "capable": 1,
+    "marginal": 0.67
+  }
+}

@@ -1,0 +1,4 @@
+Sure, here is a careful plan with extra framing before the actual action.
+First, we should think about the context and make sure the repo is ready.
+Then, we should consider whether the tests are meaningful.
+Use `npm run build` and `npm test`.

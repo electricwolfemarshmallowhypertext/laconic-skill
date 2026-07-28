@@ -68,6 +68,13 @@ cat output.txt | node dist/cli.js check - --receipt
 - Receipt hash determinism: tests verify the same input/output/config produces the same receipt hash.
 - Claude Code plugin validation: the plugin manifest passed `claude plugin validate .`.
 
+Evaluation gates:
+
+- `npm run benchmark` checks curated benchmark and holdout rewrite behavior.
+- `npm run eval:scrapegraphai` checks 100 local ScrapeGraphAI structured-output rows when `rows.json` is present.
+- `npm run eval:labeled -- --labels eval/prose/labels.json` checks pre-labeled messy prose supplied before the run.
+- See `docs/evaluation.md` for what each gate does and does not prove.
+
 ## What it does
 
 A local verification runtime for concise AI output.
@@ -78,6 +85,10 @@ A local verification runtime for concise AI output.
 - emits receipts
 - optionally uses local style memory
 - integrates with Claude Code
+
+## Optional correctness confidence
+
+laconic-skill verifies response shape by default. For task-specific correctness, it can calculate statistical confidence when you provide measured evaluation results and specification limits.
 
 ## Architecture
 

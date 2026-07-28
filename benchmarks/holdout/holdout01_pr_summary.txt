@@ -1,0 +1,2 @@
+Sure, here is a holdout PR summary with too much setup about why the change matters before the reviewer gets the point. I want to explain the migration, the risk, and the validation path before giving the actual summary.
+Update the parser to reject invalid memory limits and keep CLI errors deterministic.

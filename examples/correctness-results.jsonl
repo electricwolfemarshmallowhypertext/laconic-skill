@@ -1,0 +1,10 @@
+{"id":"case-001","category":"pr_summary","score":0.99,"passed":true}
+{"id":"case-002","category":"pr_summary","score":0.98,"passed":true}
+{"id":"case-003","category":"code_review","score":0.97,"passed":true}
+{"id":"case-004","category":"code_review","score":0.99,"passed":true}
+{"id":"case-005","category":"status_update","score":1,"passed":true}
+{"id":"case-006","category":"status_update","score":0.98,"passed":true}
+{"id":"case-007","category":"docs_draft","score":0.96,"passed":true}
+{"id":"case-008","category":"docs_draft","score":0.99,"passed":true}
+{"id":"case-009","category":"filler_heavy","score":0.98,"passed":true}
+{"id":"case-010","category":"filler_heavy","score":0.98,"passed":true}

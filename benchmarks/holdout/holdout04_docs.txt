@@ -1,0 +1,2 @@
+To recap, you asked for the shortest documentation sentence, and I want to avoid overstating correctness while still explaining the feature clearly.
+laconic verifies response shape; correctness confidence requires measured evaluator results.

@@ -1,0 +1,2 @@
+Of course, here is the review comment with more context than needed about why silent coercion can hide user mistakes. I am adding this extra rationale before the actionable comment.
+Reject fractional limits instead of rounding them.

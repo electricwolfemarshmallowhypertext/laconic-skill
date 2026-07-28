@@ -8,6 +8,13 @@ export {
   verifyCorrectness
 } from "./correctness";
 export {
+  CORRECTNESS_CONFIDENCE_VERSION,
+  analyzeCorrectnessConfidence,
+  loadCorrectnessCasesFile,
+  loadCorrectnessConfigFile,
+  normalizeCorrectnessConfidenceConfig
+} from "./correctness/confidence";
+export {
   LACONIC_VERIFIER_VERSION,
   PIPELINE_VERIFIER_VERSION,
   runPipeline
@@ -48,6 +55,15 @@ export type {
   RegulatedCorrectnessConfig,
   WritingCorrectnessConfig
 } from "./correctness";
+export type {
+  CapabilityThresholds,
+  CorrectnessCapabilityStatus,
+  CorrectnessConfidenceConfig,
+  CorrectnessConfidenceReport,
+  CorrectnessEvaluatedCase,
+  NormalizedCorrectnessConfidenceConfig,
+  StratumSummary
+} from "./correctness/confidence";
 export type {
   PipelineInput,
   PipelineIteration,

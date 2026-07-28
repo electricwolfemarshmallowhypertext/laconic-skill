@@ -4,3 +4,6 @@ dist/
 .laconic/
 .tmp_stdout.json
 .tmp_stderr.log
+rows.json
+.eval/
+.hf-data/

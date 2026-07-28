@@ -79,7 +79,7 @@ export const DEFAULT_BANNED_PREAMBLES = [
 ];
 
 const DIRECT_ANSWER_PATTERN =
-  /^(yes|no|use|set|run|add|remove|update|create|install|keep|avoid|reset|restart|enable|disable|short answer:|the|it|[0-9])/i;
+  /^(yes|no|use|set|run|add|remove|update|create|install|keep|avoid|reject|build|do|make|ship|publish|reset|restart|enable|disable|laconic|short answer:|the|it|[0-9]|\{|\[)/i;
 const BULLET_LINE_PATTERN = /^\s*(?:[-*+]|(?:\d+\.))\s+/;
 const CAVEAT_WORD_PATTERN =
   /\b(maybe|depends|perhaps|possibly|likely|generally|typically|might|could|probably)\b/gi;

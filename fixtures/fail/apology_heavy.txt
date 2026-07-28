@@ -1,0 +1,3 @@
+Sorry for the long answer, but I want to be careful before giving the command.
+Run `npm run build` before `npm test`.
+I apologize for the extra detail.

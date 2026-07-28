@@ -1,0 +1,1 @@
+Use the existing fixture path and preserve the command order: `npm install`, `npm run build`, then `npm test`.

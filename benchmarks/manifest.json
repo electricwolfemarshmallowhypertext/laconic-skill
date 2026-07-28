@@ -1,0 +1,368 @@
+{
+    "schema_version":  1,
+    "main_corpus":  "benchmarks/corpus/*.txt",
+    "compliant_controls":  "benchmarks/compliant/*.txt",
+    "holdout":  "benchmarks/holdout/*.txt",
+    "cases":  [
+                  {
+                      "file":  "benchmarks/corpus/bench01.txt",
+                      "category":  "agent status updates",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench02.txt",
+                      "category":  "filler-heavy",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench03.txt",
+                      "category":  "documentation drafts",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench04.txt",
+                      "category":  "code review comments",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench05.txt",
+                      "category":  "agent status updates",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench06.txt",
+                      "category":  "filler-heavy",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench07.txt",
+                      "category":  "PR summaries",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench08.txt",
+                      "category":  "documentation drafts",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench09.txt",
+                      "category":  "agent status updates",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench10.txt",
+                      "category":  "code review comments",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench11.txt",
+                      "category":  "agent status updates",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench12.txt",
+                      "category":  "documentation drafts",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench13.txt",
+                      "category":  "code review comments",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench14.txt",
+                      "category":  "documentation drafts",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench15.txt",
+                      "category":  "PR summaries",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench16.txt",
+                      "category":  "agent status updates",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench17.txt",
+                      "category":  "code review comments",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench18.txt",
+                      "category":  "documentation drafts",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench19.txt",
+                      "category":  "PR summaries",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench20.txt",
+                      "category":  "agent status updates",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench21.txt",
+                      "category":  "PR summaries",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench22.txt",
+                      "category":  "code review comments",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench23.txt",
+                      "category":  "agent status updates",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench24.txt",
+                      "category":  "recap-heavy",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench25.txt",
+                      "category":  "documentation drafts",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench26.txt",
+                      "category":  "apology-heavy",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench27.txt",
+                      "category":  "filler-heavy",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench28.txt",
+                      "category":  "code review comments",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench29.txt",
+                      "category":  "documentation drafts",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench30.txt",
+                      "category":  "PR summaries",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench31.txt",
+                      "category":  "code review comments",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench32.txt",
+                      "category":  "PR summaries",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench33.txt",
+                      "category":  "recap-heavy",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench34.txt",
+                      "category":  "apology-heavy",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench35.txt",
+                      "category":  "agent status updates",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench36.txt",
+                      "category":  "documentation drafts",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench37.txt",
+                      "category":  "PR summaries",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench38.txt",
+                      "category":  "filler-heavy",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench39.txt",
+                      "category":  "filler-heavy",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench40.txt",
+                      "category":  "filler-heavy",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench41.txt",
+                      "category":  "agent status updates",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench42.txt",
+                      "category":  "documentation drafts",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench43.txt",
+                      "category":  "recap-heavy",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench44.txt",
+                      "category":  "filler-heavy",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench45.txt",
+                      "category":  "PR summaries",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench46.txt",
+                      "category":  "documentation drafts",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench47.txt",
+                      "category":  "apology-heavy",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench48.txt",
+                      "category":  "code review comments",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench49.txt",
+                      "category":  "agent status updates",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/corpus/bench50.txt",
+                      "category":  "recap-heavy",
+                      "expected_fixable":  true,
+                      "why_realistic":  "Realistic verbose AI answer from release, review, documentation, or agent workflow."
+                  },
+                  {
+                      "file":  "benchmarks/compliant/control01.txt",
+                      "category":  "compliant controls",
+                      "expected_fixable":  false,
+                      "why_realistic":  "Short compliant output used to detect false fails."
+                  },
+                  {
+                      "file":  "benchmarks/compliant/control02.txt",
+                      "category":  "compliant controls",
+                      "expected_fixable":  false,
+                      "why_realistic":  "Short compliant output used to detect false fails."
+                  },
+                  {
+                      "file":  "benchmarks/compliant/control03.txt",
+                      "category":  "compliant controls",
+                      "expected_fixable":  false,
+                      "why_realistic":  "Short compliant output used to detect false fails."
+                  },
+                  {
+                      "file":  "benchmarks/compliant/control04.txt",
+                      "category":  "compliant controls",
+                      "expected_fixable":  false,
+                      "why_realistic":  "Short compliant output used to detect false fails."
+                  },
+                  {
+                      "file":  "benchmarks/compliant/control05.txt",
+                      "category":  "compliant controls",
+                      "expected_fixable":  false,
+                      "why_realistic":  "Short compliant output used to detect false fails."
+                  },
+                  {
+                      "file":  "benchmarks/compliant/control06.txt",
+                      "category":  "compliant controls",
+                      "expected_fixable":  false,
+                      "why_realistic":  "Short compliant output used to detect false fails."
+                  },
+                  {
+                      "file":  "benchmarks/compliant/control07.txt",
+                      "category":  "compliant controls",
+                      "expected_fixable":  false,
+                      "why_realistic":  "Short compliant output used to detect false fails."
+                  },
+                  {
+                      "file":  "benchmarks/compliant/control08.txt",
+                      "category":  "compliant controls",
+                      "expected_fixable":  false,
+                      "why_realistic":  "Short compliant output used to detect false fails."
+                  },
+                  {
+                      "file":  "benchmarks/compliant/control09.txt",
+                      "category":  "compliant controls",
+                      "expected_fixable":  false,
+                      "why_realistic":  "Short compliant output used to detect false fails."
+                  },
+                  {
+                      "file":  "benchmarks/compliant/control10.txt",
+                      "category":  "compliant controls",
+                      "expected_fixable":  false,
+                      "why_realistic":  "Short compliant output used to detect false fails."
+                  }
+              ]
+}

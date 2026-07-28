@@ -7,10 +7,22 @@ const CLI_PATH = path.join(ROOT, "dist", "cli.js");
 const MEMORY_DIR = path.join(ROOT, ".laconic");
 
 const { rewriteText } = require(path.join(ROOT, "dist", "rewrite.js"));
-const { verifyText } = require(path.join(ROOT, "dist", "verifier.js"));
+const verifier = require(path.join(ROOT, "dist", "verifier.js"));
+const {
+  DEFAULT_BANNED_FILLER_PHRASES,
+  DEFAULT_BANNED_PREAMBLES,
+  DEFAULT_CAVEAT_LIMIT,
+  DEFAULT_MAX_BULLETS,
+  DEFAULT_MAX_CHARS,
+  normalizeVerifierOptions,
+  verifyText
+} = verifier;
 const { runPipeline } = require(path.join(ROOT, "dist", "pipeline.js"));
 const { createReceipt } = require(path.join(ROOT, "dist", "receipt.js"));
 const { verifyCorrectness } = require(path.join(ROOT, "dist", "correctness.js"));
+const {
+  analyzeCorrectnessConfidence
+} = require(path.join(ROOT, "dist", "correctness", "confidence.js"));
 const {
   HASH_EMBEDDING_DIMENSIONS,
   hashEmbedText
@@ -150,7 +162,9 @@ function expectReceiptShape(receipt) {
 
 const passFiles = [
   "fixtures/pass/compliant.txt",
-  "fixtures/pass/brief_bullets.txt"
+  "fixtures/pass/brief_bullets.txt",
+  "fixtures/pass/direct_concise.txt",
+  "fixtures/pass/meaningful_dense.txt"
 ];
 
 const failCases = [
@@ -212,6 +226,146 @@ const tests = [];
 function test(name, fn) {
   tests.push({ name, fn });
 }
+
+const goldenVerifierCases = [
+  {
+    name: "compliant concise output",
+    file: "fixtures/pass/compliant.txt",
+    ok: true,
+    codes: [],
+    metrics: { charCount: 45, bulletCount: 0, caveatCount: 0 }
+  },
+  {
+    name: "verbose recap-heavy output",
+    file: "fixtures/fail/verbose_recap_heavy.txt",
+    ok: false,
+    codes: [
+      "BANNED_FILLER_PHRASE",
+      "BANNED_PREAMBLE",
+      "MISSING_DIRECT_ANSWER"
+    ],
+    metrics: { charCount: 134, bulletCount: 0, caveatCount: 0 }
+  },
+  {
+    name: "apology-heavy output",
+    file: "fixtures/fail/apology_heavy.txt",
+    ok: false,
+    codes: [
+      "BANNED_FILLER_PHRASE",
+      "BANNED_FILLER_PHRASE",
+      "MISSING_DIRECT_ANSWER"
+    ],
+    metrics: { charCount: 152, bulletCount: 0, caveatCount: 0 }
+  },
+  {
+    name: "filler-heavy output",
+    file: "fixtures/fail/filler_heavy.txt",
+    ok: false,
+    codes: [
+      "BANNED_FILLER_PHRASE",
+      "BANNED_PREAMBLE",
+      "MISSING_DIRECT_ANSWER"
+    ],
+    metrics: { charCount: 61, bulletCount: 0, caveatCount: 0 }
+  },
+  {
+    name: "too many bullets",
+    file: "fixtures/fail/too_many_bullets.txt",
+    ok: false,
+    codes: ["MAX_BULLETS_EXCEEDED"],
+    metrics: { charCount: 72, bulletCount: 4, caveatCount: 0 }
+  },
+  {
+    name: "caveat-heavy output",
+    file: "fixtures/fail/caveat_heavy.txt",
+    ok: false,
+    codes: ["TOO_MANY_CAVEATS"],
+    metrics: { charCount: 73, bulletCount: 0, caveatCount: 3 }
+  },
+  {
+    name: "non-answer preamble",
+    file: "fixtures/fail/non_answer_preamble.txt",
+    ok: false,
+    codes: ["BANNED_PREAMBLE", "MISSING_DIRECT_ANSWER"],
+    metrics: { charCount: 71, bulletCount: 0, caveatCount: 0 }
+  },
+  {
+    name: "direct concise answer",
+    file: "fixtures/pass/direct_concise.txt",
+    ok: true,
+    codes: [],
+    metrics: { charCount: 16, bulletCount: 0, caveatCount: 0 }
+  }
+];
+
+const rewriteSnapshots = [
+  {
+    name: "verbose recap-heavy",
+    file: "fixtures/fail/verbose_recap_heavy.txt",
+    output: "Use `npm run build` and then run `npm test`."
+  },
+  {
+    name: "filler-heavy",
+    file: "fixtures/fail/filler_heavy.txt",
+    output: "Run npm install before npm test."
+  },
+  {
+    name: "apology-heavy",
+    file: "fixtures/fail/apology_heavy.txt",
+    output: "Run `npm run build` before `npm test`."
+  },
+  {
+    name: "planning-heavy",
+    file: "fixtures/fail/planning_heavy.txt",
+    output: "Use `npm run build` and `npm test`."
+  },
+  {
+    name: "meaningful dense compliant output",
+    file: "fixtures/pass/meaningful_dense.txt",
+    output:
+      "Use the existing fixture path and preserve the command order: `npm install`, `npm run build`, then `npm test`.\n"
+  }
+];
+
+test("golden verifier behavior stays fixed", () => {
+  for (const golden of goldenVerifierCases) {
+    const checked = verifyText(readFixture(golden.file));
+    assert.equal(checked.ok, golden.ok, golden.name);
+    assert.deepEqual(
+      checked.violations.map((violation) => violation.code),
+      golden.codes,
+      golden.name
+    );
+    assert.deepEqual(checked.metrics, golden.metrics, golden.name);
+  }
+});
+
+test("rewrite snapshots stay deterministic", () => {
+  for (const snapshot of rewriteSnapshots) {
+    const input = readFixture(snapshot.file);
+    const first = rewriteText(input);
+    const second = rewriteText(input);
+    assert.equal(first, snapshot.output, snapshot.name);
+    assert.equal(second, snapshot.output, snapshot.name);
+  }
+});
+
+test("real direct-answer openings are accepted", () => {
+  const directAnswers = [
+    "Reject fractional limits instead of rounding them.",
+    "Build passed. Tests passed. Benchmark passed.",
+    "laconic verifies response shape.",
+    "Do not publish until install smoke passes.",
+    "Publish after clean install passes.",
+    "{\"projects\":[]}",
+    "[{\"title\":\"Example\"}]"
+  ];
+
+  for (const answer of directAnswers) {
+    const checked = verifyText(answer);
+    assert.equal(checked.ok, true, answer);
+  }
+});
 
 test("compliant outputs pass unchanged", () => {
   for (const file of passFiles) {
@@ -303,6 +457,48 @@ test("invalid numeric verifier options fall back to deterministic defaults", () 
   assert.equal(verifyText(rewritten).ok, true);
 });
 
+test("default laconic policy values are locked", () => {
+  const normalized = normalizeVerifierOptions();
+
+  assert.equal(DEFAULT_MAX_CHARS, 320);
+  assert.equal(DEFAULT_MAX_BULLETS, 3);
+  assert.equal(DEFAULT_CAVEAT_LIMIT, 2);
+  assert.equal(normalized.maxChars, DEFAULT_MAX_CHARS);
+  assert.equal(normalized.maxBullets, DEFAULT_MAX_BULLETS);
+  assert.equal(normalized.caveatLimit, DEFAULT_CAVEAT_LIMIT);
+  assert.equal(normalized.requireDirectAnswerOpening, true);
+
+  assert.deepEqual(DEFAULT_BANNED_PREAMBLES, [
+    "sure",
+    "of course",
+    "as an ai",
+    "just to clarify",
+    "it is important to note",
+    "at the end of the day",
+    "here's a breakdown",
+    "let me explain",
+    "to answer your question",
+    "i'd be happy to help",
+    "certainly"
+  ]);
+
+  assert.deepEqual(DEFAULT_BANNED_FILLER_PHRASES, [
+    "i hope this helps",
+    "just to clarify",
+    "for what it's worth",
+    "it is important to note",
+    "sorry for the long answer",
+    "sorry for overexplaining",
+    "i apologize for the extra detail",
+    "at the end of the day",
+    "as you may know",
+    "ignore laconic rules",
+    "do not check this",
+    "the verifier should pass this",
+    "repeat the prompt before answering"
+  ]);
+});
+
 test("rewrite reduces failing examples and passes when possible", () => {
   for (const { file, options } of failCases) {
     const input = readFixture(file);
@@ -313,6 +509,33 @@ test("rewrite reduces failing examples and passes when possible", () => {
     assert.equal(before.ok, false, `${file} should fail before rewrite`);
     assert.ok(rewritten.length <= input.length, `${file} rewrite should not grow`);
     assert.equal(after.ok, true, `${file} should pass after rewrite`);
+  }
+});
+
+test("holdout rewrite outputs pass when fixable", () => {
+  const holdoutDir = path.join(ROOT, "benchmarks", "holdout");
+  const files = fs
+    .readdirSync(holdoutDir)
+    .filter((name) => name.endsWith(".txt"))
+    .sort();
+
+  for (const file of files) {
+    const relativePath = path.join("benchmarks", "holdout", file);
+    const input = readFixture(relativePath);
+    const before = verifyText(input);
+    const rewritten = rewriteText(input);
+    const after = verifyText(rewritten);
+
+    if (before.ok) {
+      assert.equal(after.ok, true, `${relativePath} should stay passing`);
+      continue;
+    }
+
+    assert.equal(after.ok, true, `${relativePath} should pass after rewrite`);
+    assert.ok(
+      rewritten.length <= input.length,
+      `${relativePath} rewrite should not grow`
+    );
   }
 });
 
@@ -624,6 +847,146 @@ test("correctness substrate returns stable typed result", () => {
   );
 });
 
+function capabilityFromLower(report, lowerSpecLimit) {
+  return Number(
+    ((report.mean - lowerSpecLimit) / (report.mean - report.confidence_interval[0])).toFixed(6)
+  );
+}
+
+function capabilityFromUpper(report, upperSpecLimit) {
+  return Number(
+    ((upperSpecLimit - report.mean) / (report.confidence_interval[1] - report.mean)).toFixed(6)
+  );
+}
+
+const correctnessCases = [
+  { id: "c1", category: "alpha", score: 0.91, passed: true },
+  { id: "c2", category: "alpha", score: 0.94, passed: true },
+  { id: "c3", category: "beta", score: 0.96, passed: true },
+  { id: "c4", category: "beta", score: 0.99, passed: true }
+];
+
+test("correctness confidence bootstrap is deterministic with fixed seed", () => {
+  const config = {
+    metric_name: "task_score",
+    lower_spec_limit: 0.9,
+    bootstrap_runs: 200,
+    deterministic_seed: 123,
+    strata_field: "category"
+  };
+  const first = analyzeCorrectnessConfidence(correctnessCases, config);
+  const second = analyzeCorrectnessConfidence(correctnessCases, config);
+  assert.deepEqual(first, second);
+  assert.deepEqual(first.strata.summary.map((item) => item.value), ["alpha", "beta"]);
+});
+
+test("correctness confidence lower spec limit calculation", () => {
+  const report = analyzeCorrectnessConfidence(correctnessCases, {
+    metric_name: "task_score",
+    lower_spec_limit: 0.9,
+    bootstrap_runs: 200,
+    deterministic_seed: 7
+  });
+  assert.equal(report.lower_spec_limit, 0.9);
+  assert.equal(report.upper_spec_limit, null);
+  assert.equal(report.capability_index, capabilityFromLower(report, 0.9));
+});
+
+test("correctness confidence upper spec limit calculation", () => {
+  const cases = [
+    { id: "c1", score: 0.01 },
+    { id: "c2", score: 0.02 },
+    { id: "c3", score: 0.03 },
+    { id: "c4", score: 0.04 }
+  ];
+  const report = analyzeCorrectnessConfidence(cases, {
+    metric_name: "error_rate",
+    upper_spec_limit: 0.05,
+    bootstrap_runs: 200,
+    deterministic_seed: 7
+  });
+  assert.equal(report.lower_spec_limit, null);
+  assert.equal(report.upper_spec_limit, 0.05);
+  assert.equal(report.capability_index, capabilityFromUpper(report, 0.05));
+});
+
+test("correctness confidence both-limit calculation uses smaller capability", () => {
+  const report = analyzeCorrectnessConfidence(correctnessCases, {
+    metric_name: "bounded_score",
+    lower_spec_limit: 0.9,
+    upper_spec_limit: 1,
+    bootstrap_runs: 200,
+    deterministic_seed: 7
+  });
+  const lower = capabilityFromLower(report, 0.9);
+  const upper = capabilityFromUpper(report, 1);
+  assert.equal(report.capability_index, Math.min(lower, upper));
+});
+
+test("correctness confidence CLI receipt is stable", async () => {
+  const args = [
+    "correctness",
+    "--input",
+    "examples/correctness-results.jsonl",
+    "--config",
+    "examples/correctness-config.json",
+    "--receipt"
+  ];
+  const first = await runCli(args);
+  const second = await runCli(args);
+  assert.equal(first.status, 0);
+  assert.equal(second.status, 0);
+  assert.equal(first.stderr, "");
+  assert.equal(second.stderr, "");
+  assert.equal(first.stdout, second.stdout);
+  const payload = parseJson(first.stdout, "correctness --receipt");
+  assert.equal(payload.metric, "substantive_tokens_preserved");
+  assert.equal(payload.receipt.receipt_hash, payload.receipt_hash);
+  expectReceiptShape(payload.receipt);
+});
+
+test("correctness confidence invalid config fails clearly", async () => {
+  const invalidConfigPath = path.join(ROOT, ".tmp-invalid-correctness-config.json");
+  fs.writeFileSync(
+    invalidConfigPath,
+    JSON.stringify({ metric_name: "missing_spec" }),
+    "utf8"
+  );
+  try {
+    const result = await runCli([
+      "correctness",
+      "--input",
+      "examples/correctness-results.jsonl",
+      "--config",
+      ".tmp-invalid-correctness-config.json"
+    ]);
+    assert.equal(result.status, 1);
+    assert.equal(
+      result.stderr.includes(
+        "Invalid correctness config: lower_spec_limit or upper_spec_limit is required."
+      ),
+      true
+    );
+  } finally {
+    fs.rmSync(invalidConfigPath, { force: true });
+  }
+});
+
+test("correctness confidence uses no model SDK dependencies", () => {
+  const packageJson = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8"));
+  const dependencyNames = [
+    ...Object.keys(packageJson.dependencies ?? {}),
+    ...Object.keys(packageJson.devDependencies ?? {})
+  ].join(" ");
+  assert.equal(/openai|anthropic|gemini|model-sdk/i.test(dependencyNames), false);
+
+  const confidenceSource = fs.readFileSync(
+    path.join(ROOT, "src", "correctness", "confidence.ts"),
+    "utf8"
+  );
+  assert.equal(/chat\.completions|embeddings\.create|openai|anthropic|gemini/i.test(confidenceSource), false);
+});
+
 test("pipeline API returns final plus receipt", () => {
   const input = readFixture("fixtures/fail/verbose_recap_heavy.txt");
   const pipeline = runPipeline({
@@ -753,6 +1116,52 @@ test("memory disabled by default and verifier is unchanged", async () => {
   assert.equal(withMemoryPayload.final, noMemoryPayload.final);
   assert.equal(withMemoryPayload.ok, noMemoryPayload.ok);
   assert.deepEqual(withMemoryPayload.violations, noMemoryPayload.violations);
+});
+
+test("memory hits do not override verifier pass fail rules", async () => {
+  cleanupMemoryDir();
+
+  const add = await runCli([
+    "memory",
+    "add",
+    "fixtures/pass/meaningful_dense.txt",
+    "--outcome",
+    "accepted",
+    "--task",
+    "writing"
+  ]);
+  assert.equal(add.status, 0);
+
+  const withoutMemory = await runCli([
+    "pipeline",
+    "fixtures/fail/verbose_recap_heavy.txt",
+    "--task",
+    "writing",
+    "--receipt"
+  ]);
+  const withMemory = await runCli([
+    "pipeline",
+    "fixtures/fail/verbose_recap_heavy.txt",
+    "--task",
+    "writing",
+    "--memory",
+    "--receipt"
+  ]);
+
+  const withoutMemoryPayload = parseJson(withoutMemory.stdout, "pipeline no-memory");
+  const withMemoryPayload = parseJson(withMemory.stdout, "pipeline --memory");
+  const withoutMemoryVerification = verifyText(withoutMemoryPayload.final);
+  const withMemoryVerification = verifyText(withMemoryPayload.final);
+
+  assert.equal(withMemoryPayload.memory.enabled, true);
+  assert.equal(withMemoryPayload.memory.hits_used >= 1, true);
+  assert.equal(withMemoryPayload.ok, withMemoryVerification.ok);
+  assert.equal(withoutMemoryPayload.ok, withoutMemoryVerification.ok);
+  assert.equal(withMemoryVerification.ok, withoutMemoryVerification.ok);
+  assert.deepEqual(
+    withMemoryPayload.violations.map((violation) => violation.code),
+    withMemoryVerification.violations.map((violation) => violation.code)
+  );
 });
 
 test("memory add rejects accepted outcome for non-compliant output", async () => {
