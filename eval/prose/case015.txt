@@ -1,0 +1,3 @@
+Oak tree: Plant
+ Copper ore: Mineral
+ Elephant: Animal

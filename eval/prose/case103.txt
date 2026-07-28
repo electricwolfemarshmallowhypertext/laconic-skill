@@ -1,0 +1,1 @@
+A suitable machine learning algorithm to solve this problem could be a supervised learning algorithm like Linear Regression, Random Forests, or Support Vector Machines. The input data could include historical stock prices, market trends, and other relevant financial indicators. The algorithm should then be trained on this data so that it can accurately predict stock prices.

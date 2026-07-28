@@ -1,10 +1,28 @@
 # Evaluation
 
-Use this folder for external, pre-labeled eval sets.
+Use this folder for pre-labeled eval sets.
 
 The important rule: labels must be written before running the checker.
 
-## Messy prose eval
+## Public assistant prose eval
+
+The checked-in `eval/prose/` corpus contains `120` public assistant outputs sampled from the Hugging Face dataset `tatsu-lab/alpaca`, train split.
+
+Current label mix:
+
+- `68` expected pass
+- `52` expected fail
+- `35` trimming-fixable failures
+
+Run:
+
+```bash
+npm run eval:labeled
+```
+
+The default command requires at least `100` cases and `20` fixable cases.
+
+## Custom messy prose eval
 
 Create a folder outside `.eval/`, for example:
 
@@ -39,7 +57,7 @@ eval/prose/
 Run:
 
 ```bash
-npm run eval:labeled -- --labels eval/prose/labels.json --out .eval/labeled-prose-report.json
+npm run eval:labeled -- --labels path/to/labels.json --out .eval/custom-report.json --min-cases 100 --min-fixable 20
 ```
 
 The command exits nonzero if any expected pass/fail label is missed. If `fixable` is `true`, rewrite must also pass.

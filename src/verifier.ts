@@ -79,7 +79,7 @@ export const DEFAULT_BANNED_PREAMBLES = [
 ];
 
 const DIRECT_ANSWER_PATTERN =
-  /^(yes|no|use|set|run|add|remove|update|create|install|keep|avoid|reject|build|do|make|ship|publish|reset|restart|enable|disable|laconic|short answer:|the|it|[0-9]|\{|\[)/i;
+  /^(yes|Yes|no|No|use|Use|set|Set|run|Run|add|Add|remove|Remove|update|Update|create|Create|install|Install|keep|Keep|avoid|Avoid|reject|Reject|build|Build|do|Do|make|Make|ship|Ship|publish|Publish|reset|Reset|restart|Restart|enable|Enable|disable|Disable|laconic|Laconic|short answer:|Short answer:|the|The|a|A|an|An|this|This|these|These|that|That|those|Those|it|It|i|I|we|We|you|You|there|There|[A-Z][a-z0-9-]+|[0-9]|\{|\[)/;
 const BULLET_LINE_PATTERN = /^\s*(?:[-*+]|(?:\d+\.))\s+/;
 const CAVEAT_WORD_PATTERN =
   /\b(maybe|depends|perhaps|possibly|likely|generally|typically|might|could|probably)\b/gi;
@@ -106,6 +106,20 @@ export function isBannedPreamble(
 ): boolean {
   const candidate = line.trimStart().toLowerCase();
   return preambles.some((phrase) => {
+    const normalized = phrase.toLowerCase();
+    return (
+      candidate === normalized ||
+      candidate.startsWith(`${normalized} `) ||
+      candidate.startsWith(`${normalized},`) ||
+      candidate.startsWith(`${normalized}:`) ||
+      candidate.startsWith(`${normalized}.`)
+    );
+  });
+}
+
+function isBannedFillerOpening(line: string, fillerPhrases: string[]): boolean {
+  const candidate = line.trimStart().toLowerCase();
+  return fillerPhrases.some((phrase) => {
     const normalized = phrase.toLowerCase();
     return (
       candidate === normalized ||
@@ -280,7 +294,13 @@ export function verifyText(
   }
 
   if (requireDirectAnswerOpening) {
-    if (!opening || !DIRECT_ANSWER_PATTERN.test(opening)) {
+    if (
+      !opening ||
+      isBannedPreamble(opening, bannedPreambles) ||
+      isBannedFillerOpening(opening, bannedFillerPhrases) ||
+      Boolean(options.userPrompt && hasRepeatedPrompt(opening, response, options.userPrompt)) ||
+      !DIRECT_ANSWER_PATTERN.test(opening)
+    ) {
       violations.push({
         code: "MISSING_DIRECT_ANSWER",
         message: "Response does not open with a direct answer."

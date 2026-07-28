@@ -1,0 +1,962 @@
+[
+  {
+    "file": "case001.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=0; fits default laconic form policy"
+  },
+  {
+    "file": "case002.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1; fits default laconic form policy"
+  },
+  {
+    "file": "case003.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=2; over default max chars"
+  },
+  {
+    "file": "case004.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=3; over default max chars"
+  },
+  {
+    "file": "case005.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=4; over default max chars"
+  },
+  {
+    "file": "case006.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=5; fits default laconic form policy"
+  },
+  {
+    "file": "case007.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=6; fits default laconic form policy"
+  },
+  {
+    "file": "case008.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=7; over default max chars"
+  },
+  {
+    "file": "case009.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=8; does not open as direct laconic answer"
+  },
+  {
+    "file": "case010.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=9; fits default laconic form policy"
+  },
+  {
+    "file": "case011.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=10; fits default laconic form policy"
+  },
+  {
+    "file": "case012.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=11; fits default laconic form policy"
+  },
+  {
+    "file": "case013.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=12; over default max bullets"
+  },
+  {
+    "file": "case014.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=13; over default max chars"
+  },
+  {
+    "file": "case015.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=14; fits default laconic form policy"
+  },
+  {
+    "file": "case016.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=15; over default max chars"
+  },
+  {
+    "file": "case017.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=16; over default max chars"
+  },
+  {
+    "file": "case018.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=17; does not open as direct laconic answer"
+  },
+  {
+    "file": "case019.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=18; over default max chars"
+  },
+  {
+    "file": "case020.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=19; fits default laconic form policy"
+  },
+  {
+    "file": "case021.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=20; does not open as direct laconic answer"
+  },
+  {
+    "file": "case022.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=21; over default max chars"
+  },
+  {
+    "file": "case023.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=22; does not open as direct laconic answer"
+  },
+  {
+    "file": "case024.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=23; over default max chars"
+  },
+  {
+    "file": "case025.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=24; over default max chars"
+  },
+  {
+    "file": "case026.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=250; fits default laconic form policy"
+  },
+  {
+    "file": "case027.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=251; fits default laconic form policy"
+  },
+  {
+    "file": "case028.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=252; fits default laconic form policy"
+  },
+  {
+    "file": "case029.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=253; over default max chars"
+  },
+  {
+    "file": "case030.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=254; over default max chars"
+  },
+  {
+    "file": "case031.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=255; over default max chars"
+  },
+  {
+    "file": "case032.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=256; over default max chars"
+  },
+  {
+    "file": "case033.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=257; fits default laconic form policy"
+  },
+  {
+    "file": "case034.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=258; fits default laconic form policy"
+  },
+  {
+    "file": "case035.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=259; over default max chars"
+  },
+  {
+    "file": "case036.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=260; over default max chars"
+  },
+  {
+    "file": "case037.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=261; fits default laconic form policy"
+  },
+  {
+    "file": "case038.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=262; over default max chars"
+  },
+  {
+    "file": "case039.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=263; over default max chars"
+  },
+  {
+    "file": "case040.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=264; over default max chars"
+  },
+  {
+    "file": "case041.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=265; fits default laconic form policy"
+  },
+  {
+    "file": "case042.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=266; fits default laconic form policy"
+  },
+  {
+    "file": "case043.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=267; over default max chars; does not open as direct laconic answer"
+  },
+  {
+    "file": "case044.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=268; fits default laconic form policy"
+  },
+  {
+    "file": "case045.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=269; fits default laconic form policy"
+  },
+  {
+    "file": "case046.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=270; fits default laconic form policy"
+  },
+  {
+    "file": "case047.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=271; over default max chars"
+  },
+  {
+    "file": "case048.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=272; over default max chars; over default caveat limit"
+  },
+  {
+    "file": "case049.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=273; over default max chars"
+  },
+  {
+    "file": "case050.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=274; fits default laconic form policy"
+  },
+  {
+    "file": "case051.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=500; fits default laconic form policy"
+  },
+  {
+    "file": "case052.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=501; fits default laconic form policy"
+  },
+  {
+    "file": "case053.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=502; fits default laconic form policy"
+  },
+  {
+    "file": "case054.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=503; over default max chars"
+  },
+  {
+    "file": "case055.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=504; fits default laconic form policy"
+  },
+  {
+    "file": "case056.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=505; fits default laconic form policy"
+  },
+  {
+    "file": "case057.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=506; over default max chars; over default caveat limit"
+  },
+  {
+    "file": "case058.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=507; over default max chars"
+  },
+  {
+    "file": "case059.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=508; does not open as direct laconic answer"
+  },
+  {
+    "file": "case060.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=509; over default max chars"
+  },
+  {
+    "file": "case061.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=510; over default max chars"
+  },
+  {
+    "file": "case062.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=511; does not open as direct laconic answer"
+  },
+  {
+    "file": "case063.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=512; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case064.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=513; fits default laconic form policy"
+  },
+  {
+    "file": "case065.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=514; over default max chars; over default max bullets"
+  },
+  {
+    "file": "case066.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=515; over default max chars"
+  },
+  {
+    "file": "case067.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=516; fits default laconic form policy"
+  },
+  {
+    "file": "case068.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=517; fits default laconic form policy"
+  },
+  {
+    "file": "case069.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=518; fits default laconic form policy"
+  },
+  {
+    "file": "case070.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=519; does not open as direct laconic answer"
+  },
+  {
+    "file": "case071.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=520; fits default laconic form policy"
+  },
+  {
+    "file": "case072.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=521; fits default laconic form policy"
+  },
+  {
+    "file": "case073.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=522; fits default laconic form policy"
+  },
+  {
+    "file": "case074.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=523; fits default laconic form policy"
+  },
+  {
+    "file": "case075.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=524; over default max chars"
+  },
+  {
+    "file": "case076.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=750; fits default laconic form policy"
+  },
+  {
+    "file": "case077.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=751; does not open as direct laconic answer"
+  },
+  {
+    "file": "case078.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=752; fits default laconic form policy"
+  },
+  {
+    "file": "case079.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=753; fits default laconic form policy"
+  },
+  {
+    "file": "case080.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=754; fits default laconic form policy"
+  },
+  {
+    "file": "case081.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=755; fits default laconic form policy"
+  },
+  {
+    "file": "case082.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=756; fits default laconic form policy"
+  },
+  {
+    "file": "case083.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=757; over default max chars"
+  },
+  {
+    "file": "case084.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=758; over default max bullets"
+  },
+  {
+    "file": "case085.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=759; fits default laconic form policy"
+  },
+  {
+    "file": "case086.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=760; fits default laconic form policy"
+  },
+  {
+    "file": "case087.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=761; fits default laconic form policy"
+  },
+  {
+    "file": "case088.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=762; fits default laconic form policy"
+  },
+  {
+    "file": "case089.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=763; fits default laconic form policy"
+  },
+  {
+    "file": "case090.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=764; fits default laconic form policy"
+  },
+  {
+    "file": "case091.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=765; fits default laconic form policy"
+  },
+  {
+    "file": "case092.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=766; fits default laconic form policy"
+  },
+  {
+    "file": "case093.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=767; over default max chars"
+  },
+  {
+    "file": "case094.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=768; fits default laconic form policy"
+  },
+  {
+    "file": "case095.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=769; fits default laconic form policy"
+  },
+  {
+    "file": "case096.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=770; fits default laconic form policy"
+  },
+  {
+    "file": "case097.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=771; fits default laconic form policy"
+  },
+  {
+    "file": "case098.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=772; fits default laconic form policy"
+  },
+  {
+    "file": "case099.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=773; fits default laconic form policy"
+  },
+  {
+    "file": "case100.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=774; fits default laconic form policy"
+  },
+  {
+    "file": "case101.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1000; fits default laconic form policy"
+  },
+  {
+    "file": "case102.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1001; over default max chars"
+  },
+  {
+    "file": "case103.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1002; over default max chars"
+  },
+  {
+    "file": "case104.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1003; over default max chars"
+  },
+  {
+    "file": "case105.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1004; over default max chars"
+  },
+  {
+    "file": "case106.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1005; fits default laconic form policy"
+  },
+  {
+    "file": "case107.txt",
+    "expected": "fail",
+    "fixable": true,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1006; over default max chars"
+  },
+  {
+    "file": "case108.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1007; over default max chars; over default caveat limit"
+  },
+  {
+    "file": "case109.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1008; fits default laconic form policy"
+  },
+  {
+    "file": "case110.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1009; fits default laconic form policy"
+  },
+  {
+    "file": "case111.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1010; fits default laconic form policy"
+  },
+  {
+    "file": "case112.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1011; fits default laconic form policy"
+  },
+  {
+    "file": "case113.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1012; fits default laconic form policy"
+  },
+  {
+    "file": "case114.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1013; fits default laconic form policy"
+  },
+  {
+    "file": "case115.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1014; fits default laconic form policy"
+  },
+  {
+    "file": "case116.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1015; fits default laconic form policy"
+  },
+  {
+    "file": "case117.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1016; fits default laconic form policy"
+  },
+  {
+    "file": "case118.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1017; fits default laconic form policy"
+  },
+  {
+    "file": "case119.txt",
+    "expected": "pass",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1018; fits default laconic form policy"
+  },
+  {
+    "file": "case120.txt",
+    "expected": "fail",
+    "fixable": false,
+    "category": "public assistant prose",
+    "source": "tatsu-lab/alpaca train output",
+    "notes": "row_idx=1019; does not open as direct laconic answer"
+  }
+]

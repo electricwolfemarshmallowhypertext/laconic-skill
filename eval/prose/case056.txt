@@ -1,0 +1,1 @@
+Yes, the phrase is a well-formed formula. It is a statement that there exists an x such that P(x) holds.

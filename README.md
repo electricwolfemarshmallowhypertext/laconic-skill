@@ -63,6 +63,8 @@ cat output.txt | node dist/cli.js check - --receipt
 - `63.477%` average character reduction: the benchmark reports average shrinkage after deterministic rewrite.
 - `50/50` fixable outputs passed after rewrite: every benchmark output that started failing passed after rewrite.
 - `0` compliant false fails: short compliant controls in `benchmarks/compliant/*.txt` stayed passing.
+- `120` public assistant-prose eval cases: `npm run eval:labeled` checks frozen labels in `eval/prose/labels.json`.
+- `0` labeled prose misses: the public prose eval currently reports `68` expected pass, `52` expected fail, and `35/35` fixable rewrites passed.
 - Deterministic across `5` runs: the benchmark repeats and compares stable output signatures.
 - No model calls during verification: the verifier runs locally and deterministically; `package.json` includes no model SDK dependency.
 - Receipt hash determinism: tests verify the same input/output/config produces the same receipt hash.
@@ -72,7 +74,7 @@ Evaluation gates:
 
 - `npm run benchmark` checks curated benchmark and holdout rewrite behavior.
 - `npm run eval:scrapegraphai` checks 100 local ScrapeGraphAI structured-output rows when `rows.json` is present.
-- `npm run eval:labeled -- --labels eval/prose/labels.json` checks pre-labeled messy prose supplied before the run.
+- `npm run eval:labeled` checks the checked-in 120-case public assistant-prose eval.
 - See `docs/evaluation.md` for what each gate does and does not prove.
 
 ## What it does

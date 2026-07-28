@@ -1,0 +1,1 @@
+In thermodynamics, entropy is a measure of the randomness of a system and its ability to generate useful work. It is closely related to the Second Law of Thermodynamics, which states that entropy of a system can never reduce over time unless energy is added to it. Entropy is essential to understanding how heat transfer and chemical processes occur in nature.

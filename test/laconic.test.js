@@ -357,6 +357,11 @@ test("real direct-answer openings are accepted", () => {
     "laconic verifies response shape.",
     "Do not publish until install smoke passes.",
     "Publish after clean install passes.",
+    "An atom contains protons, neutrons, and electrons.",
+    "A motherboard connects the main computer components.",
+    "Word embeddings represent tokens as vectors.",
+    "This release adds a prose eval gate.",
+    "We should wait for the labeled eval before claiming broad coverage.",
     "{\"projects\":[]}",
     "[{\"title\":\"Example\"}]"
   ];

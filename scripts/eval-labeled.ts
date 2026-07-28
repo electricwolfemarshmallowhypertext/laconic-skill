@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { dirname, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 
 interface LabelCase {
@@ -25,15 +25,21 @@ interface LabeledResult extends LabelCase {
 }
 
 const DEFAULT_MAX_MISSES = 0;
+const DEFAULT_MIN_CASES = 100;
+const DEFAULT_MIN_FIXABLE = 20;
 
 function parseArgs(argv: string[]): {
   labelsPath: string;
   outPath: string;
   maxMisses: number;
+  minCases: number;
+  minFixable: number;
 } {
   let labelsPath = "eval/prose/labels.json";
   let outPath = ".eval/labeled-prose-report.json";
   let maxMisses = DEFAULT_MAX_MISSES;
+  let minCases = DEFAULT_MIN_CASES;
+  let minFixable = DEFAULT_MIN_FIXABLE;
 
   for (let index = 0; index < argv.length; index += 1) {
     const token = argv[index];
@@ -64,10 +70,28 @@ function parseArgs(argv: string[]): {
       index += 1;
       continue;
     }
+    if (token === "--min-cases") {
+      const value = Number(argv[index + 1]);
+      if (!Number.isInteger(value) || value < 0) {
+        throw new Error("--min-cases must be a non-negative integer.");
+      }
+      minCases = value;
+      index += 1;
+      continue;
+    }
+    if (token === "--min-fixable") {
+      const value = Number(argv[index + 1]);
+      if (!Number.isInteger(value) || value < 0) {
+        throw new Error("--min-fixable must be a non-negative integer.");
+      }
+      minFixable = value;
+      index += 1;
+      continue;
+    }
     throw new Error(`Unknown option: ${token}`);
   }
 
-  return { labelsPath, outPath, maxMisses };
+  return { labelsPath, outPath, maxMisses, minCases, minFixable };
 }
 
 function loadLabels(labelsPath: string): LabelCase[] {
@@ -166,7 +190,9 @@ function categorySummary(results: LabeledResult[]): Array<{
 }
 
 function main(): void {
-  const { labelsPath, outPath, maxMisses } = parseArgs(process.argv.slice(2));
+  const { labelsPath, outPath, maxMisses, minCases, minFixable } = parseArgs(
+    process.argv.slice(2)
+  );
   const resolvedLabelsPath = resolve(labelsPath);
   const resolvedOutPath = resolve(outPath);
 
@@ -208,12 +234,27 @@ function main(): void {
   const totalMisses = results.filter(
     (result) => result.check_miss || result.rewrite_miss
   ).length;
+  const fixableTotal = results.filter(
+    (result) => result.expected === "fail" && result.fixable === true
+  ).length;
+  const gateFailures: string[] = [];
+  if (results.length < minCases) {
+    gateFailures.push(`total cases ${results.length} below minimum ${minCases}`);
+  }
+  if (fixableTotal < minFixable) {
+    gateFailures.push(`fixable cases ${fixableTotal} below minimum ${minFixable}`);
+  }
+  if (totalMisses > maxMisses) {
+    gateFailures.push(`misses ${totalMisses} above maximum ${maxMisses}`);
+  }
+
   const summary = {
     labels: resolvedLabelsPath,
     label_policy: "pre-labeled before run; expected pass/fail is authoritative",
     total: results.length,
     expected_pass: results.filter((result) => result.expected === "pass").length,
     expected_fail: results.filter((result) => result.expected === "fail").length,
+    fixable_total: fixableTotal,
     misses: totalMisses,
     false_fails: results.filter(
       (result) => result.expected === "pass" && result.actual === "fail"
@@ -223,7 +264,10 @@ function main(): void {
     ).length,
     rewrite_failures: results.filter((result) => result.rewrite_miss).length,
     max_misses: maxMisses,
-    ok: totalMisses <= maxMisses,
+    min_cases: minCases,
+    min_fixable: minFixable,
+    gate_failures: gateFailures,
+    ok: gateFailures.length === 0,
     categories: categorySummary(results),
     results
   };

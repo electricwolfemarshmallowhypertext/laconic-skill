@@ -28,12 +28,26 @@ What it does not prove:
 Command:
 
 ```bash
-npm run eval:labeled -- --labels eval/prose/labels.json --out .eval/labeled-prose-report.json
+npm run eval:labeled
 ```
 
-Use this for real agent logs, PR comments, status updates, review comments, and documentation drafts.
+The default checked-in eval uses `120` public assistant outputs sampled from the `tatsu-lab/alpaca` train split. Labels are stored in `eval/prose/labels.json`.
 
-Labels must be written before the run. The runner exits nonzero on pass/fail misses. If a failing case has `fixable: true`, rewrite must also pass.
+Current expected mix:
+
+- `68` expected pass
+- `52` expected fail
+- `35` trimming-fixable failures
+
+The runner exits nonzero on pass/fail misses. If a failing case has `fixable: true`, rewrite must also pass. The default gate requires at least `100` cases and `20` fixable cases.
+
+Use custom labels for real agent logs, PR comments, status updates, review comments, and documentation drafts:
+
+```bash
+npm run eval:labeled -- --labels path/to/labels.json --out .eval/custom-report.json --min-cases 100 --min-fixable 20
+```
+
+Labels must be written before the run.
 
 Label format:
 
@@ -77,3 +91,5 @@ It also writes a correctness-confidence report from the dataset's `response_is_v
 Do not claim broad messy-prose robustness unless a pre-labeled messy-prose eval passes.
 
 Do not claim correctness unless a task-specific evaluator supplies measured scores and spec limits.
+
+The checked-in public prose eval proves behavior against that frozen public corpus. It does not prove all arbitrary assistant prose.

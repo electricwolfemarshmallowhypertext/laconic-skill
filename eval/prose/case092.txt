@@ -1,0 +1,1 @@
+Two possible methods for predicting whether an email is a spam or not are supervised machine learning models such as artificial neural networks and Naive Bayes classifiers, or an unsupervised machine learning method such as clustering and anomaly detection.
