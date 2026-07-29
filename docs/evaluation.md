@@ -35,9 +35,9 @@ The default checked-in eval uses `200` public assistant messages sampled from th
 
 Current expected mix:
 
-- `18` expected pass
-- `182` expected fail
-- `70` trimming-fixable failures
+- `16` expected pass
+- `184` expected fail
+- `56` trimming-fixable failures
 
 The runner exits nonzero on pass/fail misses. If a failing case has `fixable: true`, rewrite must also pass. The default gate requires at least `100` cases and `20` fixable cases.
 
@@ -93,3 +93,13 @@ Do not claim broad messy-prose robustness unless a pre-labeled messy-prose eval 
 Do not claim correctness unless a task-specific evaluator supplies measured scores and spec limits.
 
 The checked-in public prose eval proves behavior against that frozen public corpus. It does not prove all arbitrary assistant prose.
+
+## Blind structural comparison
+
+Command:
+
+```bash
+npm run benchmark:compare
+```
+
+This runs the same blind prose corpus through laconic verification and a deterministic scanner modeled on published Stop Slop-style pattern categories. It is not a Stop Slop runtime benchmark because Stop Slop is a skill/spec, not a CLI verifier.

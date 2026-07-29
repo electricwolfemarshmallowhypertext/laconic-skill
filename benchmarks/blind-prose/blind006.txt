@@ -1,0 +1,9 @@
+Sure, there are several email automation platforms available to help you create and schedule personalized messages. Some good options are:
+
+1. Mailchimp
+2. Hubspot
+3. ActiveCampaign
+4. Marketo
+5. Campaign Monitor
+
+These platforms offer various features such as email templates, segmentation, autoresponders, and A/B testing, to help you create and send targeted messages to your subscribers. They also offer analytics and reporting to help you track the performance of your campaigns and optimize them for better results.

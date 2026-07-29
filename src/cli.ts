@@ -17,6 +17,7 @@ import {
   loadCorrectnessConfigFile
 } from "./correctness/confidence";
 import { compareCodepointStable } from "./deterministic";
+import { measurePreservation } from "./preservation";
 import {
   createDefaultStyleMemoryAdapter,
   type StyleMemoryOutcome,
@@ -274,7 +275,10 @@ function emitRewrite(input: string, filePath: string, withReceipt: boolean): num
     verifier_version: LACONIC_VERIFIER_VERSION,
     ok: result.ok,
     violations: toReceiptViolations(result.violations),
-    metrics: { ...result.metrics },
+    metrics: {
+      ...result.metrics,
+      preservation: measurePreservation(input, final)
+    },
     timestamp: DETERMINISTIC_TIMESTAMP
   });
 

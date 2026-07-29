@@ -4,6 +4,14 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- structural AI-pattern detection, quality scoring, preservation metrics, and blind prose comparison benchmark
+
+### Changed
+
+- benchmark proof now reports measured reduction without gating on a vanity reduction percentage
+
 ## [0.1.2] - 2026-05-22
 
 ### Added

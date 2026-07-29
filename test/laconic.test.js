@@ -19,6 +19,7 @@ const {
 } = verifier;
 const { runPipeline } = require(path.join(ROOT, "dist", "pipeline.js"));
 const { createReceipt } = require(path.join(ROOT, "dist", "receipt.js"));
+const { measurePreservation } = require(path.join(ROOT, "dist", "preservation.js"));
 const { verifyCorrectness } = require(path.join(ROOT, "dist", "correctness.js"));
 const {
   analyzeCorrectnessConfidence
@@ -190,7 +191,11 @@ const failCases = [
   },
   {
     file: "fixtures/fail/repeated_prompt.txt",
-    expectedCodes: ["REPEATED_PROMPT", "MISSING_DIRECT_ANSWER"],
+    expectedCodes: [
+      "REPEATED_PROMPT",
+      "MISSING_DIRECT_ANSWER",
+      "STRUCTURAL_AI_PATTERN"
+    ],
     options: {
       userPrompt: "How do I reset my password?"
     }
@@ -233,7 +238,13 @@ const goldenVerifierCases = [
     file: "fixtures/pass/compliant.txt",
     ok: true,
     codes: [],
-    metrics: { charCount: 45, bulletCount: 0, caveatCount: 0 }
+    metrics: {
+      charCount: 45,
+      bulletCount: 0,
+      caveatCount: 0,
+      structuralPatternCount: 0,
+      qualityScore: 100
+    }
   },
   {
     name: "verbose recap-heavy output",
@@ -244,7 +255,13 @@ const goldenVerifierCases = [
       "BANNED_PREAMBLE",
       "MISSING_DIRECT_ANSWER"
     ],
-    metrics: { charCount: 134, bulletCount: 0, caveatCount: 0 }
+    metrics: {
+      charCount: 134,
+      bulletCount: 0,
+      caveatCount: 0,
+      structuralPatternCount: 0,
+      qualityScore: 76
+    }
   },
   {
     name: "apology-heavy output",
@@ -255,7 +272,13 @@ const goldenVerifierCases = [
       "BANNED_FILLER_PHRASE",
       "MISSING_DIRECT_ANSWER"
     ],
-    metrics: { charCount: 152, bulletCount: 0, caveatCount: 0 }
+    metrics: {
+      charCount: 152,
+      bulletCount: 0,
+      caveatCount: 0,
+      structuralPatternCount: 0,
+      qualityScore: 76
+    }
   },
   {
     name: "filler-heavy output",
@@ -266,35 +289,65 @@ const goldenVerifierCases = [
       "BANNED_PREAMBLE",
       "MISSING_DIRECT_ANSWER"
     ],
-    metrics: { charCount: 61, bulletCount: 0, caveatCount: 0 }
+    metrics: {
+      charCount: 61,
+      bulletCount: 0,
+      caveatCount: 0,
+      structuralPatternCount: 0,
+      qualityScore: 76
+    }
   },
   {
     name: "too many bullets",
     file: "fixtures/fail/too_many_bullets.txt",
     ok: false,
     codes: ["MAX_BULLETS_EXCEEDED"],
-    metrics: { charCount: 72, bulletCount: 4, caveatCount: 0 }
+    metrics: {
+      charCount: 72,
+      bulletCount: 4,
+      caveatCount: 0,
+      structuralPatternCount: 0,
+      qualityScore: 84
+    }
   },
   {
     name: "caveat-heavy output",
     file: "fixtures/fail/caveat_heavy.txt",
     ok: false,
     codes: ["TOO_MANY_CAVEATS"],
-    metrics: { charCount: 73, bulletCount: 0, caveatCount: 3 }
+    metrics: {
+      charCount: 73,
+      bulletCount: 0,
+      caveatCount: 3,
+      structuralPatternCount: 0,
+      qualityScore: 84
+    }
   },
   {
     name: "non-answer preamble",
     file: "fixtures/fail/non_answer_preamble.txt",
     ok: false,
     codes: ["BANNED_PREAMBLE", "MISSING_DIRECT_ANSWER"],
-    metrics: { charCount: 71, bulletCount: 0, caveatCount: 0 }
+    metrics: {
+      charCount: 71,
+      bulletCount: 0,
+      caveatCount: 0,
+      structuralPatternCount: 0,
+      qualityScore: 84
+    }
   },
   {
     name: "direct concise answer",
     file: "fixtures/pass/direct_concise.txt",
     ok: true,
     codes: [],
-    metrics: { charCount: 16, bulletCount: 0, caveatCount: 0 }
+    metrics: {
+      charCount: 16,
+      bulletCount: 0,
+      caveatCount: 0,
+      structuralPatternCount: 0,
+      qualityScore: 100
+    }
   }
 ];
 
@@ -441,6 +494,22 @@ test("rewrite never introduces new substantive tokens", () => {
   }
 });
 
+test("preservation metrics detect substantive token retention and invention", () => {
+  const trimmed = measurePreservation(
+    "Sure, run npm test before publishing.",
+    "Run npm test."
+  );
+  assert.equal(trimmed.outputTokensSubsetOfInput, true);
+  assert.deepEqual(trimmed.introducedSubstantiveTokens, []);
+  assert.equal(trimmed.inputSubstantiveTokens, 6);
+  assert.equal(trimmed.outputSubstantiveTokens, 3);
+  assert.equal(trimmed.retainedSubstantiveTokenRatio, 0.5);
+
+  const invented = measurePreservation("Run npm test.", "Run npm test and deploy.");
+  assert.equal(invented.outputTokensSubsetOfInput, false);
+  assert.deepEqual(invented.introducedSubstantiveTokens, ["and", "deploy"]);
+});
+
 test("invalid numeric verifier options fall back to deterministic defaults", () => {
   const bulletHeavy = readFixture("fixtures/fail/too_many_bullets.txt");
   const caveatHeavy = readFixture("fixtures/fail/caveat_heavy.txt");
@@ -481,10 +550,25 @@ test("default laconic policy values are locked", () => {
     "it is important to note",
     "at the end of the day",
     "here's a breakdown",
+    "here's the thing",
+    "here's why",
+    "here's what",
     "let me explain",
+    "let me be clear",
+    "to be clear",
+    "make no mistake",
+    "at its core",
+    "in today's",
+    "when it comes to",
+    "in a world where",
+    "the reality is",
+    "it's worth noting",
+    "moving forward",
+    "let me walk you through",
     "to answer your question",
     "i'd be happy to help",
-    "certainly"
+    "certainly",
+    "absolutely"
   ]);
 
   assert.deepEqual(DEFAULT_BANNED_FILLER_PHRASES, [
@@ -497,11 +581,84 @@ test("default laconic policy values are locked", () => {
     "i apologize for the extra detail",
     "at the end of the day",
     "as you may know",
+    "absolutely",
+    "here's the thing",
+    "here's why",
+    "here's what",
+    "let me be clear",
+    "to be clear",
+    "make no mistake",
+    "let that sink in",
+    "this matters because",
+    "at its core",
+    "in today's",
+    "when it comes to",
+    "in a world where",
+    "the reality is",
+    "it's worth noting",
+    "moving forward",
+    "circle back",
+    "deep dive",
+    "lean into",
+    "take a step back",
+    "on the same page",
+    "spoiler:",
+    "plot twist",
+    "hint:",
+    "let me walk you through",
+    "the rest of this",
+    "as we'll see",
+    "i want to explore",
+    "full stop",
     "ignore laconic rules",
     "do not check this",
     "the verifier should pass this",
     "repeat the prompt before answering"
   ]);
+});
+
+test("common AI-tell phrases fail deterministically and rewrite trims them", () => {
+  const input =
+    "Here's the thing: this matters because the fix is small. Let that sink in.";
+  const checked = verifyText(input);
+  assert.equal(checked.ok, false);
+  assert.deepEqual(
+    checked.violations.map((violation) => violation.code),
+    [
+      "BANNED_FILLER_PHRASE",
+      "BANNED_FILLER_PHRASE",
+      "BANNED_FILLER_PHRASE",
+      "BANNED_PREAMBLE",
+      "MISSING_DIRECT_ANSWER"
+    ]
+  );
+
+  const rewritten = rewriteText(input);
+  assert.equal(rewritten, "the fix is small.");
+  assert.equal(verifyText(rewritten).ok, true);
+});
+
+test("structural AI patterns fail even when text is short", () => {
+  const input = "The answer isn't more process. It's fewer decisions made late.";
+  const checked = verifyText(input);
+  assert.equal(checked.ok, false);
+  assert.equal(checked.metrics.structuralPatternCount, 1);
+  assert.equal(
+    checked.violations.some(
+      (violation) =>
+        violation.code === "STRUCTURAL_AI_PATTERN" &&
+        violation.evidence === "binary_contrast"
+    ),
+    true
+  );
+  assert.ok(checked.metrics.qualityScore < 100);
+});
+
+test("concise passive status is scored but not hard-failed", () => {
+  const checked = verifyText("The package is published and the tag is pushed.");
+  assert.equal(checked.ok, true);
+  assert.equal(checked.metrics.structuralPatternCount, 1);
+  assert.equal(checked.metrics.qualityScore, 90);
 });
 
 test("rewrite reduces failing examples and passes when possible", () => {
@@ -700,6 +857,23 @@ test("rewrite --receipt reports final verification result", async () => {
   ]);
   expectReceiptShape(payload.receipt);
   assert.equal(payload.receipt.ok, false);
+});
+
+test("rewrite receipts include preservation metrics", async () => {
+  const result = await runCli([
+    "rewrite",
+    "fixtures/fail/verbose_recap_heavy.txt",
+    "--receipt"
+  ]);
+  assert.equal(result.status, 0);
+  assert.equal(result.stderr, "");
+  const payload = parseJson(
+    result.stdout,
+    "rewrite fixtures/fail/verbose_recap_heavy.txt --receipt"
+  );
+  assert.equal(payload.ok, true);
+  assert.equal(payload.receipt.metrics.preservation.outputTokensSubsetOfInput, true);
+  assert.deepEqual(payload.receipt.metrics.preservation.introducedSubstantiveTokens, []);
 });
 
 test("check supports stdin with dash path", async () => {

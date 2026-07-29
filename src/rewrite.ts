@@ -18,6 +18,13 @@ const RECAP_OPENINGS = [/^to recap[,:\s]/i, /^in summary[,:\s]/i];
 const PLANNING_OPENINGS = [
   /^first,\s+we should\s+(?:think|consider)\b/i,
   /^then,\s+we should\s+(?:think|consider)\b/i,
+  /^here\s+(?:is|are)\b.*\b(?:agent status update|benchmark call|breakdown|concise pr description|documentation paragraph|implementation note|overview|plan|planning reply|recommendation|recap|release-quality loop|review comment|setup|steps|summary|version)\b/i,
+  /^here['\u2019]?s\b.*\b(?:answer|instruction|recap|setup|summary)\b/i,
+  /^status update:.*\b(?:before the useful result|more detail than necessary)\b/i,
+  /^the problem is not\b.*\bbefore naming\b/i,
+  /^the safest release note\b.*\bfirst\b/i,
+  /^this is the short\b.*\bbefore the summary\b/i,
+  /^i can explain\b/i,
   /^i\s+(?:will|am going to)\s+(?:explain|describe|list|include|walk through)\b/i
 ];
 const CAVEAT_WORD_GLOBAL =
@@ -60,6 +67,24 @@ function startsWithBannedFiller(line: string, bannedFillerPhrases: string[]): bo
   });
 }
 
+function trimOpeningPhrase(line: string, phrases: string[]): string | null {
+  const trimmed = line.trimStart();
+  const lower = trimmed.toLowerCase();
+  for (const phrase of phrases) {
+    const normalized = phrase.toLowerCase();
+    if (lower === normalized) {
+      return "";
+    }
+    for (const separator of [":", ",", ".", " "]) {
+      const prefix = `${normalized}${separator}`;
+      if (lower.startsWith(prefix)) {
+        return trimmed.slice(prefix.length).trimStart();
+      }
+    }
+  }
+  return null;
+}
+
 function stripLeadingNoise(
   lines: string[],
   bannedPreambles: string[],
@@ -77,6 +102,10 @@ function stripLeadingNoise(
     const recap = RECAP_OPENINGS.some((pattern) => pattern.test(line));
     const planning = PLANNING_OPENINGS.some((pattern) => pattern.test(line));
     const fillerOpening = startsWithBannedFiller(line, bannedFillerPhrases);
+    const trimmedOpening = trimOpeningPhrase(line, [
+      ...bannedPreambles,
+      ...bannedFillerPhrases
+    ]);
     if (
       recap ||
       planning ||
@@ -84,6 +113,21 @@ function stripLeadingNoise(
       isBannedPreamble(line, bannedPreambles) ||
       matchesPromptLine(line, userPrompt)
     ) {
+      if (trimmedOpening) {
+        if (
+          /^(?:but|and|so)\b/i.test(trimmedOpening) ||
+          /^(?:for|of|with)\b/i.test(trimmedOpening) ||
+          /^here\b[,.]?\s*(?:but|and|so)?\b/i.test(trimmedOpening) ||
+          /^(?:that\s+)?(?:maybe|perhaps|possibly|likely|generally|typically|might|could|probably)\b/i.test(
+            trimmedOpening
+          )
+        ) {
+          working.shift();
+          continue;
+        }
+        working[0] = trimmedOpening;
+        continue;
+      }
       working.shift();
       continue;
     }

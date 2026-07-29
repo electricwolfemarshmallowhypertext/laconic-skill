@@ -1,0 +1,23 @@
+Sure! Here is the updated script that includes the day of the week:
+
+```
+# import datetime module
+import datetime
+
+# get current date and time
+now = datetime.datetime.now()
+
+# extract month, day, year, hour, minute, second, and day of the week from now variable
+month = now.strftime("%B")
+day = now.strftime("%d")
+year = now.strftime("%Y")
+hour = now.strftime("%H")
+minute = now.strftime("%M")
+second = now.strftime("%S")
+day_of_week = now.strftime("%A")
+
+# print out current date and time in the format of "Day of the Week Month Day, Year Hour:Minute:Second"
+print(day_of_week, month, day + ",", year, hour + ":" + minute + ":" + second)
+```
+
+This will print out the current day of the week, followed by the month, day, year, and time in the format of "Day of the Week Month Day, Year Hour:Minute:Second".

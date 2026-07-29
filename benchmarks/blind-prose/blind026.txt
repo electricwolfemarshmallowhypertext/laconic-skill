@@ -1,0 +1,16 @@
+# import datetime module
+import datetime
+
+# get current date and time
+now = datetime.datetime.now()
+
+# extract month, day, year, hour, minute, and second from now variable
+month = now.strftime("%B")
+day = now.strftime("%d")
+year = now.strftime("%Y")
+hour = now.strftime("%H")
+minute = now.strftime("%M")
+second = now.strftime("%S")
+
+# print out current date and time in the format of "Month Day, Year Hour:Minute:Second"
+print(month, day + ",", year, hour + ":" + minute + ":" + second)

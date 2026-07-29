@@ -10,9 +10,9 @@ The checked-in `eval/prose/` corpus contains `200` public assistant messages sam
 
 Current label mix:
 
-- `18` expected pass
-- `182` expected fail
-- `70` trimming-fixable failures
+- `16` expected pass
+- `184` expected fail
+- `56` trimming-fixable failures
 
 Run:
 

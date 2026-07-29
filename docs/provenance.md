@@ -5,11 +5,11 @@
 - npm version: 0.1.4
 - git tag: v0.1.4
 - commit: 67b8cd6bc8befbf2d2eb223ded41e31ced52fa22
-- status: this document may include uncommitted hardening changes until the next commit/tag.
+- status: includes unreleased hardening changes after v0.1.4; commit hash updates with the next release tag.
 
 ## Benchmark proof
 
-- benchmark result date: 2026-07-01
+- benchmark result date: 2026-07-29
 - command: `npm run benchmark`
 - corpus: `benchmarks/corpus/*.txt`
 - compliant controls: `benchmarks/compliant/*.txt`
@@ -18,9 +18,9 @@
 ## Release proof summary
 
 - 50 main corpus files
-- 63.477% average character reduction in the v0.1.4 proof run
-- 50/50 fixable outputs passed after rewrite in the v0.1.4 proof run
-- 0 compliant false fails in the v0.1.4 proof run
+- 48.028% average character reduction in the unreleased hardening proof run
+- 50/50 fixable outputs passed after rewrite in the unreleased hardening proof run
+- 0 compliant false fails in the unreleased hardening proof run
 - deterministic across 5 runs
 - no model calls during verification
 

@@ -30,6 +30,7 @@
     "prepack": "npm run build",
     "test": "npm run build && node test/laconic.test.js",
     "benchmark": "npm run build && tsc -p tsconfig.benchmark.json && node dist/scripts/benchmark.js",
+    "benchmark:compare": "npm run build && tsc -p tsconfig.benchmark.json && node dist/scripts/compare-stop-slop.js",
     "benchmark:ci": "npm run benchmark",
     "test:install": "npm run build && node scripts/clean-install-smoke.js",
     "eval:scrapegraphai": "npm run build && tsc -p tsconfig.benchmark.json && node dist/scripts/eval-scrapegraphai.js --input rows.json --out .eval/scrapegraphai-form",

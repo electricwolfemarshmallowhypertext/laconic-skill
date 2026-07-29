@@ -2,6 +2,7 @@ export { rewriteText } from "./rewrite";
 export { verifyText } from "./verifier";
 export { createReceipt, computeReceiptHash, sha256Hex } from "./receipt";
 export { compareCodepointStable } from "./deterministic";
+export { measurePreservation } from "./preservation";
 export {
   CORRECTNESS_VERIFIER_VERSION,
   listCorrectnessContracts,

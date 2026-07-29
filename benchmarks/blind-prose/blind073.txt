@@ -1,0 +1,30 @@
+Sure, here are some specific examples of how to use indexing to optimize database performance in Derby:
+
+Example 1 - Basic Indexing:
+Suppose you have a table called 'employees' with columns 'employee_id', 'name', and 'dept'. You frequently run a query to find all employees in a specific department. To optimize performance, you could create an index on the 'dept' column like this:
+
+```
+CREATE INDEX dept_index ON employees (dept);
+```
+
+This index would allow the database to quickly find all rows where the 'dept' column matches a specific value.
+
+Example 2 - Composite Indexing:
+Suppose you frequently run a query to find all employees in a specific department and with a specific name. To optimize performance, you could create a composite index on the 'dept' and 'name' columns like this:
+
+```
+CREATE INDEX dept_name_index ON employees (dept, name);
+```
+
+This index would allow the database to quickly find all rows where both the 'dept' and 'name' columns match specific values.
+
+Example 3 - Partial Indexing:
+Suppose you frequently run a query to find all employees with a name that starts with a specific letter. To optimize performance, you could create a partial index on the 'name' column like this:
+
+```
+CREATE INDEX name_index ON employees (name) WHERE name LIKE 'A%';
+```
+
+This index would only include rows where the 'name' column starts with the letter 'A', which would reduce the amount of data that needs to be scanned when running the query.
+
+In general, you should create indexes on columns that are frequently used in WHERE clauses, JOIN conditions, or order by clauses. Be careful not to over-index, as too many indexes can actually slow down database performance. Use the EXPLAIN keyword to analyze the execution plan of your queries and identify any potential performance issues.

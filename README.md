@@ -60,12 +60,15 @@ cat output.txt | node dist/cli.js check - --receipt
 ## Verified proof
 
 - `50` corpus files: the benchmark runs against realistic verbose AI outputs in `benchmarks/corpus/*.txt`.
-- `63.477%` average character reduction: the benchmark reports average shrinkage after deterministic rewrite.
+- `48.028%` average character reduction: the benchmark reports measured shrinkage after deterministic rewrite without unsafe over-trimming.
 - `50/50` fixable outputs passed after rewrite: every benchmark output that started failing passed after rewrite.
 - `0` compliant false fails: short compliant controls in `benchmarks/compliant/*.txt` stayed passing.
 - `200` public assistant-prose eval cases: `npm run eval:labeled` checks frozen labels in `eval/prose/labels.json`.
-- `0` labeled prose misses: the public prose eval currently reports `18` expected pass, `182` expected fail, and `70/70` fixable rewrites passed.
+- `0` labeled prose misses: the public prose eval currently reports `16` expected pass, `184` expected fail, and `56/56` fixable rewrites passed.
 - Deterministic across `5` runs: the benchmark repeats and compares stable output signatures.
+- Structural detection: the verifier detects formulaic AI patterns and reports `structuralPatternCount`.
+- Quality scoring: verifier metrics include `qualityScore`, so output is scored instead of only stamped pass/fail.
+- Preservation checks: rewrite receipts include substantive-token preservation metrics.
 - No model calls during verification: the verifier runs locally and deterministically; `package.json` includes no model SDK dependency.
 - Receipt hash determinism: tests verify the same input/output/config produces the same receipt hash.
 - Claude Code plugin validation: the plugin manifest passed `claude plugin validate .`.
@@ -73,6 +76,7 @@ cat output.txt | node dist/cli.js check - --receipt
 Evaluation gates:
 
 - `npm run benchmark` checks curated benchmark and holdout rewrite behavior.
+- `npm run benchmark:compare` runs the same blind corpus through laconic checks and a deterministic Stop Slop-style pattern scanner.
 - `npm run eval:scrapegraphai` checks 100 local ScrapeGraphAI structured-output rows when `rows.json` is present.
 - `npm run eval:labeled` checks the checked-in 200-case public assistant-prose eval.
 - See `docs/evaluation.md` for what each gate does and does not prove.
@@ -106,8 +110,8 @@ input
 Core pieces:
 
 - `skills/laconic-responses/SKILL.md` defines the laconic response behavior.
-- `src/verifier.ts` checks length, bullets, filler, preambles, repeated prompts, answer-first opening, and caveat limits.
-- `src/rewrite.ts` trims output without inventing facts.
+- `src/verifier.ts` checks length, bullets, filler, preambles, repeated prompts, answer-first opening, caveat limits, and structural AI patterns.
+- `src/rewrite.ts` trims output without inventing facts; receipts include preservation metrics for rewritten output.
 - `src/receipt.ts` creates hash-bound receipts.
 - `src/pipeline.ts` connects draft text, verification, optional rewrite, placeholder correctness checks, and receipts.
 - `src/memory/` contains optional local style memory.

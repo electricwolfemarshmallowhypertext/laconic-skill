@@ -18,6 +18,7 @@ import {
   type JsonValue,
   type ReceiptViolation
 } from "./receipt";
+import { measurePreservation } from "./preservation";
 
 export const LACONIC_VERIFIER_VERSION = "laconic/v0";
 export const PIPELINE_VERIFIER_VERSION = `${LACONIC_VERIFIER_VERSION}+${CORRECTNESS_VERIFIER_VERSION}`;
@@ -92,12 +93,16 @@ function toReceiptMetrics(
   iterations: PipelineIteration[],
   laconic: VerificationResult,
   correctness: CorrectnessResult,
+  inputText: string,
+  outputText: string,
   styleMemory: PipelineInput["style_memory"]
 ): JsonValue {
   const laconicMetrics = {
     charCount: laconic.metrics.charCount,
     bulletCount: laconic.metrics.bulletCount,
-    caveatCount: laconic.metrics.caveatCount
+    caveatCount: laconic.metrics.caveatCount,
+    structuralPatternCount: laconic.metrics.structuralPatternCount,
+    qualityScore: laconic.metrics.qualityScore
   };
 
   const correctnessMetrics = {
@@ -109,7 +114,8 @@ function toReceiptMetrics(
   const baseMetrics: Record<string, JsonValue> = {
     iterations: iterations.length,
     laconic: laconicMetrics,
-    correctness: correctnessMetrics
+    correctness: correctnessMetrics,
+    preservation: measurePreservation(inputText, outputText)
   };
 
   if (styleMemory) {
@@ -200,7 +206,14 @@ export function runPipeline(input: PipelineInput): PipelineResult {
     verifier_version: PIPELINE_VERIFIER_VERSION,
     ok,
     violations: toReceiptViolations(laconic, correctness),
-    metrics: toReceiptMetrics(iterations, laconic, correctness, input.style_memory),
+    metrics: toReceiptMetrics(
+      iterations,
+      laconic,
+      correctness,
+      input.input,
+      working,
+      input.style_memory
+    ),
     timestamp: input.timestamp
   });
 

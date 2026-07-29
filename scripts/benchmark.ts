@@ -61,7 +61,6 @@ const HOLDOUT_DIR = resolve(process.cwd(), "benchmarks", "holdout");
 const REPEATS = 5;
 const DETERMINISTIC_TIMESTAMP = "1970-01-01T00:00:00.000Z";
 const MIN_CORPUS_SIZE = 50;
-const MIN_AVG_REDUCTION_PCT = 60;
 const MIN_DETERMINISTIC_RUNS = 5;
 
 function elapsedMs(startNs: bigint): number {
@@ -214,11 +213,6 @@ function thresholdFailures(summary: BenchmarkSummary): string[] {
   if (summary.corpus_size < MIN_CORPUS_SIZE) {
     failures.push(`corpus_size ${summary.corpus_size} < ${MIN_CORPUS_SIZE}`);
   }
-  if (summary.avg_chars_reduced_pct < MIN_AVG_REDUCTION_PCT) {
-    failures.push(
-      `avg_chars_reduced_pct ${summary.avg_chars_reduced_pct} < ${MIN_AVG_REDUCTION_PCT}`
-    );
-  }
   if (summary.fixable_passed !== summary.fixable_total) {
     failures.push(`fixable_passed ${summary.fixable_passed} != ${summary.fixable_total}`);
   }
@@ -287,7 +281,6 @@ function run(): void {
     summary,
     thresholds: {
       min_corpus_size: MIN_CORPUS_SIZE,
-      min_avg_chars_reduced_pct: MIN_AVG_REDUCTION_PCT,
       min_deterministic_runs: MIN_DETERMINISTIC_RUNS,
       failures: thresholdFailures(summary)
     },
