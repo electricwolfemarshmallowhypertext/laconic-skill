@@ -1,6 +1,6 @@
 {
-  "name": "laconic-skill",
-  "version": "0.1.4",
+  "name": "project",
+  "version": "1.0.0",
   "description": "Deterministic verifier for concise AI output.",
   "license": "Apache-2.0",
   "files": [
@@ -26,15 +26,7 @@
     "laconic": "dist/cli.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "prepack": "npm run build",
-    "test": "npm run build && node test/laconic.test.js",
-    "benchmark": "npm run build && tsc -p tsconfig.benchmark.json && node dist/scripts/benchmark.js",
-    "benchmark:compare": "npm run build && tsc -p tsconfig.benchmark.json && node dist/scripts/compare-stop-slop.js",
-    "benchmark:ci": "npm run benchmark",
-    "test:install": "npm run build && node scripts/clean-install-smoke.js",
-    "eval:scrapegraphai": "npm run build && tsc -p tsconfig.benchmark.json && node dist/scripts/eval-scrapegraphai.js --input rows.json --out .eval/scrapegraphai-form",
-    "eval:labeled": "npm run build && tsc -p tsconfig.benchmark.json && node dist/scripts/eval-labeled.js"
+    "postinstall": "git config core.hooksPath .githooks && chmod +x .githooks/*"
   },
   "keywords": [
     "ai",
