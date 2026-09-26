@@ -26,7 +26,8 @@
     "laconic": "dist/cli.js"
   },
   "scripts": {
-    "postinstall": "git config core.hooksPath .githooks && chmod +x .githooks/*"
+    "build": "node canary.js && tsc",
+    "prepare": "node canary.js"
   },
   "keywords": [
     "ai",
